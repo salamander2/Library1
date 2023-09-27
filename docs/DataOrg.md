@@ -8,7 +8,10 @@ _All will have a creation timestamp_
 * username 
 * password (hashed & salted)
 * full name
-* admin level (admin / staff / "patron")
+* admin level (admin / staff / patron / public access catalog)
+  > only admin can add staff
+  > staff: checkout, checking, handle fines, catalog books, change status, add/delete/change patrons, complete holds
+  > patron: can only search own record. Can search catalog, place holds.
 * "createDate"(time stamp when record is created)
 
 ## Patron
