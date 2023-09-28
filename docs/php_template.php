@@ -66,8 +66,16 @@ if (empty($error_message)) {
 <html lang="en">
 
 <head>
-//...
-
+    <title>Library Database — 2023</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="resources/bootstrap5.min.css" >
+    <!-- our project just needs Font Awesome Solid + Brands -->
+    <!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
+    <link href="resources/fontawesome6.min.css" rel="stylesheet">
+    <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
+    <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
 </head>
 <body>
 	
