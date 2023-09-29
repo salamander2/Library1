@@ -30,6 +30,9 @@ if (isset($_SESSION["fullname"])) {
 	$fullname = $_SESSION["fullname"];
 }
 
+/**********  COMMON VARIABLES  **********/
+$home="index.php"; 
+#$directory="."; 
 
 /**********  COMMON FUNCTIONS  **********/
 
