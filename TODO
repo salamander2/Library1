@@ -1,0 +1,12 @@
+This is just listing what needs to be done in the next few days, not the whole project.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* failed authentication: why not use logout?
+
+* Patrons: list, search, add, edit, delete
+
+* Is there any way of using CRUD for this?
+
+* Fix up UI colours
+
+* 

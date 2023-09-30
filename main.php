@@ -1,4 +1,11 @@
 <?php
+/*******************************************************
+* This is the main landing page after one has logged on
+* Other possibilities are: pac page and patron page
+* Visible options vary depending on the access level of the user (admin or staff)
+*
+* This is called from index.php
+********************************************************/
 session_start();
 require_once('common.php');
 
@@ -34,6 +41,7 @@ $error_message = "";
 
 <body>
 
+<!-- this page has a special header, not the normal one that other pages use -->
 <div class="container-md mt-2">
 	<span class="float-end px-2 pt-1" style="background-color: rgba(255,255,255,0.35);"><img width=200 height=170 src="images/logoBG.png"></span>
 	<h2 class="bg-warning text-center rounded py-3">The GHOSTS Public Libary</h2>
@@ -43,7 +51,7 @@ $error_message = "";
 	<div class="row">
 	<div class="col-md-8 p-0">
 		<div class="card border border-primary p-2">
-			<div class="alert alert-warning">Welcome "<?=$fullname?>"</div>
+			<div class="alert alert-warning mb-0">Welcome "<?=$userdata['fullname']?>"</div>
 		</div>
 	</div>
 	</div>

@@ -4,8 +4,8 @@
 File: index.php
 Purpose: This is the login page for the application.
 	     (Taken from ics_upload)
-Called from: none -- this is the default page after logout
-					 or any failure of authentication.
+Called from: This is the default page after logout.php
+			 or any failure of authentication.
 Calls: main.php (the home page)
 	   also: public access catalog page
 *****************************************************************************/
@@ -27,49 +27,45 @@ $db = connectToDB();
 $error_message = "";
 
 /**** LOGIN LOGIC *******/
-// This also logs in the administrative user. There must be a user registered with the name "adminnimda" and a proper password
-// When this user logs on, then the program redirects to the main_admin page and sets a flag that the admin is logged in.
 
 if(isset($_POST['submit'])) {
 	$username = clean_input($_POST['username']);
 	$password = $_POST["password"];
 
-	//check password for that user
-	$sql = "SELECT password, fullname FROM users WHERE username = BINARY ?";
+
+	//Retrieve all data for that user and verify the password for that user. It is stored into an array "userdata".
+	$sql = "SELECT username, fullname, password as pwdHash, authlevel, createDate, lastLogin FROM users WHERE username = BINARY ?";
 	if ($stmt = $db->prepare($sql)) {
 		$stmt->bind_param("s", $username);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		$stmt->execute();
-		$stmt->bind_result($pwdHash, $fullname);
-		$stmt->fetch(); //needed to actually get the result for binding
+		$userdata = $result->fetch_array(MYSQLI_ASSOC);
 		$stmt->close();
 	} else {
 		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
 		$message_ .= 'SQL: ' . $sql;
 		die($message_);
 	}
-	// die(var_dump($result));
-	// die($pwdHash);
+
+	//Check if user exists, then verify password
 	$row_cnt = mysqli_num_rows($result);
-	// die($row_cnt);
 	if (0 === $row_cnt) {		
 		$error_message = "That user does not exist. <br><span class='small'>(Check case of username or talk to admin.)</span>";
-	} elseif (!password_verify ($password, $pwdHash )) {
+	} elseif (!password_verify ($password, $userdata['pwdHash'])) {
 		$error_message = "Invalid password";
 	}
 	//Password has been checked, now clear the variable for security reasons.
 	$password = "---";
+	$userdata['pwdHash'] = "";
 	
 	// error message ...
 	if ($error_message != "") $error_message = '<div class="alert text-white bg-danger w-50 mt-3"><b> '. $error_message .' </b></div>';
 	if (empty($error_message)) {
-		$_SESSION["username"] = $username;
-		$_SESSION["fullname"] = $fullname;
+		$_SESSION["userdata"] = $userdata;
 		//This is set here upon login (AND ALSO IN register.php)  and then session-authkey is never set again.
 		$_SESSION["authkey"] = AUTHKEY;
 
-		//Update last login timestamp
+		//Update last login timestamp (which is deliberately not updated in $userdata, in case we want to know when the last logon was
 		$sql = "UPDATE users set lastLogin=NOW() WHERE username = BINARY ?";
 		if ($stmt = $db->prepare($sql)) {
 			$stmt->bind_param("s", $username);
@@ -80,12 +76,15 @@ if(isset($_POST['submit'])) {
 			$message_ .= 'SQL: ' . $sql;
 			die($message_);
 		}
-
+/*
 		if ($username == ADMINUSER) {
 			header('Location:adminMain.php');
 		} else {
 			header('Location:main.php');
 		}
+*/
+
+		header('Location:main.php');
 	}
 }
 

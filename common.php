@@ -1,34 +1,34 @@
 <?php
 
+# common.php has a set of common utility methods. 
+# It also sets the Error reporting (to /var/log/apache2/error.log)
+# It sets various session variables if they are not already set.
+# and it links to config.php which has the variables needed to log in to MySQL.
+
 /**********  ERROR REPORTING  **********/
 // Development
 error_reporting(E_ALL);
 ini_set('log_errors', 1);
 
 // Production
-//error_reporting(0); ini_set('display_errors','0');
-#ini_set('display_errors', 0);
-#ini_set('log_errors', 1);
-#error_reporting(E_ERROR | E_WARNING | E_PARSE);
+/*
+#error_reporting(0); ini_set('display_errors','0');
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 // Same as error_reporting(E_ALL);
 //ini_set('error_reporting', E_ALL);
+*/
 
 //And to print a message to the error log: which for web apps is /var/log/apach2/error.log
 #error_log("There is something wrong!", 0);
 
-require_once '../.config.php';
+require_once '../library.config.php';
 
 /**********  SESSION VARIABLES  **********/
-$username=$fullname="";
-
-if (isset($_SESSION["username"])) {
-	$username = $_SESSION["username"];
-}
-
-if (isset($_SESSION["fullname"])) {
-	$fullname = $_SESSION["fullname"];
-}
+$userdata="";
+if (isset($_SESSION["userdata"])) $userdata = $_SESSION["userdata"];
 
 /**********  COMMON VARIABLES  **********/
 $home="index.php"; 

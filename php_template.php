@@ -33,7 +33,7 @@ $patron = $_GET['ID'];
 
 # do error checking on the data. Set error message if needed:
 $dob = clean_input($_POST['dob']);
-if (!validate_date($dob)) $error_message = "Invalid date or incorrect format";
+//if (!validate_date($dob)) $error_message = "Invalid date or incorrect format";
 //...
 if ($error_message != "") $error_message = "<div class=\"error\">" . $error_message . "</div>";
 	
