@@ -150,7 +150,7 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 <span class="small" style="position:absolute;left:0px;top:0px;z-index:-1;"><?=$gitbranch ?></span>
 
 <div class="container-md mt-2">
-	<h2 class="bg-warning text-center rounded py-3">The GHOSTS Public Libary</h2>
+	<h2 class="bg-warning text-center rounded py-3">The <?=$institution?> Public Libary</h2>
 
 &nbsp;
 

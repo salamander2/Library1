@@ -25,7 +25,7 @@ $error_message = "";
 <html lang="en">
 
 <head>
-	<title>WebDev Project: Library Database</title>
+	<title><?=$institution?> Library Database</title>
 	<!-- Required meta tags -->
 	<title>Library Database — 2023</title>
     <!-- Required meta tags -->
@@ -44,7 +44,7 @@ $error_message = "";
 <!-- this page has a special header, not the normal one that other pages use -->
 <div class="container-md mt-2">
 	<span class="float-end px-2 pt-1" style="background-color: rgba(255,255,255,0.35);"><img width=200 height=170 src="images/logoBG.png"></span>
-	<h2 class="bg-warning text-center rounded py-3">The GHOSTS Public Libary</h2>
+	<h2 class="bg-warning text-center rounded py-3">The <?=$institution?> Public Libary</h2>
 
 &nbsp;
 
@@ -59,22 +59,13 @@ $error_message = "";
 
 	<div class="card border border-secondary alert alert-warning">
 		<div class="card-body">
-<!-- SEARCH FORM -->
-    <div class="ml-3">
-        <fieldset>
-            <b>Search:</b> <input size=35 id="inputName" type="text" onkeyup="findPatron(this.value)" onkeydown="if (event.keyCode === 27) resetTerminal();"
-            placeholder="Enter Patron last name, phone, or barcode">
-		<span class="float-end"><a href="addPatron.php"><button type="button" class="btn btn-success">Add Patron</button></a></span>
-        </fieldset>
-		<p><i>This does not work yet</i></p>
-    </div>
-
-&nbsp;
-			<p class="">* <a href="listPatron1.php">List all Patrons</a><br>
-			Here's our initial list patron page. Eventually, it will pop up from the search bar above.</p>
-			<p class="">* <a href="">Edit a Patron</a><br>
-			(This will normally be accessed by clicking on a patron from the listing above.)<br>
-			(This page will show the patron information and allow editing (update) or deletion. Upon deletion it will return here.)</p>
+		<div class="ml-3">
+		<a href="patronList.php"><button type="button" class="btn btn-success">Search Patrons</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Books</button></a>
+		<a href=""><button type="button" class="btn btn-outline-primary">Fines</button></a>
+		<a href=""><button type="button" class="btn btn-outline-primary">Reports</button></a>
+		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-primary">Logout</button></a></span>
+		</div>
 
 		</div><!-- /card-body -->
 	</div><!-- /card -->
@@ -83,7 +74,6 @@ $error_message = "";
 		<div class="card-body">
 
 		<h3>This is the main page for library staff</h3>
-		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-primary">Logout</button></a></span>
 		<p> Here we will do the following:</p>
 		<ul>
 			<li>Patrons: update address, phone; add, delete; renew library card;

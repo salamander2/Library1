@@ -3,7 +3,11 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 * failed authentication: why not use logout?
 
-* Patrons: list, search, add, edit, delete
+* Patrons: list, search, DONE
+* Patrons: add, edit, delete
+  Add/Edit: JS check format. PHP validate (rather than sanitize?)
+
+  DELETE patron: check for fines, books out.
 
 * Is there any way of using CRUD for this?
 

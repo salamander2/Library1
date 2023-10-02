@@ -26,7 +26,7 @@ $error_message = "";
 <html lang="en">
 
 <head>
-	<title>WebDev Project: Library Database</title>
+	<title><?=$institution?> Library Database</title>
 	<!-- Required meta tags -->
 	<title>Library Database — 2023</title>
     <!-- Required meta tags -->
@@ -79,9 +79,8 @@ function dynamicData(str) {
 <a class="d-block fa fa-sign-out btn btn-outline-dark float-start m-2" href="logout.php">  Logout</a>
 <span class="float-end">
 <a class="d-block fa fa-cogs btn btn-outline-dark m-2" href="admin.php">  Administer</a>
-<a class="d-block fa fa-plus-circle btn btn-outline-dark m-2" href="addstudent.php">  Add Student</a>
 </span>
-	<h2 class="fw-bold">The GHOSTS Public Libary</h2>
+	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
 
 <br clear="both">
     <hr>
@@ -90,11 +89,15 @@ function dynamicData(str) {
 <form class="mt-4">
 <!-- <span class="white">Enter First Name, Last Name, or Patron Phone...</span> -->
 <fieldset>
-<input class="form-control col-8" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >
+<div class="input-group">
+	<input class="form-control col-8 rounded" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
+    <a class="fa fa-plus-circle btn btn-outline-dark rounded" href="patronAdd.php">  Add Patron</a>
+</div>
 </fieldset>
-
-<div id="dynTable"></div>
 </form>
+
+<!-- IMPORTANT - Do not remove next line. It's where the table appears -->
+<div id="dynTable" class="mt-4"></div>
 
 
 </div>
