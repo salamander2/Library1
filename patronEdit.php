@@ -51,6 +51,10 @@ if ($stmt = $db->prepare($sql)) {
 	$message_ .= 'SQL2: ' . $query;
 	die($message_); 
 }
+
+//TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
+
+
 ?>
 
 <!DOCTYPE html>
@@ -70,10 +74,22 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
 
+<style>
+.fg1 {color:#620;}
+.bg1 {background-color:#FFA;}
+.fg2 {color:#518;}
+.bg2 {background-color:#CAF;}
+.bg3 {background-color:#cfe2ff;} /* primary */
+.bg4 {background-color:#C9D5D5;} /* secondary */
+</style>
+
+
+
 </head>
 <body>
 
 <div class="container-md mt-2">
+
 <div id="" class="alert alert-warning text-center rounded py-3">
 	<a class="fa fa-sign-out btn btn-outline-dark float-start m-2" href="logout.php">  Logout</a>
 	<span class="float-end"> <a class="d-block fa fa-cogs btn btn-outline-dark m-2" href="admin.php">  Administer</a> </span>
@@ -86,54 +102,95 @@ if ($stmt = $db->prepare($sql)) {
 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i>  Prev. Patron</a>
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i>  Next Patron</a>
-<a class="float-end btn btn-outline-dark rounded" href="patronDelete.php"><i class="fa fa-plus-circle"></i>  Delete Patron</a>
 <br clear="both">
 
-<form class="mt-4 border rounded border-success p-3"  action="patronUpdate.php" method="post">
-<fieldset>
-<div class="group">
-
-
-<label for="dateContacted" class="" style="color:#518;">First name:</label>
-<input id="dateContacted" name="dateContacted" type="date" size="15" style="background:#CAF;">
-
-<label for="personContacted" class="" style="color:#620;">&nbsp;&nbsp;&nbsp;&nbsp;Person contacted:</label>
-<input id="personContacted" name="personContacted" type="text" size="15" style="background:#FFA;" value="Student"> 
+<div class="card border-primary mt-3">
+<div class="card-head alert alert-primary"> <h2>Patron Information
+<a class="float-end btn btn-outline-danger rounded" href="patronDelete.php"><i class="fa fa-circle-minus"></i>  Delete Patron</a></h2>
 </div>
-</fieldset>
+<div class="card-body">
+	<form action="patronUpdate.php" method="post">
 
+<!--		<fieldset>
+		<label for="dateContacted" class="fg1">First name:</label>
+		<input id="dateContacted" name="dateContacted" type="text" size="15" class="bg1" value="abc">
 
-PatronID: <?=$patronID?><br>
-CreateDate: <?=$patronData['createDate']?><br>
-
-<label for="firstname" class="">firstname</label><input class="" type="text" id="firstname" name="firstname" size="15"  value="<?=$patronData['firstname']?>"</input><br>
-<label for="lastname" class="">lastname</label><input class="" type="text" id="lastname" name="lastname" size="15"  value="<?=$patronData['lastname']?>"</input><br>
-<label for="address" class="">address</label><input class="" type="text" id="address" name="address" size="15"  value="<?=$patronData['address']?>"</input><br>
-<label for="city" class="">city</label><input class="" type="text" id="city" name="city" size="15"  value="<?=$patronData['city']?>"</input><br>
-<label for="prov" class="">prov</label><input class="" type="text" id="prov" name="prov" size="15"  value="<?=$patronData['prov']?>"</input><br>
-<label for="postalCode" class="">postalCode</label><input class="" type="text" id="postalCode" name="postalCode" size="15"  value="<?=$patronData['postalCode']?>"</input><br>
-<label for="phone" class="">phone</label><input class="" type="text" id="phone" name="phone" size="15"  value="<?=$patronData['phone']?>"</input><br>
-<label for="email" class="">email</label><input class="" type="text" id="email" name="email" size="15"  value="<?=$patronData['email']?>"</input><br>
-<input type="hidden" id="d" name="id" value="<?=$patronID?>">
-
-<button type="submit" class="btn btn-warning btn-outline-dark">Submit</button
-</form>
-</div>
-
-<p></p>
-
-<div class="row">
-		<div class="input-group mb-3 ">
-			<label class="input-group-prepend btn btn-success" for="username">First name:</label>
-			<input type="text" class="xform-control border border-success" id="username" name="username" value="" required autofocus>
-			&nbsp;
-			<input type="text" class="form-control border border-success" id="username" name="username" value="" required >
+		<label for="personContacted" class="" style="color:#620;">&nbsp;&nbsp;&nbsp;&nbsp;Person contacted:</label>
+		<input id="personContacted" name="personContacted" type="text" size="15" style="background:#FFA;" value="Student"> 
+		</fieldset>
+-->
+		<div class="row text-secondary">
+		<div class="col-sm-2">ID: <?=$patronID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
 		</div>
-	</div>
+		
+		<div class="row">
+			<div class="col-sm-8 col-md-6 col-lg-4">
+				<div class="input-group rounded">
+				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
+				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"</input><span class="text-danger">&nbsp;*</span>
+				</div>
+			</div>
+			<div class="col-sm-8 col-md-6 col-lg-4">
+				<div class="input-group rounded">
+				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
+				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required value="<?=$patronData['firstname']?>"</input><span class="text-danger">&nbsp;*</span>
+				</div>
+			</div>
+		</div>
 
+		<h5 class="mt-3"><u>Address:</u></h5>
+		<div class="row my-2">
+			<div class="col-md-6">
+				<div class="input-group rounded">
+				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
+				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" required value="<?=$patronData['address']?>"</input><span class="text-danger">&nbsp;*</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row my-2">
+			<div class="col-sm-6 col-md-4">
+				<div class="input-group rounded">
+				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
+				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" required value="<?=$patronData['city']?>"</input><span class="text-danger">&nbsp;*</span>
+				</div>
+			</div>
+			<div class="col-sm-4 col-lg-3 col-xxl-2">
+				<div class="input-group rounded">
+				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
+				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" required value="<?=$patronData['prov']?>"</input><span class="text-danger">&nbsp;*</span>
+				</div>
+			</div>
+			<div class="col-sm-6 col-lg-4 col-xl-3">
+				<div class="input-group rounded">
+				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
+				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$patronData['postalCode']?>"</input><span class="text-danger">&nbsp;*</span>
+				</div>
+			</div>
+		</div>
+
+		<h5 class="mt-4 fg1"><u>Contact:</u></h5>
+		<div class="row">
+			<div class="col-sm-8 col-md-4">
+				<div class="input-group rounded">
+				<label for="phone" class="input-group-prepend btn fg1"><b>Phone</b></label>
+				<input class="form-control bg1" type="text" id="phone" name="phone" required value="<?=$patronData['phone']?>"</input>
+				</div>
+			</div>
+			<div class="col-sm-8 col-md-6 col-lg-5">
+				<div class="input-group rounded">
+				<label for="email" class="input-group-prepend btn fg1"><b>Email</b></label>
+				<input class="form-control bg1" type="text" id="email" name="email" required value="<?=$patronData['email']?>"</input>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="d" name="id" value="<?=$patronID?>">
+
+		<button type="submit" class="mt-5 btn btn-success">Submit</button>
+	</form>
+</div></div> <!-- end of card-body and card -->
+</div>
 
 
 </body>
-
 </html>
-
