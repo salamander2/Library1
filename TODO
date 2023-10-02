@@ -5,7 +5,8 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 * Patrons: list, search, DONE
 * Patrons: add, edit, delete
-  Add/Edit: JS check format. PHP validate (rather than sanitize?)
+
+>>>>>  Add/Edit: JS check format. PHP validate (rather than sanitize?)
 
   DELETE patron: check for fines, books out.
 

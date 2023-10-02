@@ -56,9 +56,9 @@ function connectToDB() {
 // ONly use this for queries that do not use any variables. Otherwise SQL injection attacks can happen.
 function runSimpleQuery($mysqli, $sql_) {
     $result = mysqli_query($mysqli, $sql_);
-//  if (!$mysqli->error) {
-//      printf("Errormessage: %s\n", $mysqli->error);
-//  }
+	//  if (!$mysqli->error) {
+	//      printf("Errormessage: %s\n", $mysqli->error);
+	//  }
 
     // Check result. This shows the actual query sent to MySQL, and the error. Useful for debugging.
     if (!$result) {

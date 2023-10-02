@@ -1,10 +1,11 @@
 <?php
 /*******************************************************
-* This is the main landing page after one has logged on
-* Other possibilities are: pac page and patron page
-* Visible options vary depending on the access level of the user (admin or staff)
-*
-* This is called from index.php
+* patronEdit.php
+* called from patronList (by clicking on a patron)
+* 		 and also from patronUpdate
+* calls patronUpdate
+* This displays the patron data for editing.
+* It also displays library cards, and books out.
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -24,7 +25,7 @@ if(isset($_SESSION["success_message"])) {
 }
 else $success_message = "";
 
-/* patron table
+/* 
 +------------+--------------+------+-----+-------------------+-------------------+
 | Field      | Type         | Null | Key | Default           | Extra             |
 +------------+--------------+------+-----+-------------------+-------------------+
@@ -143,13 +144,13 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"</input><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required value="<?=$patronData['firstname']?>"</input><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required value="<?=$patronData['firstname']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -159,7 +160,7 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-md-6">
 				<div class="input-group rounded">
 				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" required value="<?=$patronData['address']?>"</input><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" required value="<?=$patronData['address']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -168,19 +169,19 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-6 col-md-4">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" required value="<?=$patronData['city']?>"</input><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" required value="<?=$patronData['city']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-lg-3 col-xxl-2">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" required value="<?=$patronData['prov']?>"</input><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" required value="<?=$patronData['prov']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$patronData['postalCode']?>"</input><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$patronData['postalCode']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -190,17 +191,17 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-8 col-md-4">
 				<div class="input-group rounded">
 				<label for="phone" class="input-group-prepend btn btn-outline-warning fg1"><b>Phone</b></label>
-				<input class="form-control bg1" type="text" id="phone" name="phone" required value="<?=$patronData['phone']?>"</input>
+				<input class="form-control bg1" type="text" id="phone" name="phone" required value="<?=$patronData['phone']?>">
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-5">
 				<div class="input-group rounded">
 				<label for="email" class="input-group-prepend btn btn-outline-warning fg1"><b>Email</b></label>
-				<input class="form-control bg1" type="text" id="email" name="email" required value="<?=$patronData['email']?>"</input>
+				<input class="form-control bg1" type="text" id="email" name="email" required value="<?=$patronData['email']?>">
 				</div>
 			</div>
 		</div>
-		<input type="hidden" id="d" name="id" value="<?=$patronID?>">
+		<input type="hidden" id="id" name="id" value="<?=$patronID?>">
 
 		<br clear="both">
 		<h4><button type="submit" class="btn btn-success">Submit</button>

@@ -1,10 +1,10 @@
 <?php
 /*******************************************************
-* This is the main landing page after one has logged on
-* Other possibilities are: pac page and patron page
-* Visible options vary depending on the access level of the user (admin or staff)
-*
-* This is called from index.php
+* patronList.php
+* 
+* This lists all patrons, searched by name, phone ...
+* Called from main.php
+* Calls patronEdit, patronAdd 
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -76,9 +76,9 @@ function dynamicData(str) {
 <div id="" class="bg-warning text-center rounded py-3">
 
 
-<a class="d-block fa fa-sign-out btn btn-outline-dark float-start m-2" href="logout.php">  Logout</a>
+<a class="d-block btn btn-outline-dark float-start m-2" href="logout.php"><i class="fa fa-sign-out"></i>  Logout</a>
 <span class="float-end">
-<a class="d-block fa fa-cogs btn btn-outline-dark m-2" href="admin.php">  Administer</a>
+<a class="d-block btn btn-outline-dark m-2" href="admin.php"><i class="fa fa-cogs"></i>  Administer</a>
 </span>
 	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
 
@@ -91,7 +91,7 @@ function dynamicData(str) {
 <fieldset>
 <div class="input-group">
 	<input class="form-control col-8 rounded" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
-    <a class="fa fa-plus-circle btn btn-outline-dark rounded" href="patronAdd.php">  Add Patron</a>
+    <a class="btn btn-outline-dark rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
 </div>
 </fieldset>
 </form>

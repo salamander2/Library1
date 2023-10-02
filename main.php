@@ -1,10 +1,11 @@
 <?php
 /*******************************************************
 * This is the main landing page after one has logged on
-* Other possibilities are: pac page and patron page
+* Other possibilities are: PAC page and patron page
 * Visible options vary depending on the access level of the user (admin or staff)
 *
 * This is called from index.php
+* It calls patronEdit.php  and   patronAdd.php
 ********************************************************/
 session_start();
 require_once('common.php');
