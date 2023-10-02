@@ -102,12 +102,12 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
 
 <style>
-.fg1 {color:#620;}
-.bg1 {background-color:#FFA;}
-.fg2 {color:#518;}
-.bg2 {background-color:#CAF;}
-.bg3 {background-color:#cfe2ff;} /* primary */
-.bg4 {background-color:#C9D5D5;} /* secondary */
+	.fg1 {color:#620;}	/* yellow */
+	.bg1 {background-color:#FFA;}
+	.fg2 {color:#518;} /* purple */
+	.bg2 {background-color:#CAF;}
+	.bg3 {background-color:#cfe2ff;} /* primary */
+	.bg4 {background-color:#C9D5D5;} /* secondary */
 </style>
 
 
@@ -117,19 +117,16 @@ if ($stmt = $db->prepare($sql)) {
 
 <div class="container-md mt-2">
 
-<div id="" class="alert alert-warning text-center rounded py-3">
-	<a class="fa fa-sign-out btn btn-outline-dark float-start m-2" href="logout.php">  Logout</a>
-	<span class="float-end"> <a class="d-block fa fa-cogs btn btn-outline-dark m-2" href="admin.php">  Administer</a> </span>
+<div class="alert alert-warning text-center rounded py-3">
+	<a class="btn btn-outline-dark float-start" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
+	<span class="float-end"> <a class="d-block btn btn-outline-dark" href="admin.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
 	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
+	<a class="float-start btn btn-warning rounded" onclick="history.back()"><i class="fa fa-arrow-left"></i>  Back</a>
 	<br clear="both">
-	<a class="float-start btn btn-dark rounded" href="patronList.php"><i class="fa fa-arrow-left"></i>  Back</a>
-    <hr>
-	<br clear="both">
+    <hr class="py-0 mb-0">
+	<!-- <a class="float-start btn btn-dark rounded" href="patronList.php"><i class="fa fa-arrow-left"></i>  Back</a> -->
 </div>
 
-<a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i>  Prev. Patron</a>
-<a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i>  Next Patron</a>
-<br clear="both">
 
 <div class="card border-primary mt-3">
 	<div class="card-head alert alert-primary mb-0"> <h2>Patron Information
@@ -218,6 +215,9 @@ if ($stmt = $db->prepare($sql)) {
 
 	</form>
 </div></div> <!-- end of card-body and card -->
+<a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i></a> Patron 
+<a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i></a>
+<br clear="both">
 
 <div class="card border-success mt-3">
 <div class="card-body">
@@ -258,6 +258,7 @@ if($num_rows > 0) {
 
 </div></div> <!-- end of card-body and card -->
 </div>
+
 <br><br><br>
 </body>
 </html>

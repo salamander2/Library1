@@ -51,7 +51,7 @@ $error_message = "";
 	<div class="row">
 	<div class="col-md-8 p-0">
 		<div class="card border border-primary p-2">
-			<div class="alert alert-warning mb-0">Welcome "<?=$userdata['fullname']?>"</div>
+			<div class="alert alert-warning mb-0">Welcome "<b><?=$userdata['fullname']?></b>"</div>
 		</div>
 	</div>
 	</div>
@@ -73,7 +73,9 @@ $error_message = "";
 	<div class="card border border-secondary alert alert-warning">
 		<div class="card-body">
 
-		<h3>This is the main page for library staff</h3>
+		<h3>Staff Announcements</h3>
+		<h5><span class="border border-warning p-1">Today is <span id="date"></span></span></h5>
+
 		<p> Here we will do the following:</p>
 		<ul>
 			<li>Patrons: update address, phone; add, delete; renew library card;
@@ -85,6 +87,11 @@ $error_message = "";
 		</div><!-- /card-body -->
 	</div><!-- /card -->
 </div>
+
+<script>
+	let text = (new Date()).toDateString();
+	document.getElementById("date").innerHTML = text;
+</script>
 </body>
 
 </html>
