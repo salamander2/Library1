@@ -33,5 +33,6 @@ if ($stmt = $db->prepare($sql)) {
 	$message_ .= 'SQL: ' . $sql;
 	die($message_);
 }
+$_SESSION['success_message'] = "Patron record has been updated.";
 header("location:patronEdit.php?ID=$patronID");
 
