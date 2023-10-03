@@ -154,6 +154,12 @@ if ($stmt = $db->prepare($sql)) {
 				</div>
 			</div>
 		</div>
+		<div class="row mt-2">
+		<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="input-group rounded">
+			<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
+			<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" required value="<?=$patronData['birthdate'] ?>"><span class="text-danger">&nbsp;*</span>
+		</div></div></div>
 
 		<h5 class="mt-3"><u>Address:</u></h5>
 		<div class="row my-2">
@@ -191,20 +197,20 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-8 col-md-4">
 				<div class="input-group rounded">
 				<label for="phone" class="input-group-prepend btn btn-outline-warning fg1"><b>Phone</b></label>
-				<input class="form-control bg1" type="text" id="phone" name="phone" required value="<?=$patronData['phone']?>">
+				<input class="form-control bg1" type="text" id="phone" name="phone" value="<?=$patronData['phone']?>">
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-5">
 				<div class="input-group rounded">
 				<label for="email" class="input-group-prepend btn btn-outline-warning fg1"><b>Email</b></label>
-				<input class="form-control bg1" type="text" id="email" name="email" required value="<?=$patronData['email']?>">
+				<input class="form-control bg1" type="text" id="email" name="email" value="<?=$patronData['email']?>">
 				</div>
 			</div>
 		</div>
 		<input type="hidden" id="id" name="id" value="<?=$patronID?>">
 
 		<br clear="both">
-		<h4><button type="submit" class="btn btn-success">Submit</button>
+		<h4><button type="submit" name="submit" id="submit" class="btn btn-success">Submit</button>
 		<?php
 			if (strlen($success_message)>0) {
 			echo '<span class="float-end rounded fg2 bg2 px-2 py-1">';

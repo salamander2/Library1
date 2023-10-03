@@ -30,10 +30,11 @@ if(isset($_POST['submit'])) {
 	$postalCode = clean_input($_POST['postalCode']);
 	$phone = clean_input($_POST['phone']);
 	$email = clean_input($_POST['email']);
+	$birthdate = $_POST['birthdate'];
 
-	$sql = "INSERT INTO patron (firstname, lastname, address, city, prov, postalCode, phone, email ) VALUES (?, ?, ?, ?, ?, ?, ?, ? )";
+	$sql = "INSERT INTO patron (firstname, lastname, address, city, prov, postalCode, phone, email, birthdate ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
 	if ($stmt = $db->prepare($sql)) {
-		$stmt->bind_param("ssssssss", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email );
+		$stmt->bind_param("sssssssss", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $birthdate );
 		$stmt->execute();
 		$patronID = $stmt->insert_id;
 		$stmt->close();
@@ -122,22 +123,29 @@ $patronData = "";
 	<div class="card-head alert alert-primary mb-0"> <h2>Add New Patron </div>
 
 <div class="card-body">
-	<form action="" method="post">
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		
 		<div class="row">
-			<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
-			<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
 				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
+		<div class="row mt-2">
+		<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="input-group rounded">
+				<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
+				<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" required><span class="text-danger">&nbsp;*</span>
+			</div>
+		</div></div>
 
 		<h5 class="mt-3"><u>Address:</u></h5>
 		<div class="row my-2">
@@ -175,13 +183,13 @@ $patronData = "";
 			<div class="col-sm-8 col-md-4">
 				<div class="input-group rounded">
 				<label for="phone" class="input-group-prepend btn btn-outline-warning fg1"><b>Phone</b></label>
-				<input class="form-control bg1" type="text" id="phone" name="phone" required>
+				<input class="form-control bg1" type="text" id="phone" name="phone" >
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-5">
 				<div class="input-group rounded">
 				<label for="email" class="input-group-prepend btn btn-outline-warning fg1"><b>Email</b></label>
-				<input class="form-control bg1" type="text" id="email" name="email" required>
+				<input class="form-control bg1" type="text" id="email" name="email" >
 				</div>
 			</div>
 		</div>
@@ -189,7 +197,7 @@ $patronData = "";
 		<br clear="both">
 		<div class="row">
 		<div class="col">
-			<button type="submit" class="btn btn-success">Create Patron</button> &nbsp;
+			<button type="submit" id="submit" name="submit" class="btn btn-success">Create Patron</button> &nbsp;
 		</div>
 		<div class="col form-check">
 		  <input class="form-check-input" type="checkbox" value="" id="addCard" checked>

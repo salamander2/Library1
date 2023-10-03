@@ -19,7 +19,7 @@ if ($_SESSION["authkey"] != AUTHKEY) {
 $db = connectToDB();
 $error_message = "";
 
-$patronID = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+	$patronID = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
 	$firstname=$lastname="";
 	$address=$city=$prov=$postalCode="";
