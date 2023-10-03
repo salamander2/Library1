@@ -73,18 +73,15 @@ function dynamicData(str) {
 
 <!-- this page has a special header, not the normal one that other pages use -->
 <div class="container-md mt-2">
-<div id="" class="bg-warning text-center rounded py-3">
 
+<!-- page header -->
+<?php $backHref="main.php";
+$text = file_get_contents("pageHeader.html");
+$text = str_replace("BACK", $backHref,$text);
+$text = str_replace("INSTITUTION", $institution,$text);
+echo $text;
+?>
 
-<a class="d-block btn btn-outline-dark float-start m-2" href="logout.php"><i class="fa fa-sign-out"></i>  Logout</a>
-<span class="float-end">
-<a class="d-block btn btn-outline-dark m-2" href="admin.php"><i class="fa fa-cogs"></i>  Administer</a>
-</span>
-	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
-
-<br clear="both">
-    <hr>
-</div>
 
 <form class="mt-4">
 <!-- <span class="white">Enter First Name, Last Name, or Patron Phone...</span> -->

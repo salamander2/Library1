@@ -108,16 +108,13 @@ $patronData = "";
 
 <div class="container-md mt-2">
 
-<div class="alert alert-warning text-center rounded py-3">
-	<a class="btn btn-outline-dark float-start" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
-	<span class="float-end"> <a class="d-block btn btn-outline-dark" href="admin.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
-	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
-	<a class="float-start btn btn-warning rounded" onclick="history.back()"><i class="fa fa-arrow-left"></i>  Back</a>
-	<br clear="both">
-    <hr class="py-0 mb-0">
-	<!-- <a class="float-start btn btn-dark rounded" href="patronList.php"><i class="fa fa-arrow-left"></i>  Back</a> -->
-</div>
-
+<!-- page header -->
+<?php $backHref="patronList.php";
+$text = file_get_contents("pageHeader.html");
+$text = str_replace("BACK", $backHref,$text);
+$text = str_replace("INSTITUTION", $institution,$text);
+echo $text;
+?>
 
 <div class="card border-primary mt-3">
 	<div class="card-head alert alert-primary mb-0"> <h2>Add New Patron </div>
