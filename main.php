@@ -62,9 +62,10 @@ $error_message = "";
 		<div class="card-body">
 		<div class="ml-3">
 		<a href="patronList.php"><button type="button" class="btn btn-success">Search Patrons</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Books</button></a>
-		<a href=""><button type="button" class="btn btn-outline-primary">Fines</button></a>
-		<a href=""><button type="button" class="btn btn-outline-primary">Reports</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Fines</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Reports</button></a>
 		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-primary">Logout</button></a></span>
 		</div>
 
@@ -74,8 +75,8 @@ $error_message = "";
 	<div class="card border border-secondary alert alert-warning">
 		<div class="card-body">
 
+		<p class="float-end"><span class="border-bottom border-end border-warning p-1">Today is <span id="date"></span></span></p>
 		<h3>Staff Announcements</h3>
-		<h5><span class="border border-warning p-1">Today is <span id="date"></span></span></h5>
 
 		<p> Here we will do the following:</p>
 		<ul>

@@ -69,14 +69,42 @@ function runSimpleQuery($mysqli, $sql_) {
     return $result;
 }
 
-function clean_html($string) {
-    $string = trim(htmlspecialchars(addslashes($string)));
-    #$string = trim(htmlentities(addslashes($string)));
-    return $string;
+/*************************************************
+This ensures a standard header on all pages.
+The header HTML is in "pageHeader.html"
+The only things that change are where the back button redirects to 
+and whether or not to show the Administer button
+*************************************************/
+function loadHeader(String $backHref="main.php"){
+	global $institution;
+	$text = file_get_contents("pageHeader.html");
+	$text = str_replace("BACK", $backHref,$text);
+	$text = str_replace("INSTITUTION", $institution,$text);
+	echo $text;
+//TODO 
+// need to check administrator priviledges
+//TODO 
+//add in ELSE statement in case the html file is missing. Then just print this standard code.
 }
 
+/*********************
+* Simple code to sanitize strings. 
+  AddSlashes is a pain. The would have to be removed before being displayed.
+  It's unnecessary since I'm using prepared statements.
+*
+* filter_var() FILTER_SANITIZE_STRING  ---- DEPRECATED. USE htmlspecialchars()
+* strip_tags()   Strip HTML and PHP tags from a string, as well as HTML comments
+    Because strip_tags() does not actually validate the HTML, partial or broken tags can result in the removal of more text/data than expected. 
+* htmlspecialchars Convert special characters to HTML entities
+     &amp; &lt; &gt;  " and ' -- options to allow/disable quotes
+* htmlspecialchars() is good enough and better than using htmlentities()
+* addslashes  -- quote string with slashes
+**********************/
 function clean_input($string) {
-    $string = trim(strip_tags(addslashes($string)));
+    $string = trim(htmlspecialchars($string));
+    //$string = trim(strip_tags(addslashes($string)));
+    //$string = trim(htmlspecialchars(addslashes($string)));
+    //$string = trim(htmlentities(addslashes($string)));
     return $string;
 }
 

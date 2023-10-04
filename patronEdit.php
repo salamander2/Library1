@@ -6,6 +6,7 @@
 * calls patronUpdate
 * This displays the patron data for editing.
 * It also displays library cards, and books out.
+* FIXME the next and previous patron buttons will show a blank entry if that patronID has been deleted.
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -18,12 +19,14 @@ if ($_SESSION["authkey"] != AUTHKEY) {
 # Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
 
 $db = connectToDB();
-$error_message = "";
+if(isset($_SESSION["error_message"])) {
+	$error_message = $_SESSION["error_message"];
+	unset($_SESSION["error_message"]);
+} else $error_message = "";
 if(isset($_SESSION["success_message"])) {
 	$success_message = $_SESSION["success_message"];
 	unset($_SESSION["success_message"]);
-}
-else $success_message = "";
+} else $success_message = "";
 
 /* 
 +------------+--------------+------+-----+-------------------+-------------------+
@@ -101,7 +104,7 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
+	<script src="resources/jquery-3.7.1.min.js"></script>
 <style>
 	.fg1 {color:#620;}	/* yellow */
 	.bg1 {background-color:#FFA;}
@@ -111,7 +114,38 @@ if ($stmt = $db->prepare($sql)) {
 	.bg4 {background-color:#C9D5D5;} /* secondary */
 </style>
 
+<script>
+$(function(){ //document ready function
+	$.fn.validateForm = function() { 
 
+		const inputs = ["email", "firstname", "lastname", "city"];
+		let retVal = true;
+
+		//make sure all the the inputs are filled
+		inputs.forEach( function(input) {
+			let element = document.getElementById(input);
+			console.log(input);
+			if(element.value === "") {
+				element.className = "form-control is-invalid";
+				retVal = false;
+			} else {
+				element.className = "form-control is-valid";
+			}
+		});
+/*		//validate email
+		let email = document.getElementById("email");
+		if(validateEmail(email.value.trim())){
+			email.className = "form-control is-valid";
+		} else {
+			email.className = "form-control is-invalid";
+			retVal = false;
+		}
+*/
+		return retVal;
+	}
+	 
+}); 
+</script>
 
 </head>
 <body>
@@ -119,12 +153,7 @@ if ($stmt = $db->prepare($sql)) {
 <div class="container-md mt-2">
 
 <!-- page header -->
-<?php $backHref="patronList.php";
-$text = file_get_contents("pageHeader.html");
-$text = str_replace("BACK", $backHref,$text);
-$text = str_replace("INSTITUTION", $institution,$text);
-echo $text;
-?>
+<?php loadHeader("patronList.php"); ?>
 
 <div class="card border-primary mt-3">
 	<div class="card-head alert alert-primary mb-0"> <h2>Patron Information
@@ -132,7 +161,7 @@ echo $text;
 	</div>
 
 <div class="card-body">
-	<form action="patronUpdate.php" method="post">
+	<form action="patronUpdate.php" onsubmit="return $.fn.validateForm()" method="post">
 		<div class="row text-secondary">
 		<div class="col-sm-2">ID: <?=$patronID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
 		</div>
@@ -215,10 +244,12 @@ echo $text;
 			echo "</span>";
 			}
 		?>
+		<div id="error_message" class="float-end rounded text-white bg-danger px-2 py-1"></div>
 		</h4>
 
 	</form>
 </div></div> <!-- end of card-body and card -->
+
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i></a> Patron 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i></a>
 <br clear="both">

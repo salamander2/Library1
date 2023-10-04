@@ -21,10 +21,8 @@ $error_message = "";
 
 	$patronID = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
-	$firstname=$lastname="";
-	$address=$city=$prov=$postalCode="";
-	$phone=$email="";
-	if (isset($_POST['firstname'])) $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
+	$firstname=$lastname=$address=$city=$prov=$postalCode=$phone=$email=$birthdate="";
+	if (isset($_POST['firstname'])) $firstname = clean_input($_POST['firstname']);
 	$lastname = clean_input($_POST['lastname']);
 	$address= clean_input($_POST['address']);
 	$city = clean_input($_POST['city']);
@@ -32,10 +30,11 @@ $error_message = "";
 	$postalCode = clean_input($_POST['postalCode']);
 	$phone = clean_input($_POST['phone']);
 	$email = clean_input($_POST['email']);
+	$birthdate = clean_input($_POST['birthdate']);
 
-	$sql = "UPDATE patron SET firstname=?, lastname=?, address=?, city=?, prov=?, postalCode=?, phone=?, email=? WHERE id=?";
+	$sql = "UPDATE patron SET firstname=?, lastname=?, address=?, city=?, prov=?, postalCode=?, phone=?, email=?, birthdate=? WHERE id=?";
 	if ($stmt = $db->prepare($sql)) {
-		$stmt->bind_param("ssssssssi", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $patronID );
+		$stmt->bind_param("sssssssssi", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $birthdate, $patronID );
 		$stmt->execute();
 		$stmt->close();
 	} else {

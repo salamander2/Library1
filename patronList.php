@@ -71,7 +71,6 @@ function dynamicData(str) {
 
 <body>
 
-<!-- this page has a special header, not the normal one that other pages use -->
 <div class="container-md mt-2">
 
 <!-- page header -->
