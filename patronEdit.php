@@ -104,7 +104,7 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-	<script src="resources/jquery-3.7.1.min.js"></script>
+	<!-- <script src="resources/jquery-3.7.1.min.js"></script> -->
 <style>
 	.fg1 {color:#620;}	/* yellow */
 	.bg1 {background-color:#FFA;}
@@ -115,11 +115,21 @@ if ($stmt = $db->prepare($sql)) {
 </style>
 
 <script>
-$(function(){ //document ready function
-	$.fn.validateForm = function() { 
+document.addEventListener("DOMContentLoaded", () => {
+  // anonymous inner (lambda) function goes here
+}); 
 
-		const inputs = ["email", "firstname", "lastname", "city"];
-		let retVal = true;
+/* Javascript input validation:
+	When possible, it's best to use JS validation. PHP validation is server based and slower.
+	PHP validation is still necessary, however, as Postman or similar apps can submit invalid information.
+	We never have to make sure that the fields are filled in because "required" does that just fine.
+	So validate the actual data.
+	Jquery validation is not really worth it - unless you add in the validation plugin/library.
+*/
+
+	function validateForm(){
+		const inputs = ["firstname", "lastname", "birthdate", "address", "city", "prov", "postalCode"];
+		let retval = true;
 
 		//make sure all the the inputs are filled
 		inputs.forEach( function(input) {
@@ -127,7 +137,7 @@ $(function(){ //document ready function
 			console.log(input);
 			if(element.value === "") {
 				element.className = "form-control is-invalid";
-				retVal = false;
+				retval = false;
 			} else {
 				element.className = "form-control is-valid";
 			}
@@ -138,13 +148,13 @@ $(function(){ //document ready function
 			email.className = "form-control is-valid";
 		} else {
 			email.className = "form-control is-invalid";
-			retVal = false;
+			retval = false;
 		}
 */
-		return retVal;
+		if (retval === false) document.getElementById("error_message").innerHTML = "Invalid Input";
+		return retval;
 	}
 	 
-}); 
 </script>
 
 </head>
@@ -249,6 +259,7 @@ $(function(){ //document ready function
 
 	</form>
 </div></div> <!-- end of card-body and card -->
+<button onclick="validateForm()" >Test</button> <br>
 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i></a> Patron 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i></a>
