@@ -125,6 +125,17 @@ document.addEventListener("DOMContentLoaded", () => {
 	We never have to make sure that the fields are filled in because "required" does that just fine.
 	So validate the actual data.
 	Jquery validation is not really worth it - unless you add in the validation plugin/library.
+	Validate: (1) email, (2) year of birth (patron must be between 6 and 120 years old
+	(3) Prov. two letters, capitalize them (4) Phone: 10 digits when () and - are removed.
+	
+	PHONE:  var phoneno = /^\d{10}$/;
+	  if (!(inputtxt.value.match(phoneno)) return false;
+
+	EMAIL: 
+		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(! inputText.value.match(mailformat)) ...
+}
+ 
 */
 
 	function validateForm(){
