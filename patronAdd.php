@@ -39,7 +39,7 @@ if(isset($_POST['submit'])) {
 		$patronID = $stmt->insert_id;
 		$stmt->close();
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($schoolDB) . "\n<br>";
+		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
 		$message_ .= 'SQL: ' . $sql;
 		die($message_);
 	}

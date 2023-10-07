@@ -47,6 +47,10 @@ if(isset($_SESSION["success_message"])) {
 */
 
 $patronID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
+if (strlen($patronID) == 0) header("Location:patronList.php"); 
+
+#I think that we need to set patronID as a session variable - especially for barcode handling
+
 $patronData = "";
 
 $sql = "SELECT * FROM patron WHERE id = ?";
@@ -86,6 +90,11 @@ if ($stmt = $db->prepare($sql)) {
 	$message_ .= 'SQL2: ' . $query;
 	die($message_); 
 }
+
+$validCard=false;
+while ($card = $libCards->fetch_assoc()){ 
+	if ($card['status'] == 'ACTIVE') $validCard = true;
+}
 ?>
 
 <!DOCTYPE html>
@@ -112,6 +121,7 @@ if ($stmt = $db->prepare($sql)) {
 	.bg2 {background-color:#CAF;}
 	.bg3 {background-color:#cfe2ff;} /* primary */
 	.bg4 {background-color:#C9D5D5;} /* secondary */
+	td.btns {width:25%;}
 </style>
 
 <script>
@@ -270,22 +280,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	</form>
 </div></div> <!-- end of card-body and card -->
-<button onclick="validateForm()" >Test</button> <br>
 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i></a> Patron 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i></a>
-<br clear="both">
+
+&nbsp;<button onclick="validateForm()" >Test</button> <br>
 
 <div class="card border-success mt-3">
 <div class="card-body">
 	<div class="card-head alert alert-success"> <h2>Library Cards
-	<a class="float-end btn btn-outline-success rounded" href="cardAdd.php"><i class="fa fa-circle-plus"></i>  Add Card</a></h2>
-	</div>
+<?php
+if ($validCard == false) {
+	//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
+	echo '<a class="float-end btn btn-outline-success rounded" href="cardAdd.php"><i class="fa fa-circle-plus"></i>  Add Card</a>';
+}
+?>
+	</h2></div>
+
 <?php
 
 $num_rows = mysqli_num_rows($libCards);
 if($num_rows > 0) {
-	//general HTML now being written
+	// printing table rows: student name, student number
 	echo '<table class="table table-secondary table-striped table-hover table-bordered">';
 	echo '<thead>';
 	echo '<tr>';
@@ -293,17 +309,33 @@ if($num_rows > 0) {
 	echo '<th>Status</th>';
 	echo '<th>Date Issued</th>';
 	echo '<th>Expiry Date</th>';
+	echo '<th>Change status to:</th>';
 	echo '</tr>';
 	echo '</thead>';
 	echo '<tbody>';
 
-	// printing table rows: student name, student number
-	while ($row = $libCards->fetch_assoc()){ 
+	// Reset our pointer since we've already done fetch_assoc
+	mysqli_data_seek( $libCards, 0 );
+
+	while ($card = $libCards->fetch_assoc()){ 
+		$status = $card['status'];
+		$barcode = $card['barcode'];
 		echo "<tr>";
-		echo "<td>".$row['barcode']. "</td>";
-		echo "<td>".$row['status']. "</td>";
-		echo "<td>".strtok($row['createDate']," "). "</td>";
-		echo "<td>".$row['expiryDate']. "</td>";
+		echo "<td>".$barcode. "</td>";
+		echo "<td>".$status."</td>";
+		echo "<td>".strtok($card['createDate']," "). "</td>";
+		echo "<td>".$card['expiryDate']. "</td>";
+		echo '<td class="btns">';
+		//for the status change buttons, we need to send barcode, new status, and patronID. It's shorter just to write the GET URL instead of a POST FORM.
+		if ($status == "ACTIVE") 
+			echo "<a href='cardStatus.php?id=".$barcode."&status=L&patron=".$patronID."'><button class='btn btn-warning shadow'>Lost</button></a> &nbsp; ".PHP_EOL;
+		if ($status == 'EXPIRED' && !$validCard) 
+			echo "<a href='cardStatus.php?id=".$barcode."&status=R&patron=".$patronID."'><button class='btn btn-success shadow'>Renew</button></a> &nbsp; ".PHP_EOL;
+			#echo "<form class='d-inline' method='POST' action='cardStatus.php'><input name='id' value='$barcode' hidden><input name='status' value='R' hidden><button class='btn btn-success shadow'>Renew</button></form> &nbsp; ".PHP_EOL;
+		if ($status == 'LOST') 
+			echo "<a href='cardStatus.php?id=".$barcode."&status=A&patron=".$patronID."'><button class='btn btn-primary shadow'>Found</button></a> &nbsp; ".PHP_EOL;
+			#echo "<form class='d-inline' method='POST' action='cardStatus.php?='id' value='$barcode' hidden><input name='status' value='A' hidden><button class='btn btn-primary shadow'>Found</button></form> &nbsp; ".PHP_EOL;
+		echo "</td>";
 		echo "</tr>";
 	} 
 
@@ -317,5 +349,6 @@ if($num_rows > 0) {
 </div>
 
 <br><br><br>
+
 </body>
 </html>
