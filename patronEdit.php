@@ -121,7 +121,7 @@ while ($card = $libCards->fetch_assoc()){
 	.bg2 {background-color:#CAF;}
 	.bg3 {background-color:#cfe2ff;} /* primary */
 	.bg4 {background-color:#C9D5D5;} /* secondary */
-	td.btns {width:25%;}
+	td.btns {width:25%;text-align:right;}
 </style>
 
 <script>
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <?php
 if ($validCard == false) {
 	//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
-	echo '<a class="float-end btn btn-outline-success rounded" href="cardAdd.php"><i class="fa fa-circle-plus"></i>  Add Card</a>';
+	echo '<a class="float-end btn btn-outline-success rounded" href="cardAdd.php?id='.$patronID.'"><i class="fa fa-circle-plus"></i>  Add Card</a>';
 }
 ?>
 	</h2></div>
