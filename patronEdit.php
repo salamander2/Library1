@@ -1,7 +1,7 @@
 <?php
 /*******************************************************
 * patronEdit.php
-* called from patronList (by clicking on a patron)
+* called from patronList.php (by clicking on a patron)
 * 		 and also from patronUpdate
 * calls patronUpdate
 * This displays the patron data for editing.
@@ -47,9 +47,8 @@ if(isset($_SESSION["success_message"])) {
 */
 
 $patronID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
+//FIXME add message when returning. PatronList needs to handle messages.
 if (strlen($patronID) == 0) header("Location:patronList.php"); 
-
-#I think that we need to set patronID as a session variable - especially for barcode handling
 
 $patronData = "";
 
@@ -64,6 +63,10 @@ if ($stmt = $db->prepare($sql)) {
 	$message_ .= 'SQL2: ' . $query;
 	die($message_); 
 }
+
+//someone is trying to look at a patron record that doesn't exist
+//FIXME add message when returning. PatronList needs to handle messages.
+if ($patronData == null) header("Location:patronList.php");
 
 //TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
 
@@ -328,12 +331,12 @@ if($num_rows > 0) {
 		echo '<td class="btns">';
 		//for the status change buttons, we need to send barcode, new status, and patronID. It's shorter just to write the GET URL instead of a POST FORM.
 		if ($status == "ACTIVE") 
-			echo "<a href='cardStatus.php?id=".$barcode."&status=L&patron=".$patronID."'><button class='btn btn-warning shadow'>Lost</button></a> &nbsp; ".PHP_EOL;
+			echo "<a href='cardStatus.php?id=".$barcode."&status=L&patron=".$patronID."'><button class='btn btn-outline-danger shadow'>Lost</button></a> &nbsp; ".PHP_EOL;
 		if ($status == 'EXPIRED' && !$validCard) 
-			echo "<a href='cardStatus.php?id=".$barcode."&status=R&patron=".$patronID."'><button class='btn btn-success shadow'>Renew</button></a> &nbsp; ".PHP_EOL;
+			echo "<a href='cardStatus.php?id=".$barcode."&status=R&patron=".$patronID."'><button class='btn btn-outline-success shadow'>Renew</button></a> &nbsp; ".PHP_EOL;
 			#echo "<form class='d-inline' method='POST' action='cardStatus.php'><input name='id' value='$barcode' hidden><input name='status' value='R' hidden><button class='btn btn-success shadow'>Renew</button></form> &nbsp; ".PHP_EOL;
 		if ($status == 'LOST') 
-			echo "<a href='cardStatus.php?id=".$barcode."&status=A&patron=".$patronID."'><button class='btn btn-primary shadow'>Found</button></a> &nbsp; ".PHP_EOL;
+			echo "<a href='cardStatus.php?id=".$barcode."&status=A&patron=".$patronID."'><button class='btn btn-outline-primary shadow'>Found</button></a> &nbsp; ".PHP_EOL;
 			#echo "<form class='d-inline' method='POST' action='cardStatus.php?='id' value='$barcode' hidden><input name='status' value='A' hidden><button class='btn btn-primary shadow'>Found</button></form> &nbsp; ".PHP_EOL;
 		echo "</td>";
 		echo "</tr>";

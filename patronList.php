@@ -79,18 +79,25 @@ $text = file_get_contents("pageHeader.html");
 $text = str_replace("BACK", $backHref,$text);
 $text = str_replace("INSTITUTION", $institution,$text);
 echo $text;
+
+
+//FIXME:  the barcode needs JS for when Enter is pressed.
 ?>
 
 
-<form class="mt-4">
-<!-- <span class="white">Enter First Name, Last Name, or Patron Phone...</span> -->
-<fieldset>
+<div class="row mt-4">
 <div class="input-group">
-	<input class="form-control col-8 rounded" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
-    <a class="btn btn-outline-dark rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
+	<div class="col me-2">
+	<input class="form-control rounded" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
+	</div>
+	<div class="col-3 me-2">
+	<input class="form-control rounded" type="text" placeholder="Enter Barcode" >&nbsp;&nbsp;
+	</div>
+	<div class="col-2">
+    <a class="form-control btn btn-outline-dark rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
+	</div>
 </div>
-</fieldset>
-</form>
+</div>
 
 <!-- IMPORTANT - Do not remove next line. It's where the table appears -->
 <div id="dynTable" class="mt-4"></div>
