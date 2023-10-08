@@ -81,10 +81,8 @@ function loadHeader(String $backHref="main.php"){
 	$text = str_replace("BACK", $backHref,$text);
 	$text = str_replace("INSTITUTION", $institution,$text);
 	echo $text;
-//TODO 
-// need to check administrator priviledges
-//TODO 
-//add in ELSE statement in case the html file is missing. Then just print this standard code.
+//TODO need to check administrator priviledges
+//TODO add in ELSE statement in case the html file is missing. Then just print this standard code.
 }
 
 /*********************
