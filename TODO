@@ -1,23 +1,47 @@
 This is just listing what needs to be done in the next few days, not the whole project.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+>>>> DONE <<<<
+* Patrons: list, search, add, delete. 
+* Library Card: add, render lost/expired
+* php read in a header:
+        $homepage = file_get_contents('http://www.example.com/');
+        echo $homepage;
+
+
+<<<< TODO >>>>>
+* Patrons: delete
+* Patrons: barcode search
+* patronView.php (light lavender header)
 
 * failed authentication: why not use logout?
+* Look at all FIXME and TODO
 
-* Patrons: list, search, add, delete. DONE
-* Patrons: delete
+* Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
->>>>>  Add/Edit: JS check format. PHP validate (rather than sanitize?)
+* BIB records: display, how many copies, how many are available.
 
   DELETE patron: check for fines, books out.
 
 * Is there any way of using CRUD for this?
 
-** Library Card: add, render lost/expired
-
 ** Users: add an admin user. 
-		Then have a usermaint page
-		also add/edit site announcements
+                Then have a usermaint page
+                also add/edit site announcements
 
-* php read in a header:
-	$homepage = file_get_contents('http://www.example.com/');
-	echo $homepage;
+-----------------------------------------
+Things I am NOT doing:
+
+% library branches
+
+------------------------------------------
+php filter_var()
+
+
+Sanitize then validate. Validate works a lot better than sanitizing.
+
+FILTER_VALIDATE_EMAIL
+FILTER_VALIDATE_INT
+
+FILTER_SANITIZE_EMAIL
+Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].

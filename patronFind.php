@@ -1,10 +1,11 @@
 <?php
 /*******************************************************************************
-  Name: studentFind.php
-  Called from: home.php
-  Purpose: This file holds the function for finding students and diplaying them as a table
-  Tables used: db/students, sssDB/sssInfo
-  Transfers control to: commentPage.php or studentInfo.php (for non TEAM members)
+  Name: patronFind.php
+  Called from: patronList.php
+  Purpose: This does dynamic searching, returning a table that's updated
+	each time the user presses a key. 
+	It also does the search for library barcode and matches that to a patron.
+  Note that in both cases, it returns data (via AJAX), not as a new HTML page.
  ******************************************************************************/
 
 error_reporting(E_ALL);
@@ -13,27 +14,45 @@ require_once('common.php');
 
 $db = connectToDB();
 
-/*************************
-$isTeam means that the user is a member of the at-risk team
-$activate means that this search function was called by pressing the button "list all at-risk students"
-***************************/
 
-// get the q parameter from URL
+//If there is a barcode parameter, then search that.
+$patronBC= filter_var($_GET['bar'], FILTER_SANITIZE_NUMBER_INT);
+if (strlen($patronBC) != 0) {
+
+	$sql = "SELECT patronID FROM libraryCard WHERE barcode = ?";
+	if ($stmt = $db->prepare($sql)) {
+		$stmt->bind_param("i", $patronBC);
+		$stmt->execute(); 
+		$stmt->bind_result($result);
+		$stmt->fetch();
+		$stmt->close();                 
+	} else {
+		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
+		$message_ .= 'SQL2: ' . $sql;
+		die($message_); 
+	}
+	$obj=new stdClass;
+	$obj->patronID=$result;
+	echo json_encode($obj); 
+	return;
+}
+
+// Otherwise get the query parameter from the URL
 $q = clean_input($_REQUEST["q"]);
 
 #$query = "SELECT students.studentID, students.firstname, students.lastname FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or studentID LIKE '$q%' ORDER BY lastname, firstname";
 $q = $q.'%';
 $q2 = $q;
 $q3 = $q;
-$query = "SELECT id as patronID, firstname, lastname, phone, birthdate, postalCode FROM patron  WHERE firstname LIKE ? or lastname LIKE ? or phone LIKE ? ORDER BY lastname, firstname";
-if ($stmt = $db->prepare($query)) {
+$sql = "SELECT id as patronID, firstname, lastname, phone, birthdate, postalCode FROM patron  WHERE firstname LIKE ? or lastname LIKE ? or phone LIKE ? ORDER BY lastname, firstname";
+if ($stmt = $db->prepare($sql)) {
 	$stmt->bind_param("sss", $q, $q2, $q3);
 	$stmt->execute(); 
 	$resultArray = $stmt->get_result();
 	$stmt->close();                 
 } else {
 	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
+	$message_ .= 'SQL2: ' . $sql;
 	die($message_); 
 }
 

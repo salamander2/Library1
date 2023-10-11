@@ -1,0 +1,19 @@
+/* patronList, edit ... */
+#header hr {
+  margin:0 -10px;
+}
+.smaller{ font-size:80%; }
+
+.error_message {}
+.error {"alert text-white bg-danger w-50 mt-3 bold"}
+.error_message {"float-end rounded text-white bg-danger px-2 py-1"}
+
+.fg1 {color:#620;}	/* yellow */
+.bg1 {background-color:#FFA;}
+.fg2 {color:#518;} /* purple */
+.bg2 {background-color:#CAF;}
+.bg3 {background-color:#cfe2ff;} /* primary */
+.bg4 {background-color:#C9D5D5;} /* secondary */
+
+/* patronEdit */
+td.btns {width:25%;text-align:right;}

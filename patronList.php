@@ -48,23 +48,57 @@ $error_message = "";
 	#header hr {
 	  margin:0 -10px;
 	}
+	.smaller{ font-size:80%; }
 </style>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+	const bar = document.getElementById('barcode');
+	bar.addEventListener('keyup', (e) => {
+		if (e.key === 'Enter') {
+			processBarcode(e);
+		}
+	});
+});
+
 function dynamicData(str) {
     if (str.length == 0) { 
         document.getElementById("dynTable").innerHTML = "";
         return;
-    } else {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("dynTable").innerHTML = xmlhttp.responseText;
-            }
-        }
-        xmlhttp.open("GET", "patronFind.php?q=" + str, true);
-        xmlhttp.send();
-    }
+    } 
+
+	var xhr = new XMLHttpRequest();
+	xhr.onload = () => {
+		document.getElementById("dynTable").innerHTML = xhr.responseText;
+	}
+	xhr.open("GET", "patronFind.php?q=" + str, true);
+	xhr.send();
+}
+
+function processBarcode(e) {
+    const str = e.target.value;
+
+    //validation of the input...
+	if (isNaN(str)) {
+		error="<div class='bg-danger'>Error: invalid barcode</div>";
+		document.getElementById("dynTable").innerHTML = error;
+		return;
+	}
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			const data = JSON.parse(this.responseText);
+			window.alert(data.patronID);
+			if (data.patronID != null) {
+				window.document.location='patronEdit.php?ID='+data.patronID;
+			} else {
+			   error="<div class='bg-danger'>Error:  barcode not found</div>";
+			   document.getElementById("dynTable").innerHTML = error;
+			}
+		}
+	}
+	xhr.open("GET", "patronFind.php?bar=" + str, true);
+	xhr.send();
 }
 </script>
 </head>
@@ -80,10 +114,7 @@ $text = str_replace("BACK", $backHref,$text);
 $text = str_replace("INSTITUTION", $institution,$text);
 echo $text;
 
-
-//FIXME:  the barcode needs JS for when Enter is pressed.
 ?>
-
 
 <div class="row mt-4">
 <div class="input-group">
@@ -91,7 +122,8 @@ echo $text;
 	<input class="form-control rounded" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
 	</div>
 	<div class="col-3 me-2">
-	<input class="form-control rounded" type="text" placeholder="Enter Barcode" >&nbsp;&nbsp;
+	<input class="form-control rounded" type="text" name="barcode" id="barcode" placeholder="Enter Barcode">
+	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 20748...</span> 2074800240
 	</div>
 	<div class="col-2">
     <a class="form-control btn btn-outline-dark rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
@@ -99,7 +131,7 @@ echo $text;
 </div>
 </div>
 
-<!-- IMPORTANT - Do not remove next line. It's where the table appears -->
+<!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
 <div id="dynTable" class="mt-4"></div>
 
 
