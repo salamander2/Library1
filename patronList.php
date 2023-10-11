@@ -55,9 +55,7 @@ $error_message = "";
 document.addEventListener("DOMContentLoaded", () => {
 	const bar = document.getElementById('barcode');
 	bar.addEventListener('keyup', (e) => {
-		if (e.key === 'Enter') {
-			processBarcode(e);
-		}
+		if (e.key === 'Enter') processBarcode(e);
 	});
 });
 
@@ -77,6 +75,10 @@ function dynamicData(str) {
 
 function processBarcode(e) {
     const str = e.target.value;
+    if (str.length == 0) { 
+        document.getElementById("dynTable").innerHTML = "";
+        return;
+    } 
 
     //validation of the input...
 	if (isNaN(str)) {
@@ -85,17 +87,18 @@ function processBarcode(e) {
 		return;
 	}
 	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			const data = JSON.parse(this.responseText);
-			window.alert(data.patronID);
-			if (data.patronID != null) {
-				window.document.location='patronEdit.php?ID='+data.patronID;
-			} else {
-			   error="<div class='bg-danger'>Error:  barcode not found</div>";
-			   document.getElementById("dynTable").innerHTML = error;
-			}
+	xhr.onload = () => {
+		const data = JSON.parse(xhr.responseText);
+		if (data.patronID != null) {
+			window.document.location='patronEdit.php?ID='+data.patronID;
+		} else {
+		   error="<div class='bg-danger'>Error:  barcode not found</div>";
+		   document.getElementById("dynTable").innerHTML = error;
 		}
+	}
+	xhr.onerror = () => {
+	   error="<div class='bg-danger'>Error:  Barcode not found</div>";
+	   document.getElementById("dynTable").innerHTML = error;
 	}
 	xhr.open("GET", "patronFind.php?bar=" + str, true);
 	xhr.send();
@@ -115,18 +118,18 @@ $text = str_replace("INSTITUTION", $institution,$text);
 echo $text;
 
 ?>
-
+<h3>Search for a patron</h3>
 <div class="row mt-4">
 <div class="input-group">
 	<div class="col me-2">
-	<input class="form-control rounded" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
+	<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
 	</div>
 	<div class="col-3 me-2">
-	<input class="form-control rounded" type="text" name="barcode" id="barcode" placeholder="Enter Barcode">
-	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 20748...</span> 2074800240
+	<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Type Barcode, press ENTER">
+	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 20748...</span> 
 	</div>
 	<div class="col-2">
-    <a class="form-control btn btn-outline-dark rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
+    <a class="form-control btn btn-primary rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
 	</div>
 </div>
 </div>

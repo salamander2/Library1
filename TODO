@@ -2,7 +2,9 @@ This is just listing what needs to be done in the next few days, not the whole p
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 >>>> DONE <<<<
-* Patrons: list, search, add, delete. 
+* Patrons: list, search, add. 
+* Patrons: barcode search
+* patronView.php (light lavender header)
 * Library Card: add, render lost/expired
 * php read in a header:
         $homepage = file_get_contents('http://www.example.com/');
@@ -10,10 +12,6 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 
 <<<< TODO >>>>>
-* Patrons: delete
-* Patrons: barcode search
-* patronView.php (light lavender header)
-
 * failed authentication: why not use logout?
 * Look at all FIXME and TODO
 
@@ -21,7 +19,7 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 * BIB records: display, how many copies, how many are available.
 
-  DELETE patron: check for fines, books out.
+* DELETE patron: check for fines, books out.
 
 * Is there any way of using CRUD for this?
 

@@ -14,9 +14,9 @@ require_once('common.php');
 
 $db = connectToDB();
 
-
 //If there is a barcode parameter, then search that.
-$patronBC= filter_var($_GET['bar'], FILTER_SANITIZE_NUMBER_INT);
+$patronBC = "";
+if (isset($_GET['bar'])) $patronBC= filter_var($_GET['bar'], FILTER_SANITIZE_NUMBER_INT);
 if (strlen($patronBC) != 0) {
 
 	$sql = "SELECT patronID FROM libraryCard WHERE barcode = ?";
