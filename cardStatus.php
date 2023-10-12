@@ -38,6 +38,7 @@ switch($stCode) {
 	default:
 		header("Location:".$_SERVER['HTTP_REFERER']);
 }
+
 $sql = "UPDATE libraryCard SET status=? WHERE barcode=?";
 if ($stmt = $db->prepare($sql)) {
 	$stmt->bind_param("si", $status, $barcode );
@@ -49,6 +50,21 @@ if ($stmt = $db->prepare($sql)) {
 	die($message_);
 }
 
-$_SESSION['success_message'] = "Library Card status changed.";
+$newDate = date('Y-m-d', strtotime('+ 1 year'));
+//also update the expiry date for cards that are being renewed.
+if ($stCode == "R") {
+	$sql = "UPDATE libraryCard SET expiryDate=? WHERE barcode=?";
+	if ($stmt = $db->prepare($sql)) {
+		$stmt->bind_param("si", $newDate, $barcode );
+		$stmt->execute();
+		$stmt->close();
+	} else {
+		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
+		$message_ .= 'SQL: ' . $sql;
+		die($message_);
+	}
+}
+
+$_SESSION['success_message'] = "Library Card status changed. ";
 
 header("location:patronEdit.php?ID=$patronID");

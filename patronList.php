@@ -14,7 +14,7 @@ if ($_SESSION["authkey"] != AUTHKEY) {
     header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
 }
 
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
+# TODO Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
 
 $db = connectToDB();
 
