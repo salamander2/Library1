@@ -14,7 +14,7 @@ The patron screen displays name, birthdate and the date that the patron was regi
 It also shows address information and contact information. Contact information is not mandatory: patrons do not need to have a phone or email address.
 A street address is mandatory though.
 
-The bottom part of the screen shows the patron's library card(s).  These can have various statuses: active, expired, lost. You can change the status here.
-The appropriate buttons will show up (eg. you cannot set a lost card to lost since it's already lost).
+The bottom part of the screen shows the patron's **library card(s).**  These can have various statuses: active, expired, lost. You can change the status here.
+The appropriate buttons will show up (eg. you cannot set a lost card to lost since it's already lost).    
 ⭐ In particular, cards can be renewed here. The new expiry date is one year from today.
 If a patron does not have a card, one can be added here.

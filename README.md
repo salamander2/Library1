@@ -9,6 +9,5 @@ Demonstration Library Database - using PHP
 
 ### :pear: [Template for PHP](docs/php_template.php)
 
-### :boot: [Template for HTML / CSS using Bootstrap](docs/html_template.html)
 
 
