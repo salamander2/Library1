@@ -63,7 +63,7 @@ $error_message = "";
 		<div class="ml-3">
 		<a href="patronList.php"><button type="button" class="btn btn-success">Search Patrons</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
-		<a href="bibList.php" class="px-2"><button type="button" class="btn btn-primary">Books</button></a>
+		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary">Books</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Reports</button></a>
 		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>

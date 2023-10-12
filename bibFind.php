@@ -29,22 +29,26 @@ $db = connectToDB();
 
 
 //Initialize all input variables (for POST form)
-$title=$author=$ISBN=$callNumber=$subjects=$barcode="";
+$title=$title2=$author=$ISBN=$subjects="";
+$callNumber=$barcode="";
 
 //if a barcode is being searched for, ignore all of the other fields.
 if (isset($_POST['barcode'])) {
-	$barcode= filter_var($_GET['barcode'], FILTER_SANITIZE_NUMBER_INT);
+	$barcode= filter_var($_POST['barcode'], FILTER_SANITIZE_NUMBER_INT);
 	$sql = "SELCT * FROM BIB";
 }
+if (isset($_POST['ISBN']))  $ISBN = filter_var($_POST['ISBN'], FILTER_SANITIZE_NUMBER_INT);
 
+if (isset($_POST['title']))      { $title = clean_input($_POST['title']) .'%'; $title2 = "THE ".$title;}
+if (isset($_POST['author']))     $author = clean_input($_POST['author']) .'%';
+if (isset($_POST['subjects']))   $subjects = clean_input($_POST['subjects']) .'%';
+if (isset($_POST['callNumber'])) $callNumber= clean_input($_POST['callNumber']) .'%';
 
 #$query = "SELECT students.studentID, students.firstname, students.lastname FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or studentID LIKE '$q%' ORDER BY lastname, firstname";
-$q = $q.'%';
-$q2 = $q;
-$q3 = $q;
-$sql = "SELECT id as patronID, firstname, lastname, phone, birthdate, postalCode FROM patron  WHERE firstname LIKE ? or lastname LIKE ? or phone LIKE ? ORDER BY lastname, firstname";
+$sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE title LIKE ? AND author LIKE ? AND callNumber LIKE ? ORDER BY author, pubdate";
+$sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE (title LIKE ? OR title LIKE ?) AND author LIKE ? AND callNumber LIKE ? ORDER BY author, pubdate";
 if ($stmt = $db->prepare($sql)) {
-	$stmt->bind_param("sss", $q, $q2, $q3);
+	$stmt->bind_param("ssss", $title, $title2, $author, $callNumber );
 	$stmt->execute(); 
 	$resultArray = $stmt->get_result();
 	$stmt->close();                 
@@ -54,31 +58,34 @@ if ($stmt = $db->prepare($sql)) {
 	die($message_); 
 }
 
-
 //general HTML now being written
 echo '<p class="text-primary">Please click on the desired patron to edit the record.';
 echo '<table class="table table-secondary table-striped table-hover table-bordered">';
 echo '<thead>';
 echo '<tr>';
-echo '<th>Patron Name</th>';
-echo '<th>Patron Phone</th>';
-echo '<th>Birthdate</th>';
-echo '<th>Postal Code</th>';
+echo '<th>Author</th>';
+echo '<th>Title</th>';
+echo '<th>ISBN</th>';
+echo '<th>Pub. date</th>';
+echo '<th>Call Number</th>';
 echo '</tr>';
 echo '</thead>';
 echo '<tbody>';
 
 // printing table rows: student name, student number
 while ($row = mysqli_fetch_assoc($resultArray)){ 
-
+	
+	$tit = $row['title'];
+	if (strlen($tit) > 74) $tit = substr($tit,0,70)." ...";
 # onclick() for <TR> is now supported in all modern browsers. I've just left it applied to each <TD> for now.
 # should look like this: <tr onclick="window.document.location='commentPage.php?ID=339671216';">
 #           echo "<tr onclick=\"window.document.location='commentPage.php?ID=". $row['studentID'] . "';\" >";
-		echo "<tr>";
-	echo "<td onclick=\"window.document.location='patronEdit.php?ID=". $row['patronID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
-	echo "<td onclick=\"window.document.location='patronEdit.php?ID=". $row['patronID'] . "';\" >".$row['phone']. "</td>";
-	echo "<td onclick=\"window.document.location='patronEdit.php?ID=". $row['patronID'] . "';\" >".$row['birthdate']. "</td>";
-	echo "<td onclick=\"window.document.location='patronEdit.php?ID=". $row['patronID'] . "';\" >".$row['postalCode']. "</td>";
+	echo "<tr>";
+	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['author']."</td>";
+	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$tit. "</td>";
+	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['ISBN']. "</td>";
+	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['pubDate']. "</td>";
+	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['callNumber']. "</td>";
 #print_r($row);
 	echo "</tr>";
 

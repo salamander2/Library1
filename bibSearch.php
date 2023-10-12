@@ -42,12 +42,6 @@ $error_message = "";
     <link rel="stylesheet" href="resources/library.css" >
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-	const bar = document.getElementById('barcode');
-	bar.addEventListener('keyup', (e) => {
-		if (e.key === 'Enter') processBarcode(e);
-	});
-});
 
 function dynamicData(str) {
     if (str.length == 0) { 
@@ -63,6 +57,19 @@ function dynamicData(str) {
 	xhr.send();
 }
 
+function removeTHE() {
+	var title = document.getElementById("title").value;
+	if (title.trim().toUpperCase().startsWith("THE ")) {
+			title = title.substring(4);
+			document.getElementById("title").value = title;
+			window.alert(title);
+	}
+	if (title.trim().toUpperCase() == "THE") {
+		document.getElementById("title").value = "";
+			window.alert(title);
+	}
+	return true;
+}
 </script>
 
 <style>
@@ -100,7 +107,8 @@ echo $text;
 */
 ?>
 <h3>Search Books</h3>
-<form action="bibFind.php" method="POST">
+
+<form action="bibFind.php" method="POST" onsubmit="return removeTHE()">
 <div class="row bg4 pb-2">
   <div class="col-md-6">
     <label for="title" class="form-label">Title</label>
@@ -114,28 +122,33 @@ echo $text;
 <div class="row bg4">
   <div class="col-md-6">
     <label for="inputCity" class="form-label">Subject</label>
-    <input type="text" class="form-control" name="subject" id="subject" >
+    <input type="text" class="form-control" name="subjects" name="subjects" disabled placeholder="Subject field not available" readonly>
+	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Sorry, the database does not contain "subjects" for the books.</span> 
   </div>
 </div>
 <div class="row bg4 pb-2">
   <div class="col-md-4">
-    <label for="inputCity" class="form-label">ISBN</label>
-    <input type="text" class="form-control" name="ISBN" id="ISBN" >
-  </div>
-  <div class="col-md-4">
     <label for="inputZip" class="form-label">Call Number</label>
     <input type="text" class="form-control" name="callNumber" id="callNumber" >
+	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;e.g. FIC J  or 796</span> 
   </div>
-  <div class="col-md-4">
+  <div class="col-md-4 border ">
     <label for="inputZip" class="form-label">Barcode</label>
     <input type="text" class="form-control" name="barcode" id="barcode" >
+  </div>
+  <div class="col-md-4 border">
+    <label for="inputCity" class="form-label">ISBN</label>
+    <input type="text" class="form-control" name="ISBN" id="ISBN" >
   </div>
 </div>
 <div class="row bg4 pb-2">
   <div class="col-12">
     <button type="submit" class="btn btn-primary">Search</button>
+	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Searching with no criteria returns all the books.</span>
   </div>
 </div>
+<div class="row alert alert-danger">Barcode and ISBN are searched as exact matches. 
+If anything is entered in these fields, then the other ones are ignored. Barcode trumps ISBN if both are entered. </div>
 </form>
 
 
