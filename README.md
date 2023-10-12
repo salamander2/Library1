@@ -1,7 +1,7 @@
 # Library1
 Demonstration Library Database - using PHP
 
-### User Documentation
+### [User Documentation](docs/UserDoc.md)
 
 ### Programmer documentation
 
