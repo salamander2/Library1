@@ -33,6 +33,7 @@ if (isset($_SESSION["userdata"])) $userdata = $_SESSION["userdata"];
 /**********  COMMON VARIABLES  **********/
 $home="index.php"; 
 $institution="Harwood";
+$libCode='0748';
 #$directory="."; 
 
 /**********  COMMON FUNCTIONS  **********/

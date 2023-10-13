@@ -43,20 +43,6 @@ $error_message = "";
 
 <script>
 
-function dynamicData(str) {
-    if (str.length == 0) { 
-        document.getElementById("dynTable").innerHTML = "";
-        return;
-    } 
-
-	var xhr = new XMLHttpRequest();
-	xhr.onload = () => {
-		document.getElementById("dynTable").innerHTML = xhr.responseText;
-	}
-	xhr.open("GET", "patronFind.php?q=" + str, true);
-	xhr.send();
-}
-
 function removeTHE() {
 	var title = document.getElementById("title").value;
 	if (title.trim().toUpperCase().startsWith("THE ")) {
