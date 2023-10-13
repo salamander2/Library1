@@ -133,10 +133,12 @@ echo $text;
 	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Searching with no criteria returns all the books.</span>
   </div>
 </div>
+</form>
+&nbsp;
+<div class="row alert alert-success">The searches are done on partial text and combined using AND. So the more information added, the more restrictive the search.<br>
+Call number="FIC" and Title = "Girl" will find all books that are fiction and start with "Girl" or "The Girl"</div>
 <div class="row alert alert-danger">Barcode and ISBN are searched as exact matches. 
 If anything is entered in these fields, then the other ones are ignored. Barcode trumps ISBN if both are entered. </div>
-</form>
-
 
 <!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
 <div id="dynTable" class="mt-4"></div>
