@@ -42,6 +42,48 @@ $error_message = "";
     <link rel="stylesheet" href="resources/library.css" >
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+ // Get the form element
+   const form = document.getElementById("myForm");
+
+   // Add 'submit' event handler
+   form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      postForm(form);
+  });
+});
+
+function postForm(form) {
+
+	const xhr = new XMLHttpRequest();
+    const myForm = new FormData(form);
+
+	document.getElementById("error_message").innerHTML = "";
+	xhr.onload = () => {
+		//The repsonseText can begin with "ERROR". If so, it is handled differently
+		if (xhr.responseText.startsWith("ERROR ")) {
+
+			document.getElementById("error_message").innerHTML = '<div class="btn btn-danger w-50 mt-2">'+xhr.responseText+'</div>';
+			document.getElementById("searchTips").style = "display:block";
+			document.getElementById("barcode").value="";
+			document.getElementById("barcode").focus();
+
+			return;
+		}
+		document.getElementById("searchTips").style = "display:none";
+		document.getElementById("dynTable").innerHTML = xhr.responseText;
+	}
+    // Define what happens in case of error
+    //xhr.addEventListener("error", (event) => {
+    //  alert("Oops! Something went wrong.");
+    //});
+
+    // Set up our request
+    xhr.open("POST", "bibFind.php");
+
+    // The data sent is what the user provided in the form
+    xhr.send(myForm);
+}
 
 function removeTHE() {
 	var title = document.getElementById("title").value;
@@ -56,6 +98,7 @@ function removeTHE() {
 	}
 	return true;
 }
+
 </script>
 
 <style>
@@ -74,27 +117,10 @@ $text = str_replace("BACK", $backHref,$text);
 $text = str_replace("INSTITUTION", $institution,$text);
 echo $text;
 
-
-/*
-> describe bib;
-+-------------+-----------------+------+-----+-------------------+-------------------+
-| Field       | Type            | Null | Key | Default           | Extra             |
-+-------------+-----------------+------+-----+-------------------+-------------------+
-| id          | int unsigned    | NO   | PRI | NULL              | auto_increment    |
-| title       | varchar(255)    | NO   |     | NULL              |                   |
-| author      | varchar(50)     | NO   |     | NULL              |                   |
-| pubDate     | int             | NO   |     | NULL              |                   |
-| ISBN        | bigint unsigned | YES  |     | NULL              |                   |
-| callNumber  | varchar(50)     | YES  |     | NULL              |                   |
-| subjects    | varchar(200)    | YES  |     | NULL              |                   |
-| createDate  | timestamp       | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+-------------+-----------------+------+-----+-------------------+-------------------+
-
-*/
 ?>
 <h3>Search Books</h3>
 
-<form action="bibFind.php" method="POST" onsubmit="return removeTHE()">
+<form id="myForm" Xaction="bibFind.php" method="POST" onsubmit="return removeTHE()">
 <div class="row bg4 pb-2">
   <div class="col-md-6">
     <label for="title" class="form-label">Title</label>
@@ -134,16 +160,20 @@ echo $text;
   </div>
 </div>
 </form>
+	<!-- This is the JAVASCRIPT error message -->
+	<div id="error_message"></div>
+	<!-- This is the PHP error message -->
+	<?php if ($error_message != "") echo $error_message; ?>
+<div id="searchTips">
 &nbsp;
 <div class="row alert alert-success">The searches are done on partial text and combined using AND. So the more information added, the more restrictive the search.<br>
 Call number="FIC" and Title = "Girl" will find all books that are fiction and start with "Girl" or "The Girl"</div>
 <div class="row alert alert-danger">Barcode and ISBN are searched as exact matches. 
 If anything is entered in these fields, then the other ones are ignored. Barcode trumps ISBN if both are entered. </div>
+</div>
 
 <!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
 <div id="dynTable" class="mt-4"></div>
-
-<p>I think that this should be done using AJAX, but then the form would have to be submitted that way. Let's start with just using PHP.</p>
 
 </div>
 </body>

@@ -103,7 +103,7 @@ if ($stmt = $db->prepare($sql)) {
 }
 
 //general HTML now being written
-echo '<p class="text-primary">Please click on the desired patron to edit the record.';
+echo '<p class="text-primary">Please click on the desired book to select/edit the record.';
 echo '<table class="table table-secondary table-striped table-hover table-bordered">';
 echo '<thead>';
 echo '<tr>';
