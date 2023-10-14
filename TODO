@@ -9,23 +9,34 @@ This is just listing what needs to be done in the next few days, not the whole p
 * php read in a header:
         $homepage = file_get_contents('http://www.example.com/');
         echo $homepage;
-
+* BIB search done
 
 <<<< TODO >>>>>
-* failed authentication: why not use logout?
-* Look at all FIXME and TODO
+* BIB search: ISBN needs to be done
+* BIB records: display, how many copies, how many are available.
 
 * Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
-* BIB records: display, how many copies, how many are available.
+* checkin / checkout
+
+* PAtron: PAC, login and display,
 
 * DELETE patron: check for fines, books out.
-
-* Is there any way of using CRUD for this?
 
 ** Users: add an admin user. 
                 Then have a usermaint page
                 also add/edit site announcements
+
+* night process: overdues, ...
+* staff place holds, holds filled upon CKI
+* Patron: place holds
+
+* failed authentication: why not use logout?
+* Look at all FIXME and TODO
+
+
+* Is there any way of using CRUD for this?
+
 
 -----------------------------------------
 Things I am NOT doing:

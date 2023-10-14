@@ -3,13 +3,22 @@
   Name: bibFind.php
   Called from: bibSearch.php
   Calls: - returns valid data to bibSearch via AJAX. 
-  		   if a match is found using a barcode or ISBN, then that book is displayed (bibEdit.php)
+  		 - if a match is found using a barcode, then that book is displayed (bibEdit.php)
+         - If there is an error in the barcode, or no Bib record is found, an error message is returned (via AJAX)
+		 - ISBN will not go directly to bibEdit.php but instead will show a list
+		   since our data has duplicate ISBNs.
   Purpose: uses search criteria passed in (via POST) to find matching books.
  ******************************************************************************/
 
 error_reporting(E_ALL);
 session_start();
 require_once('common.php');
+
+# Check authorization (ie. that the user is logged in) or go back to login page
+# This is important as the computer might be sitting for hours without being logged off and someone could search still...
+if ($_SESSION["authkey"] != AUTHKEY) { 
+    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
+}
 
 $db = connectToDB();
 
@@ -78,28 +87,55 @@ if (strlen($barcode) > 0) {
 	if ($result == "") echo "ERROR No book with this barcode";
 	else header("location:bibEdit.php?ID=$result");
 	return;
-
 }
+
 if (isset($_POST['ISBN']))  $ISBN = filter_var($_POST['ISBN'], FILTER_SANITIZE_NUMBER_INT);
 
-if (isset($_POST['title']))      { $title = clean_input($_POST['title']) .'%'; $title2 = "THE ".$title;}
-if (isset($_POST['author']))     $author = clean_input($_POST['author']) .'%';
-if (isset($_POST['subjects']))   $subjects = clean_input($_POST['subjects']) .'%';
-if (isset($_POST['callNumber'])) $callNumber= clean_input($_POST['callNumber']) .'%';
-
-# $sql = "SELECT students.studentID, students.firstname, students.lastname FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or studentID LIKE '$q%' ORDER BY lastname, firstname";
-# $sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE title LIKE ? AND author LIKE ? AND callNumber LIKE ? ORDER BY author, pubdate";
-# Handle titles that start with "the"
-$sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE (title LIKE ? OR title LIKE ?) AND author LIKE ? AND callNumber LIKE ? ORDER BY author, pubdate";
-if ($stmt = $db->prepare($sql)) {
-	$stmt->bind_param("ssss", $title, $title2, $author, $callNumber );
-	$stmt->execute(); 
-	$resultArray = $stmt->get_result();
-	$stmt->close();                 
+if (strlen($ISBN) > 0) {
+	$resultArray = queryISBN();
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $sql;
-	die($message_); 
+	$resultArray = queryMain();
+}
+
+function queryISBN() {
+	global $db, $ISBN;
+	//Find all BIB records
+	$sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE ISBN = ?";
+	if ($stmt = $db->prepare($sql)) {
+		$stmt->bind_param("i", $ISBN);
+		$stmt->execute(); 
+		$resultArray = $stmt->get_result();
+		$stmt->close();                 
+	} else {
+		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
+		$message_ .= 'SQL2: ' . $sql;
+		die($message_); 
+	}
+    return $resultArray;
+}
+
+function queryMain() {
+	global $db;
+	if (isset($_POST['title']))      { $title = clean_input($_POST['title']) .'%'; $title2 = "THE ".$title;}
+	if (isset($_POST['author']))     $author = clean_input($_POST['author']) .'%';
+	if (isset($_POST['subjects']))   $subjects = clean_input($_POST['subjects']) .'%';
+	if (isset($_POST['callNumber'])) $callNumber= clean_input($_POST['callNumber']) .'%';
+
+	# $sql = "SELECT students.studentID, students.firstname, students.lastname FROM students WHERE firstname LIKE '$q%' or lastname LIKE '$q%' or studentID LIKE '$q%' ORDER BY lastname, firstname";
+	# $sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE title LIKE ? AND author LIKE ? AND callNumber LIKE ? ORDER BY author, pubdate";
+	# Handle titles that start with "the"
+	$sql = "SELECT id as bibID, title, author, pubDate, ISBN, callNumber, subjects, createDate FROM bib WHERE (title LIKE ? OR title LIKE ?) AND author LIKE ? AND callNumber LIKE ? ORDER BY author, pubdate";
+	if ($stmt = $db->prepare($sql)) {
+		$stmt->bind_param("ssss", $title, $title2, $author, $callNumber );
+		$stmt->execute(); 
+		$resultArray = $stmt->get_result();
+		$stmt->close();                 
+	} else {
+		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
+		$message_ .= 'SQL2: ' . $sql;
+		die($message_); 
+	}
+	return $resultArray;
 }
 
 //general HTML now being written
