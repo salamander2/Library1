@@ -17,6 +17,8 @@
 .bg2 {background-color:#CAF;}
 .bg3 {background-color:#cfe2ff;} /* primary/info */
 .bg4 {background-color:#C9D5D5;} /* secondary */
+.bgU {background-color:#D1F7DD;} /* success */
+
 
 /* patronEdit */
 td.btns {width:25%;text-align:right;}

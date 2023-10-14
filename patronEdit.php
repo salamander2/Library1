@@ -117,15 +117,7 @@ while ($card = $libCards->fetch_assoc()){
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
 	<!-- <script src="resources/jquery-3.7.1.min.js"></script> -->
-<style>
-	.fg1 {color:#620;}	/* yellow */
-	.bg1 {background-color:#FFA;}
-	.fg2 {color:#518;} /* purple */
-	.bg2 {background-color:#CAF;}
-	.bg3 {background-color:#cfe2ff;} /* primary */
-	.bg4 {background-color:#C9D5D5;} /* secondary */
-	td.btns {width:25%;text-align:right;}
-</style>
+    <link rel="stylesheet" href="resources/library.css" >
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
