@@ -10,10 +10,10 @@ This is just listing what needs to be done in the next few days, not the whole p
         $homepage = file_get_contents('http://www.example.com/');
         echo $homepage;
 * BIB search done
-
-<<<< TODO >>>>>
 * BIB search: ISBN needs to be done
 * BIB records: display, how many copies, how many are available.
+
+<<<< TODO >>>>>
 
 * Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
@@ -34,14 +34,7 @@ This is just listing what needs to be done in the next few days, not the whole p
 * failed authentication: why not use logout?
 * Look at all FIXME and TODO
 
-
 * Is there any way of using CRUD for this?
-
-
------------------------------------------
-Things I am NOT doing:
-
-% library branches
 
 ------------------------------------------
 php filter_var()

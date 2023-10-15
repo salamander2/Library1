@@ -196,13 +196,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required value="<?=$patronData['firstname']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" required value="<?=$patronData['firstname']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		<div class="col-sm-8 col-md-6 col-lg-4">
 			<div class="input-group rounded">
 			<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
-			<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" required value="<?=$patronData['birthdate'] ?>"><span class="text-danger">&nbsp;*</span>
+			<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" required value="<?=$patronData['birthdate'] ?>"><span class="text-danger">&nbsp;*</span>
 		</div></div></div>
 
 		<h5 class="mt-3"><u>Address:</u></h5>
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			<div class="col-md-6">
 				<div class="input-group rounded">
 				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" required value="<?=$patronData['address']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="address" name="address" required value="<?=$patronData['address']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -227,19 +227,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			<div class="col-sm-6 col-md-4">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" required value="<?=$patronData['city']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="city" name="city" required value="<?=$patronData['city']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-lg-3 col-xxl-2">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" required value="<?=$patronData['prov']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" required value="<?=$patronData['prov']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$patronData['postalCode']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$patronData['postalCode']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>

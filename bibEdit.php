@@ -217,19 +217,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		<div class="col-sm-6 col-md-4">
 			<div class="input-group rounded">
 			<label for="pubDate" class="input-group-prepend btn btn-secondary">Pub. Date</label>
-			<input class="form-control bg4 rounded-end" type="text" id="pubDate" name="pubDate" required value="<?=$bibData['pubDate']?>"><span class="text-danger">&nbsp;*</span>
+			<input class="form-control bgS rounded-end" type="text" id="pubDate" name="pubDate" required value="<?=$bibData['pubDate']?>"><span class="text-danger">&nbsp;*</span>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4">
 			<div class="input-group rounded">
 			<label for="callNumber" class="input-group-prepend btn btn-secondary">Call NUmber</label>
-			<input class="form-control bg4 rounded-end" type="text" id="callNumber" name="callNumber" value="<?=$bibData['callNumber']?>">
+			<input class="form-control bgS rounded-end" type="text" id="callNumber" name="callNumber" value="<?=$bibData['callNumber']?>">
 			</div>
 		</div>
 		<div class="col-sm-6 col-lg-6 col-xl-4">
 			<div class="input-group rounded">
 			<label for="ISBN" class="input-group-prepend btn btn-secondary">ISBN</label>
-			<input class="form-control bg4 rounded-end" type="text" id="ISBN" name="ISBN" value="<?=$bibData['ISBN']?>">
+			<input class="form-control bgS rounded-end" type="text" id="ISBN" name="ISBN" value="<?=$bibData['ISBN']?>">
 			</div>
 		</div>
 	</div>

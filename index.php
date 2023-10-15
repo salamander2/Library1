@@ -188,17 +188,46 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 	<?php if ($error_message != "") echo $error_message; ?>
 
 	<div class="card border border-secondary alert alert-warning">
-		<div class="card-body">
-		<h3>Welcome to our library database project</h3>
-        <b><u>Status</u></b>
-		<p>So far the following is working:</p>
-		<ul>
-		<li>login and log out
-		<li>listing patrons
-		<li>adding a patron
-		</ul>
-
-		</div><!-- /card-body -->
+	<div class="card-body">
+		<div style="text-align:center">
+			<h3><b>Welcome to our library database project.</b><br>-= Status =-</h3>
+		</div>
+		<div class="row">
+			<div class="col">
+			<p class="alert alert-success">So far the following is working:</p>
+			<ul>
+				<li>login and log out
+				<li>patrons: responsive search, add, edit
+				<li>library cards: add, change status (via patron page)
+				<li>titles: seach (multiple fields), edit, add
+			</ul>
+			</div>
+			<div class="col">
+			<p class="alert alert-danger">The following is NOT YET working:</p>
+			<ul>
+				<li>checkout/check in books
+				<li>fines
+				<li>crontab to update status/fines overnight
+				<li>delete patron
+				<li>delete copies and titles
+				<li>placing and reconciling holds
+				<li>public access console (search)
+				<li>different user levels and different users
+				<li>patrons searching and placing holds
+			</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+			<p class="alert alert-dark">The following will not be implemented</p>
+			<ul>
+				<li>multiple library branches
+				<li>various patron types (senior, child, ...)
+				<li>different fine amounts for different materials/patron types
+			</ul>
+			</div>
+		</div>
+	</div><!-- /card-body -->
 	</div><!-- /card -->
 
 </div>

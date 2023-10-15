@@ -78,8 +78,8 @@ if ($stmt = $db->prepare($sql)) {
 	.bg1 {background-color:#FFA;}
 	.fg2 {color:#518;} /* purple */
 	.bg2 {background-color:#CAF;}
-	.bg3 {background-color:#cfe2ff;} /* primary */
-	.bg4 {background-color:#C9D5D5;} /* secondary */
+	.bgP {background-color:#cfe2ff;} /* primary */
+	.bgS {background-color:#C9D5D5;} /* secondary */
 </style>
 
 <style>
@@ -116,13 +116,13 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patronData['lastname']?>"><span class="text-danger"></span>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patronData['lastname']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" readonly value="<?=$patronData['firstname']?>"><span class="text-danger"></span>
+				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" readonly value="<?=$patronData['firstname']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>
@@ -130,7 +130,7 @@ if ($stmt = $db->prepare($sql)) {
 		<div class="col-sm-8 col-md-6 col-lg-4">
 			<div class="input-group rounded">
 			<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
-			<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
+			<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
 		</div></div></div>
 
 		<h5 class="mt-3"><u>Address:</u></h5>
@@ -138,7 +138,7 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-md-6">
 				<div class="input-group rounded">
 				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" readonly value="<?=$patronData['address']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="address" name="address" readonly value="<?=$patronData['address']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>
@@ -147,19 +147,19 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-6 col-md-4">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" readonly value="<?=$patronData['city']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="city" name="city" readonly value="<?=$patronData['city']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-lg-3 col-xxl-2">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" readonly value="<?=$patronData['prov']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" readonly value="<?=$patronData['prov']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$patronData['postalCode']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$patronData['postalCode']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>

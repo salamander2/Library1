@@ -38,6 +38,7 @@ $error_message = "";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
+    <link href="resources/library.css" rel="stylesheet">
 </head>
 
 <body>
@@ -62,8 +63,8 @@ $error_message = "";
 		<div class="card-body">
 		<div class="ml-3">
 		<a href="patronList.php"><button type="button" class="btn btn-success">Search Patrons</button></a>
-		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
 		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary">Books</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Reports</button></a>
 		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>
@@ -78,12 +79,11 @@ $error_message = "";
 		<p class="float-end"><span class="border-bottom border-end border-warning p-1">Today is <span id="date"></span></span></p>
 		<h3>Staff Announcements</h3>
 
-		<p> Here we will do the following:</p>
 		<ul>
-			<li>Patrons: update address, phone; add, delete; renew library card;
-			<li>Books: add new books to the library, discard, repair
-			<li>Reports: list of overdues, fines, etc.
-			<li>Handle fines, lost books, etc.
+			<li><i class="fa fa-crown"></i> Reminder: <b>the royal family</b> is coming for a visit in two weeks 
+			<li><i class="fa fa-book"></i> We just received <b>$10,000</b> to buy new aooks 
+			<li><i class="fa fa-mug-saucer"></i> Jane bought a <b>coffee maker</b> for us, it's in the staff lounge.
+			<li><i class="fa fa-jet-fighter"></i> This weekend is our <b>jet fighter ride</b> bonding experience!
 		</ul>
 
 		</div><!-- /card-body -->
@@ -92,7 +92,7 @@ $error_message = "";
 
 <script>
 	let text = (new Date()).toDateString();
-	document.getElementById("date").innerHTML = text;
+	document.getElementById("date").textContent = text;
 </script>
 </body>
 

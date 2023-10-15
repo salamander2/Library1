@@ -97,8 +97,8 @@ $patronData = "";
 	.bg1 {background-color:#FFA;}
 	.fg2 {color:#518;} /* purple */
 	.bg2 {background-color:#CAF;}
-	.bg3 {background-color:#cfe2ff;} /* primary */
-	.bg4 {background-color:#C9D5D5;} /* secondary */
+	.bgP {background-color:#cfe2ff;} /* primary */
+	.bgS {background-color:#C9D5D5;} /* secondary */
 </style>
 
 
@@ -126,13 +126,13 @@ echo $text;
 			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -140,7 +140,7 @@ echo $text;
 		<div class="col-sm-8 col-md-6 col-lg-4">
 			<div class="input-group rounded">
 				<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
-				<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" required><span class="text-danger">&nbsp;*</span>
 			</div>
 		</div></div>
 
@@ -149,7 +149,7 @@ echo $text;
 			<div class="col-md-6">
 				<div class="input-group rounded">
 				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="address" name="address" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -158,19 +158,19 @@ echo $text;
 			<div class="col-sm-6 col-md-4">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="city" name="city" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-lg-3 col-xxl-2">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>

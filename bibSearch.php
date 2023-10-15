@@ -121,7 +121,7 @@ echo $text;
 <h3>Search Books</h3>
 
 <form id="myForm" Xaction="bibFind.php" method="POST" onsubmit="return removeTHE()">
-<div class="row bg4 pb-2">
+<div class="row bgS pb-2">
   <div class="col-md-6">
     <label for="title" class="form-label">Title</label>
     <input type="text" class="form-control" name="title" id="title" autofocus="">
@@ -131,14 +131,14 @@ echo $text;
     <input type="text" class="form-control" name="author" id="author">
   </div>
 </div>
-<div class="row bg4">
+<div class="row bgS">
   <div class="col-md-6">
     <label for="inputCity" class="form-label">Subject</label>
     <input type="text" class="form-control" name="subjects" name="subjects" disabled placeholder="Subject field not available" readonly>
 	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Sorry, the database does not contain "subjects" for the books.</span> 
   </div>
 </div>
-<div class="row bg4 pb-2">
+<div class="row bgS pb-2">
   <div class="col-md-4">
     <label for="inputZip" class="form-label">Call Number</label>
     <input type="text" class="form-control" name="callNumber" id="callNumber" >
@@ -153,7 +153,7 @@ echo $text;
     <input type="text" class="form-control" name="ISBN" id="ISBN" >
   </div>
 </div>
-<div class="row bg4 pb-2">
+<div class="row bgS pb-2">
   <div class="col-12">
     <button type="submit" class="btn btn-primary">Search</button>
 	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Searching with no criteria returns all the books.</span>
