@@ -2,12 +2,13 @@
 /*******************************************************************************
   Name: bibFind.php
   Called from: bibSearch.php
-  Calls: - returns valid data to bibSearch via AJAX. 
+  Calls:
+  Purpose: uses search criteria passed in (via POST) to find matching books.
+         - returns valid data to bibSearch via AJAX. 
   		 - if a match is found using a barcode, then that book is displayed (bibEdit.php)
          - If there is an error in the barcode, or no Bib record is found, an error message is returned (via AJAX)
 		 - ISBN will not go directly to bibEdit.php but instead will show a list
 		   since our data has duplicate ISBNs.
-  Purpose: uses search criteria passed in (via POST) to find matching books.
  ******************************************************************************/
 
 error_reporting(E_ALL);

@@ -1,10 +1,11 @@
 <?php
 /*******************************************************
-* patronEdit.php
+* patronView.php
+* TODO:  This page needs to be actually written properly. It's just a copy of patronEdit so far.
+* ############################################################
 * called from patronList (by clicking on a patron)
 * 		 and also from patronUpdate
 * calls patronUpdate
-* This displays the patron data for editing.
 * It also displays library cards, and books out.
 ********************************************************/
 session_start();

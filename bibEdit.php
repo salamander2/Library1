@@ -1,11 +1,10 @@
 <?php
 /*******************************************************
-* bib.php
-* called from : XXX
-* calls XXX
-* This displays the patron data for editing.
-* It also displays library cards, and books out.
-* FIXME the next and previous patron buttons will show a blank entry if that patronID has been deleted.
+* bibEdit.php
+* called from : bibSearch.php
+* calls: xxx
+* This displays the title data for editing.
+* It also shows the copies (holdings). 
 ********************************************************/
 session_start();
 require_once('common.php');

@@ -3,8 +3,9 @@
 * bibList.php
 * 
 * This lists/searches all books, by various fields
-* Called from main.php
-* Calls   
+
+* Called from: main.php
+* Calls: bibFind.php, which sends back a table that calls bibEdit.php
 ********************************************************/
 session_start();
 require_once('common.php');

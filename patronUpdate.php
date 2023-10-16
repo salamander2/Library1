@@ -2,8 +2,8 @@
 /*******************************************************
 * patronUpdate.php 
 * Called from patronEdit.php
-* This updates the patron record, validation ... by JS
-* also some here.
+* This updates the patron record.
+* Validation has been done by JS, but more is done here.
 * This returns to patronEdit.php with a message upon success. 
 ********************************************************/
 session_start();

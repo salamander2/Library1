@@ -2,11 +2,10 @@
 /*******************************************************
 * patronEdit.php
 * called from patronList.php (by clicking on a patron)
-* 		 and also from patronUpdate
-* calls patronUpdate
+* 		 and also from patronUpdate and patronAdd
+* calls patronUpdate.php
 * This displays the patron data for editing.
 * It also displays library cards, and books out.
-* FIXME the next and previous patron buttons will show a blank entry if that patronID has been deleted.
 ********************************************************/
 session_start();
 require_once('common.php');

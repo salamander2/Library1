@@ -1,7 +1,7 @@
 <?php
 /*******************************************************
  * cardStatus.php 
- * Called from patronEdit.php
+ * Called from: patronEdit.php
  * This updates the Library Card status
  * This returns to patronEdit.php with a message upon success. 
  ********************************************************/
