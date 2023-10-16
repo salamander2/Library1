@@ -111,7 +111,40 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="resources/library.css" >
+
+<script>
+
+/* This displays a notification of the type specified. 
+   It is located wherever the following is: <div id="error_message"></div>
+   NOTE: you cannot display more than one error at a time. The second one replaces the earlier ones
+*/
+function displayNotification(type, message, duration = 3500) {
+	var text;
+	switch(type){
+	case "success":
+		text = '<div id="err" class="alert alert-success border border-success border-4 fw-bold w-50 mt-2">SUCCESS: '+message+'</div>';
+		break;
+	case "info":
+		text = '<div id="err" class="alert alert-primary border border-primary border-4 fw-bold w-50 mt-2">INFO: '+message+'</div>';
+		break;
+	case "warning":
+		text = '<div id="err" class="alert alert-warning border border-warning border-4 fw-bold w-50 mt-2">WARNING: '+message+'</div>';
+		break;
+	case "error":
+	default:
+		text = '<div id="err" class="alert alert-danger border border-danger border-4 fw-bold w-50 mt-2">ERROR: '+message+'</div>';
+		break;
+	}
+	var container = document.getElementById("error_message");
+	document.getElementById("error_message").innerHTML = text;
+    //for multiple notifications, make these nodes
+	//document.getElementById("error_message").appendChild(text);
+	const notification = document.getElementById("err");
+	const timeout = setTimeout(() => { container.removeChild(notification); }, duration);
+}
+</script>
 </head>
 
 <body>
@@ -121,13 +154,9 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 			var x, text;
 			x = document.getElementById("username").value;
 			if (!x || 0 === x.length) {
-				text = "You must include a username";
-				//text = "<div class=\"error\">" + text + "</div>";
-				document.getElementById("error_message").outerHTML =
-					'<div id="error_message" class="alert alert-danger w-50 mt-2"></div>';
-				document.getElementById("username").outerHTML =
-					'<input type="text" name="username" id="username"  class="form-control border-danger" placeholder="Username">';
-				document.getElementById("error_message").innerHTML = text;
+				displayNotification("error", "You must include a username");
+				document.getElementById("username").classList.add("border-danger");
+				//document.getElementById("username").outerHTML = '<input type="text" name="username" id="username"  class="form-control border-danger" placeholder="Username">';
 				document.getElementById("username").value = "";
 				return false;
 			}
