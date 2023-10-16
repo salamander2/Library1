@@ -1,13 +1,13 @@
 # Library1
 Demonstration Library Database - using PHP
 
-### [User Documentation](docs/UserDoc.md)
+### :scroll: [User Documentation](docs/UserDoc.md)
 
-### Programmer documentation
+### :weight_lifting_man: [Programmer documentation](docs/ProgrammerDoc.md)
 
 ### :book: [Organization of Data](docs/DataOrg.md)
 
-### :pear: [Template for PHP](docs/php_template.php)
+**Includes details of all SQL tables**
 
 
 
