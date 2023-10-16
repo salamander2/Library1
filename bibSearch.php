@@ -41,6 +41,10 @@ $error_message = "";
 
     <link rel="stylesheet" href="resources/library.css" >
 
+	<style>
+	.form-label { margin-top: .5rem; margin-bottom:0; }
+	</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
  // Get the form element
@@ -101,9 +105,6 @@ function removeTHE() {
 
 </script>
 
-<style>
-.form-label { margin-top: .5rem; margin-bottom:0; }
-</style>
 </head>
 
 <body>

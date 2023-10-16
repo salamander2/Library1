@@ -70,16 +70,16 @@ if ($patronData == null) header("Location:patronList.php");
 
 //TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
 
-/*
-+------------+--------------------------------+------+-----+-------------------+-------------------+
-| Field      | Type                           | Null | Key | Default           | Extra             |
-+------------+--------------------------------+------+-----+-------------------+-------------------+
-| barcode    | int unsigned                   | NO   | PRI | NULL              | auto_increment    |
-| patronId   | int unsigned                   | NO   | MUL | NULL              |                   |
-| status     | enum('VALID','LOST','EXPIRED') | NO   |     | VALID             |                   |
-| expiryDate | date                           | YES  |     | NULL              |                   |
-| createDate | timestamp                      | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+------------+--------------------------------+------+-----+-------------------+-------------------+
+/*  PATRON'S LIBRARY CARD DATA
++------------+---------------------------------+------+-----+-------------------+-------------------+
+| Field      | Type                            | Null | Key | Default           | Extra             |
++------------+---------------------------------+------+-----+-------------------+-------------------+
+| barcode    | int unsigned                    | NO   | PRI | NULL              | auto_increment    |
+| patronId   | int unsigned                    | NO   | MUL | NULL              |                   |
+| status     | enum('ACTIVE','LOST','EXPIRED') | NO   |     | VALID             |                   |
+| expiryDate | date                            | YES  |     | NULL              |                   |
+| createDate | timestamp                       | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+---------------------------------+------+-----+-------------------+-------------------+
 */
 $sql = "SELECT * FROM libraryCard WHERE patronID = ? ORDER BY expiryDate DESC";
  
@@ -97,6 +97,19 @@ if ($stmt = $db->prepare($sql)) {
 $validCard=false;
 while ($card = $libCards->fetch_assoc()){ 
 	if ($card['status'] == 'ACTIVE') $validCard = true;
+}
+
+/* PATRON: LIST OF BOOKS CHECKED OUT */
+$sql = "SELECT holdings.barcode, holdings.status, holdings.dueDate, holdings.bibID, bib.title, bib.author, bib.callNumber FROM holdings INNER JOIN bib ON holdings.bibID = bib.id WHERE holdings.patronID = ?;";
+if ($stmt = $db->prepare($sql)) {
+	$stmt->bind_param("i", $patronID);
+	$stmt->execute(); 
+	$booksOut = $stmt->get_result(); //->fetch_assoc();
+	$stmt->close();                 
+} else {
+	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
+	$message_ .= 'SQL2: ' . $query;
+	die($message_); 
 }
 ?>
 
@@ -276,14 +289,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	</form>
 </div></div> <!-- end of card-body and card -->
 
+<!-- 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID-1; ?>"><i class="fa fa-arrow-left"></i></a> Patron 
 <a class="btn btn-info rounded" href="patronEdit.php?ID=<?php echo $patronID+1; ?>"><i class="fa fa-arrow-right"></i></a>
-
-&nbsp;<button onclick="validateForm()" >Test</button> <br>
+-->
 
 <div class="card border-success mt-3">
 <div class="card-body">
-	<div class="card-head alert alert-success"> <h2>Library Cards
+	<div class="card-head alert fg2 bg2"> <h2>Library Cards
 <?php
 if ($validCard == false) {
 	//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
@@ -337,12 +350,54 @@ if($num_rows > 0) {
 	echo '</tbody>';
 	echo '</table>';
 }
+	echo '<hr>';
 
+	/*********** List of books out (table) ***************/
+	echo '<div class="card-head alert alert-success"> <h2>Books Out </h2></div>';
+
+
+$num_rows = mysqli_num_rows($booksOut);
+//Fields:  "SELECT holdings.barcode, holdings.status, holdings.dueDate, holdings.bibID, bib.title, bib.author, bib.callNumber .... ";
+if($num_rows > 0) {
+	// printing table rows: student name, student number
+	echo '<table class="table table-secondary table-striped table-hover table-bordered">';
+	echo '<thead>';
+	echo '<tr>';
+	echo '<th>Title</th>';
+	echo '<th>Author</th>';
+	echo '<th>Barcode</th>';
+	echo '<th>Status</th>';
+	echo '<th>Due Date</th>';
+	echo '<th>Call Number</th>';
+	echo '</tr>';
+	echo '</thead>';
+	echo '<tbody>';
+
+	// Reset our pointer since we've already done fetch_assoc
+	mysqli_data_seek( $booksOut, 0 );
+
+	while ($row = $booksOut->fetch_assoc()){ 
+		$status = $row['status'];
+		$barcode = $row['barcode'];
+		echo "<tr>";
+		echo "<td>".$row['title']. "</td>";
+		echo "<td>".$row['author']. "</td>";
+		echo "<td>".$barcode. "</td>";
+		echo "<td>".$status."</td>";
+		echo "<td>".$row['dueDate']. "</td>";
+		echo "<td>".$row['callNumber']. "</td>";
+		echo "</tr>";
+	} 
+
+	echo '</tbody>';
+	echo '</table>';
+}
 ?>
 
 </div></div> <!-- end of card-body and card -->
 </div>
 
+<button onclick="validateForm()" >Test</button> <br>
 <br><br><br>
 
 </body>

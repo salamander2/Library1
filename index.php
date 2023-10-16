@@ -111,6 +111,7 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/library.css" >
 </head>
 
 <body>
@@ -219,7 +220,7 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 		</div>
 		<div class="row">
 			<div class="col-6">
-			<p class="alert alert-dark">The following will not be implemented</p>
+			<p class="alert alert-dark">The following will NOT be implemented</p>
 			<ul>
 				<li>multiple library branches
 				<li>various patron types (senior, child, ...)

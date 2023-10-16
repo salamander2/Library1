@@ -38,18 +38,7 @@ $error_message = "";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
-<style>
-	#header {
-	  background-color:#e6cf8b;
-	  padding: 0 10px 5px 10px;
-	  color:#22264B;
-	}
-	#header hr {
-	  margin:0 -10px;
-	}
-	.smaller{ font-size:80%; }
-</style>
+    <link rel="stylesheet" href="resources/library.css" >
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {

@@ -72,15 +72,7 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
-<style>
-	.fg1 {color:#620;}	/* yellow */
-	.bg1 {background-color:#FFA;}
-	.fg2 {color:#518;} /* purple */
-	.bg2 {background-color:#CAF;}
-	.bgP {background-color:#cfe2ff;} /* primary */
-	.bgS {background-color:#C9D5D5;} /* secondary */
-</style>
+    <link rel="stylesheet" href="resources/library.css" >
 
 <style>
 	/* for Patron View page only */
