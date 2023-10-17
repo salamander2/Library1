@@ -179,7 +179,7 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 		</form>
 		</div>
 	</div>
-	<div class="col-3 offset-1"><img width=200 height=170 src="images/logoBG.png">
+	<div class="d-none d-md-block col-3 offset-1"><img width=200 height=170 src="images/logoBG.png">
 	</div>
 	</div> 
 	<div>&nbsp;</div>
