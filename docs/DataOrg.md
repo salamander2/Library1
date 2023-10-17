@@ -30,7 +30,7 @@ _All will have a creation timestamp_
 ## LibraryCard
 * key is barcode:  2xxxxyyyyy : x will be library code (0748) y is sequential number (99,999 cards only)
 * patron id (required, liked to Patron file, using foreign key, on delete cascade)
-* status (try enum: valid, lost, expired)    
+* status (enum: ACTIVE, LOST, EXPIRED)    
  (out of circulation: if a patron loses his/hers, we can never assign the same barcode to someone else)
 * expiry date (this will be set for a year from present or from their last birthday)
 * "createDate"(time stamp when record is created)
@@ -57,12 +57,12 @@ The above 4 things will be "unsigned int"
 * ckoDate (date). Date that the book was last checked out. 
 * dueDate (date). Date that book is due (if status = out or lost or CR).
 * prevPatron (link). This is the previous patron who had the book out.
-* media (link to meia list: book, DVD, audiobook, ..) (?) _ X No, we do not want this field. We can add it later._
-* language _X No we do not want this field. _
+* ~~media (link to media list: book, DVD, audiobook, ..)~~ _ X No, we do not want this field. We can add it later._
+* ~~language~~ _X No we do not want this field. _
 * "createDate"(time stamp when record is created)
 
 ## Status (status of books)
-* code (primary key) varchar(10)    Could this be an enum?
+* code (primary key) varchar(10)
 * description (40 chars, varchar)
 
 "code" will be IN, OUT, LOST, DAMAGED, DISCARD, REPAIRS, CR, ...     

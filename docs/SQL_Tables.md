@@ -1,4 +1,16 @@
+# 📚 DESCRIPTION OF ALL SQL TABLES 📊
+
 ## USERS
+
+```
+CREATE TABLE `users` (
+  `username` varchar(30) NOT NULL,
+  `fullname` varchar(50) NOT NULL DEFAULT '---',
+  `password` varchar(255) NOT NULL,
+  `lastLogin` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+```
 
 ```
 mysql> describe users;
@@ -13,15 +25,6 @@ mysql> describe users;
 4 rows in set (0.00 sec)
 ```
 
-```
-CREATE TABLE `users` (
-  `username` varchar(30) NOT NULL,
-  `fullname` varchar(50) NOT NULL DEFAULT '---',
-  `password` varchar(255) NOT NULL,
-  `lastLogin` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
-```
 
 ## PATRON
 
@@ -127,7 +130,7 @@ mysql> describe status;
 CREATE TABLE `libraryCard` (
   `barcode` int unsigned NOT NULL,
   `patronId` int unsigned NOT NULL,
-  `status` enum('VALID','LOST','EXPIRED') NOT NULL,
+  `status` enum('ACTIVE','LOST','EXPIRED') NOT NULL,
   `expiryDate` date DEFAULT NULL,
   PRIMARY KEY (`barcode`),
   KEY `patron_link` (`patronId`),
@@ -153,14 +156,14 @@ delimiter ;
 
 ```
 > describe libraryCard
-+------------+--------------------------------+------+-----+---------+-------+
-| Field      | Type                           | Null | Key | Default | Extra |
-+------------+--------------------------------+------+-----+---------+-------+
-| barcode    | int unsigned                   | NO   | PRI | NULL    |       |
-| patronId   | int unsigned                   | NO   | MUL | NULL    |       |
-| status     | enum('VALID','LOST','EXPIRED') | NO   |     | NULL    |       |
-| expiryDate | date                           | YES  |     | NULL    |       |
-+------------+--------------------------------+------+-----+---------+-------+
++------------+---------------------------------+------+-----+---------+-------+
+| Field      | Type                            | Null | Key | Default | Extra |
++------------+---------------------------------+------+-----+---------+-------+
+| barcode    | int unsigned                    | NO   | PRI | NULL    |       |
+| patronId   | int unsigned                    | NO   | MUL | NULL    |       |
+| status     | enum('ACTIVE','LOST','EXPIRED') | NO   |     | NULL    |       |
+| expiryDate | date                            | YES  |     | NULL    |       |
++------------+---------------------------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 ```
 
