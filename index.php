@@ -50,7 +50,7 @@ if(isset($_POST['submit'])) {
 	//Check if user exists, then verify password
 	$row_cnt = mysqli_num_rows($result);
 	if (0 === $row_cnt) {		
-		$error_message = "That user does not exist. <br><span class='small'>(Check case of username or talk to admin.)</span>";
+		$error_message = "That user does not exist. <br>(Check case of username or talk to admin.)";
 	} elseif (!password_verify ($password, $userdata['pwdHash'])) {
 		$error_message = "Invalid password";
 	}
@@ -59,7 +59,7 @@ if(isset($_POST['submit'])) {
 	$userdata['pwdHash'] = "";
 	
 	// error message ...
-	if ($error_message != "") $error_message = '<div class="alert text-white bg-danger w-50 mt-3"><b> '. $error_message .' </b></div>';
+	#####if ($error_message != "") $error_message = '<div class="alert text-white bg-danger w-50 mt-3"><b> '. $error_message .' </b></div>';
 	if (empty($error_message)) {
 		$_SESSION["userdata"] = $userdata;
 		//This is set here upon login (AND ALSO IN register.php)  and then session-authkey is never set again.
@@ -144,39 +144,36 @@ function displayNotification(type, message, duration = 3500) {
 	const notification = document.getElementById("err");
 	const timeout = setTimeout(() => { container.removeChild(notification); }, duration);
 }
+<!-- This form will call either login.php or register.php with the same fields. -->
+	function validateData() {
+		var x = document.getElementById("username").value;
+		if (!x || 0 === x.length) {
+			displayNotification("error", "You must include a username");
+			//document.getElementById("username").classList.add("border-danger");
+			document.getElementById("username").classList.toggle("is-invalid");
+			document.getElementById("username").value = "";
+			return false;
+		}
+		x = document.getElementById("password").value;
+		if (!x || 0 === x.length) {
+			var text = "You must include a password";
+			//text = "<div class=\"error\">" + text + "</div>";
+			document.getElementById("error_message").outerHTML =
+				'<div id="error_message" class="alert alert-danger w-50 mt-2"></div>';
+			document.getElementById("password").outerHTML =
+				'<input type="password" name="password" id="password" class="form-control border-danger" placeholder="Password">';
+			document.getElementById("error_message").innerHTML = text;
+			document.getElementById("password").value = "";
+			return false;
+		}
+
+		return true;
+	}
 </script>
+
 </head>
 
 <body>
-	<!-- This form will call either login.php or register.php with the same fields. -->
-	<script>
-		function validateData() {
-			var x, text;
-			x = document.getElementById("username").value;
-			if (!x || 0 === x.length) {
-				displayNotification("error", "You must include a username");
-				document.getElementById("username").classList.add("border-danger");
-				//document.getElementById("username").outerHTML = '<input type="text" name="username" id="username"  class="form-control border-danger" placeholder="Username">';
-				document.getElementById("username").value = "";
-				return false;
-			}
-			x = document.getElementById("password").value;
-			if (!x || 0 === x.length) {
-				text = "You must include a password";
-				//text = "<div class=\"error\">" + text + "</div>";
-				document.getElementById("error_message").outerHTML =
-					'<div id="error_message" class="alert alert-danger w-50 mt-2"></div>';
-				document.getElementById("password").outerHTML =
-					'<input type="password" name="password" id="password" class="form-control border-danger" placeholder="Password">';
-				document.getElementById("error_message").innerHTML = text;
-				document.getElementById("password").value = "";
-				return false;
-			}
-
-			return true;
-		}
-	</script>
-
 <span class="small" style="position:absolute;left:0px;top:0px;z-index:-1;"><?=$gitbranch ?></span>
 
 <div class="container-md mt-2">
@@ -214,8 +211,7 @@ function displayNotification(type, message, duration = 3500) {
 	<div>&nbsp;</div>
 	<!-- This is the JAVASCRIPT error message -->
 	<div id="error_message"></div>
-	<!-- This is the PHP error message -->
-	<?php if ($error_message != "") echo $error_message; ?>
+	<?php if ($error_message != "") echo "<script> displayNotification('error', \"$error_message\")</script>"; ?>
 
 	<div class="card border border-secondary alert alert-warning">
 	<div class="card-body">

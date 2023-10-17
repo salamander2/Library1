@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	</div>
 
 <div class="card-body">
-	<form action="patronUpdate.php" onsubmit="return $.fn.validateForm()" method="post">
+	<form action="patronUpdate.php" onsubmit="return validateForm()" method="post">
 		<div class="row text-secondary">
 		<div class="col-sm-2">ID: <?=$patronID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
 		</div>
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" Xrequired value="<?=$patronData['lastname']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			echo "</span>";
 			}
 		?>
-		<div id="error_message" class="float-end rounded text-white bg-danger px-2 py-1"></div>
+		<div id="error_message"></div>
 		</h4>
 
 	</form>
