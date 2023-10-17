@@ -124,17 +124,17 @@ function displayNotification(type, message, duration = 3500) {
 	var text;
 	switch(type){
 	case "success":
-		text = '<div id="err" class="alert alert-success border border-success border-4 fw-bold w-50 mt-2">SUCCESS: '+message+'</div>';
+		text = '<div id="err" class="alert alert-success border border-success border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-check"></i> SUCCESS: '+message+'</div>';
 		break;
 	case "info":
-		text = '<div id="err" class="alert alert-primary border border-primary border-4 fw-bold w-50 mt-2">INFO: '+message+'</div>';
+		text = '<div id="err" class="alert alert-primary border border-primary border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-comment-dots"></i> INFO: '+message+'</div>';
 		break;
 	case "warning":
-		text = '<div id="err" class="alert alert-warning border border-warning border-4 fw-bold w-50 mt-2">WARNING: '+message+'</div>';
+		text = '<div id="err" class="alert alert-warning border border-warning border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-triangle-exclamation"></i> WARNING: '+message+'</div>';
 		break;
 	case "error":
 	default:
-		text = '<div id="err" class="alert alert-danger border border-danger border-4 fw-bold w-50 mt-2">ERROR: '+message+'</div>';
+		text = '<div id="err" class="alert alert-danger border border-danger border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-sack-xmark"></i> ERROR: '+message+'</div>';
 		break;
 	}
 	var container = document.getElementById("error_message");
