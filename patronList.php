@@ -54,7 +54,7 @@ function dynamicData(str) {
         return;
     } 
 
-	var xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
@@ -75,7 +75,7 @@ function processBarcode(e) {
 		document.getElementById("dynTable").innerHTML = error;
 		return;
 	}
-	var xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
 		const data = JSON.parse(xhr.responseText);
 		if (data.patronID != null) {

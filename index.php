@@ -112,14 +112,11 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/library.css" >
-</head>
-
-<body>
 	<!-- This form will call either login.php or register.php with the same fields. -->
 	<script>
 		function validateData() {
-			var x, text;
-			x = document.getElementById("username").value;
+			let text = "";
+			let x = document.getElementById("username").value;
 			if (!x || 0 === x.length) {
 				text = "You must include a username";
 				//text = "<div class=\"error\">" + text + "</div>";
@@ -148,6 +145,9 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 		}
 	</script>
 
+</head>
+
+<body>
 <span class="small" style="position:absolute;left:0px;top:0px;z-index:-1;"><?=$gitbranch ?></span>
 
 <div class="container-md mt-2">
@@ -195,16 +195,16 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 		</div>
 		<div class="row">
 			<div class="col">
-			<p class="alert alert-success">So far the following is working:</p>
+			<p class="alert alert-success fw-bold">So far the following is working:</p>
 			<ul>
 				<li>login and log out
 				<li>patrons: responsive search, add, edit
 				<li>library cards: add, change status (via patron page)
-				<li>titles: seach (multiple fields), edit, add
+				<li>books: seach (multiple fields), edit, add
 			</ul>
 			</div>
 			<div class="col">
-			<p class="alert alert-danger">The following is NOT YET working:</p>
+			<p class="alert alert-danger fw-bold">The following is NOT YET working:</p>
 			<ul>
 				<li>checkout/check in books
 				<li>fines
@@ -220,7 +220,7 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 		</div>
 		<div class="row">
 			<div class="col-6">
-			<p class="alert alert-dark">The following will NOT be implemented</p>
+			<p class="alert alert-dark fw-bold">The following will NOT be implemented</p>
 			<ul>
 				<li>multiple library branches
 				<li>various patron types (senior, child, ...)

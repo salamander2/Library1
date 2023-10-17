@@ -19,8 +19,14 @@
 .bgS {background-color:#C9D5D5;} /* secondary */
 .bgU {background-color:#D1F7DD;} /* success */
 
+li {margin-bottom:5px;}
 
 /* patronEdit */
 td.btns {width:25%;text-align:right;}
-
-li {margin-bottom:5px;}
+/* bibEdit */
+td.IN {background-color:lightgreen !important;}
+td.OUT {background-color:olive !important;}
+td.LOST {background-color:orangered !important;}
+td.DAMAGED {background-color:rebeccapurple !important;color:white;}
+td.CR {background-color:saddlebrown !important;color:white;}
+td.REPAIR {background-color:#666 !important;color:white;}

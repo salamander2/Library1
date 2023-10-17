@@ -1,7 +1,8 @@
 This is just listing what needs to be done in the next few days, not the whole project.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->>>> DONE <<<<
+** DONE **
+
 * Patrons: list, search, add. 
 * Patrons: barcode search
 * patronView.php (light lavender header)
@@ -16,6 +17,8 @@ This is just listing what needs to be done in the next few days, not the whole p
 <<<< TODO >>>>>
 
 * Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
+
+* Harmonize all error messages. Move to new notify.js system
 
 * checkin / checkout
 
@@ -42,8 +45,8 @@ php filter_var()
 
 Sanitize then validate. Validate works a lot better than sanitizing.
 
-FILTER_VALIDATE_EMAIL
 FILTER_VALIDATE_INT
+FILTER_VALIDATE_EMAIL
 
 FILTER_SANITIZE_EMAIL
 Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].

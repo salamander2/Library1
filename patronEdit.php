@@ -18,6 +18,7 @@ if ($_SESSION["authkey"] != AUTHKEY) {
 # Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
 
 $db = connectToDB();
+//FIXME: this will be updated to new notification type messages
 if(isset($_SESSION["error_message"])) {
 	$error_message = $_SESSION["error_message"];
 	unset($_SESSION["error_message"]);
@@ -132,9 +133,9 @@ if ($stmt = $db->prepare($sql)) {
     <link rel="stylesheet" href="resources/library.css" >
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // anonymous inner (lambda) function goes here
-}); 
+//document.addEventListener("DOMContentLoaded", () => {
+  // anonymous inner function goes here
+//}); 
 
 /* Javascript input validation:
 	When possible, it's best to use JS validation. PHP validation is server based and slower.
@@ -142,24 +143,25 @@ document.addEventListener("DOMContentLoaded", () => {
 	We never have to make sure that the fields are filled in because "required" does that just fine.
 	So validate the actual data.
 	Jquery validation is not really worth it - unless you add in the validation plugin/library.
-	Validate: (1) email, (2) year of birth (patron must be between 6 and 120 years old
+
+	TO VALIDATE:  (1) email, (2) year of birth (patron must be between 6 and 120 years old
 	(3) Prov. two letters, capitalize them (4) Phone: 10 digits when () and - are removed.
 	
-	PHONE:  var phoneno = /^\d{10}$/;
+	PHONE:  let phoneno = /^\d{10}$/;
 	  if (!(inputtxt.value.match(phoneno)) return false;
 
 	EMAIL: 
-		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if(! inputText.value.match(mailformat)) ...
 }
- 
 */
 
-	function validateForm(){
+//FIXME: I need to write a general function for this. It's too much repeated code.
+	function validateForm() {
 		const inputs = ["firstname", "lastname", "birthdate", "address", "city", "prov", "postalCode"];
-		let retval = true;
 
-		//make sure all the the inputs are filled
+		//Make sure all the the inputs are filled. This is actually done by the "required" attribute in <input>
+		let retval = true;
 		inputs.forEach( function(input) {
 			let element = document.getElementById(input);
 			console.log(input);
@@ -170,17 +172,49 @@ document.addEventListener("DOMContentLoaded", () => {
 				element.className = "form-control is-valid";
 			}
 		});
-/*		//validate email
-		let email = document.getElementById("email");
-		if(validateEmail(email.value.trim())){
-			email.className = "form-control is-valid";
-		} else {
-			email.className = "form-control is-invalid";
-			retval = false;
+		if (retval === false) {
+			document.getElementById("error_message").innerHTML = "Missing Input";
+			return false;
+		}
+
+		//validate email if it exists
+		const email = document.getElementById("email");
+		email.className = "form-control is-valid";
+		let emailText = email.value.trim();
+		//if (emailText.length > 0) {
+		if (emailText != "") {
+			let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			if(! emailText.match(mailformat)) {
+				email.className = "form-control is-invalid";
+				document.getElementById("error_message").innerHTML = "Email is invalid";
+				return false;
+			} 		
+		}
+
+		//validate PROV.
+		const prov = document.getElementById("prov");
+		prov.className = "form-control is-valid";
+		let provText = prov.value.trim().toUpperCase();
+		if (! provText.match('^[A-Z]{2}$')) {
+			prov.className = "form-control is-invalid";
+			document.getElementById("error_message").innerHTML = "Province is invalid";
+			return false;
+		}
+
+/*
+		//FIXME this does not work!
+		let regex = '^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$';
+		const phone = document.getElementById("phone");
+		phone.className = "form-control is-valid";
+		let phoneText = prov.value.trim();
+		if (! phoneText.match(regex)) {
+			phone.className = "form-control is-invalid";
+			document.getElementById("error_message").innerHTML = "Invalid phone number format";
+			return false;
 		}
 */
-		if (retval === false) document.getElementById("error_message").innerHTML = "Invalid Input";
-		return retval;
+
+		return true;
 	}
 	 
 </script>
@@ -199,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	</div>
 
 <div class="card-body">
-	<form action="patronUpdate.php" onsubmit="return $.fn.validateForm()" method="post">
+	<form action="patronUpdate.php" onsubmit="return validateForm()" method="post">
 		<div class="row text-secondary">
 		<div class="col-sm-2">ID: <?=$patronID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
 		</div>

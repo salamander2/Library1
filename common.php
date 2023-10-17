@@ -86,7 +86,7 @@ function loadHeader(String $backHref="main.php"){
 //TODO add in ELSE statement in case the html file is missing. Then just print this standard code.
 }
 
-/*********************
+/*************************************************
 * Simple code to sanitize strings. 
   AddSlashes is a pain. The would have to be removed before being displayed.
   It's unnecessary since I'm using prepared statements.
@@ -98,7 +98,7 @@ function loadHeader(String $backHref="main.php"){
      &amp; &lt; &gt;  " and ' -- options to allow/disable quotes
 * htmlspecialchars() is good enough and better than using htmlentities()
 * addslashes  -- quote string with slashes
-**********************/
+**************************************************/
 function clean_input($string) {
     $string = trim(htmlspecialchars($string));
     //$string = trim(strip_tags(addslashes($string)));

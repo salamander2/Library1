@@ -91,7 +91,7 @@ function postForm(form) {
 }
 
 function removeTHE() {
-	var title = document.getElementById("title").value;
+	let title = document.getElementById("title").value;
 	if (title.trim().toUpperCase().startsWith("THE ")) {
 			title = title.substring(4);
 			document.getElementById("title").value = title;

@@ -49,8 +49,10 @@ if ($stmt = $db->prepare($sql)) {
 //FIXME add message when returning. PatronList needs to handle messages.
 if ($bibData == null) header("Location:bibSearch.php");
 
-
-$sql = "SELECT * FROM holdings where bibID = ?";
+/************ Get the Holdings records for this BIB *********/
+#$sql = "SELECT * FROM holdings where bibID = ?";
+//This will get the name of the patron if the book is out.
+$sql = "SELECT holdings.*, patron.lastname, patron.firstname FROM holdings LEFT JOIN patron on holdings.patronID = patron.id WHERE holdings.bibID = ?";
 if ($stmt = $db->prepare($sql)) {
 	$stmt->bind_param("i", $bibID);
 	$stmt->execute(); 
@@ -272,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 $num_rows = mysqli_num_rows($holdings);
 if($num_rows > 0) {
 	// printing table rows: student name, student number
-	echo '<table class="table table-secondary table-striped table-hover table-bordered">';
+	echo '<table class="table table-secondary Xtable-striped table-hover table-bordered">';
 	echo '<thead>';
 	echo '<tr>';
 	echo '<th>Barcode</th>';
@@ -291,13 +293,21 @@ if($num_rows > 0) {
 		$status = $copy['status'];
 		$barcode = $copy['barcode'];
 		$cost = '$'.($copy['cost']/100);
-		echo "<tr>";
+		$patron = "";
+		if ($copy['patronID'] != NULL) $patron = $copy['lastname'].", ".$copy['firstname'];
+		$prevPatron = $copy['prevPatron'];
+		echo "<tr class='align-middle'>";
 		echo "<td>".$barcode. "</td>";
-		echo "<td>".$status."</td>";
-		echo "<td>".$copy['patronID']."<br>(".$copy['prevPatron'].")</td>";
+		echo "<td class=\"$status\">".$status."</td>";
+		//echo "<td>".$copy['patronID']."<br>(".$prevPatron.")</td>";
+		echo "<td>".$patron;
+#		echo "<td>".$copy['patronID'];
+		if ($prevPatron != "") echo"<br>(".$prevPatron.")";
+		echo "</td>";
 		echo "<td>".$cost. "</td>";
-		//echo "<td>".strtok($copy['createDate']," "). "</td>";
-		echo "<td>".$copy['dueDate']."<br>(".$copy['ckoDate'].")</td>";
+		echo "<td>".$copy['dueDate'];
+		if ($status != "IN") echo "<br>(".$copy['ckoDate'].")";
+		echo "</td>";
 		echo "</tr>";
 	} 
 
