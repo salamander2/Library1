@@ -19,7 +19,7 @@ if ($_SESSION["authkey"] != AUTHKEY) {
 $db = connectToDB();
 $error_message = "";
 
-	$patronID = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+	$id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
 	$firstname=$lastname=$address=$city=$prov=$postalCode=$phone=$email=$birthdate="";
 	if (isset($_POST['firstname'])) $firstname = clean_input($_POST['firstname']);
@@ -34,7 +34,7 @@ $error_message = "";
 
 	$sql = "UPDATE patron SET firstname=?, lastname=?, address=?, city=?, prov=?, postalCode=?, phone=?, email=?, birthdate=? WHERE id=?";
 	if ($stmt = $db->prepare($sql)) {
-		$stmt->bind_param("sssssssssi", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $birthdate, $patronID );
+		$stmt->bind_param("sssssssssi", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $birthdate, $id );
 		$stmt->execute();
 		$stmt->close();
 	} else {
@@ -45,4 +45,4 @@ $error_message = "";
 
 	$_SESSION['success_message'] = "Patron record has been updated.";
 
-header("location:patronEdit.php?ID=$patronID");
+header("location:patronEdit.php?ID=$id");

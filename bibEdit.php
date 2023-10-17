@@ -141,31 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 */
 
 	function validateForm(){
-		const inputs = ["firstname", "lastname", "birthdate", "address", "city", "prov", "postalCode"];
-		let retval = true;
-
-		//make sure all the the inputs are filled
-		inputs.forEach( function(input) {
-			let element = document.getElementById(input);
-			console.log(input);
-			if(element.value === "") {
-				element.className = "form-control is-invalid";
-				retval = false;
-			} else {
-				element.className = "form-control is-valid";
-			}
-		});
-/*		//validate email
-		let email = document.getElementById("email");
-		if(validateEmail(email.value.trim())){
-			email.className = "form-control is-valid";
-		} else {
-			email.className = "form-control is-invalid";
-			retval = false;
-		}
-*/
-		if (retval === false) document.getElementById("error_message").innerHTML = "Invalid Input";
-		return retval;
+		return true;
 	}
 	 
 </script>
@@ -189,11 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	<div class="row text-secondary smaller">
 		<div class="col-sm-2">ID: <?=$bibID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($bibData['createDate'], " ")?></div>
 	</div>
-<form id="myForm" Xaction="bibUpdate.php" method="POST" onsubmit="return removeTHE()">
+<form id="myForm" action="bibUpdate.php" method="POST" onsubmit="return validateForm()">
 
 	<div class="row my-2">
 		<div class="col-12"><div class="input-group rounded">
-			<!-- FIXME title needs to be textarea -->
+			<!-- FIXME ? on smaller screens the title might run past the end. So maybe make it a textArea -->
 			<label for="title" class="input-group-prepend btn btn-success">Title</label>
 			<input class="form-control bgU rounded-end" type="text" id="title" name="title" required value="<?=$bibData['title']?>"><span class="text-danger">&nbsp;*</span>
 		</div></div>
@@ -265,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	<h2>Copies <span class="smaller">&mdash; Holdings record</span>
 <?php
 	//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
-	echo '<a class="float-end btn btn-outline-success rounded" Xhref="cardAdd.php?id='.$bibID.'"><i class="fa fa-circle-plus"></i>  Add Copy</a>';
+	echo '<a class="float-end btn btn-outline-success rounded" Xhref="holdingsAdd.php?id='.$bibID.'"><i class="fa fa-circle-plus"></i>  Add Copy</a>';
 ?>
 	</h2></div>
 
