@@ -39,13 +39,9 @@ if(isset($_POST['submit'])) {
 		$patronID = $stmt->insert_id;
 		$stmt->close();
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL: ' . $sql;
-		die($message_);
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 	$_SESSION['success_message'] = "Patron record has been created.";
-
-die("patron = ".$patronID);
 
 	header("location:patronEdit.php?ID=$patronID");
 

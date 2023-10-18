@@ -8,6 +8,7 @@
 /**********  ERROR REPORTING  **********/
 // Development
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 
 // Production
@@ -63,9 +64,7 @@ function runSimpleQuery($mysqli, $sql_) {
 
     // Check result. This shows the actual query sent to MySQL, and the error. Useful for debugging.
     if (!$result) {
-       $message_  = 'Invalid query: ' . mysqli_error($mysqli) . "\n<br>";
-       $message_ .= 'SQL: ' . $sql_;
-       die($message_);
+		die("Invalid query: " . mysqli_error($mysqli) . "\n<br>SQL: $sql_");
     }
     return $result;
 }

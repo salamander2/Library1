@@ -40,9 +40,7 @@ if ($stmt = $db->prepare($sql)) {
 	$bibData = $stmt->get_result()->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 //someone is trying to look at a bib record that doesn't exist
@@ -59,8 +57,6 @@ if ($stmt = $db->prepare($sql)) {
 	$holdings = $stmt->get_result(); //->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
 	die($message_); 
 }
 

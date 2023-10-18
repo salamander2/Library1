@@ -19,9 +19,8 @@ if (isset($username)){
 	$_SESSION["username"] = "";
 }
 
-//TODO: Add in a connect time, that's udpdated for every action. If the connect time is more than 6 hours old, logout the user.
-
-//TODO: If this page is ever loaded, logout the user.
+// If this page is ever loaded, logout the user.
+$_SESSION["authkey"] = "";
 
 $db = connectToDB();
 $error_message = "";
@@ -32,7 +31,6 @@ if(isset($_POST['submit'])) {
 	$username = clean_input($_POST['username']);
 	$password = $_POST["password"];
 
-
 	//Retrieve all data for that user and verify the password for that user. It is stored into an array "userdata".
 	$sql = "SELECT username, fullname, password as pwdHash, authlevel, createDate, lastLogin FROM users WHERE username = BINARY ?";
 	if ($stmt = $db->prepare($sql)) {
@@ -42,9 +40,7 @@ if(isset($_POST['submit'])) {
 		$userdata = $result->fetch_array(MYSQLI_ASSOC);
 		$stmt->close();
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL: ' . $sql;
-		die($message_);
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 
 	//Check if user exists, then verify password
@@ -72,9 +68,7 @@ if(isset($_POST['submit'])) {
 			$stmt->execute();
 			$stmt->close();
 		} else {
-			$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-			$message_ .= 'SQL: ' . $sql;
-			die($message_);
+			die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 		}
 /*
 		if ($username == ADMINUSER) {

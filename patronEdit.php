@@ -59,9 +59,7 @@ if ($stmt = $db->prepare($sql)) {
 	$patronData = $stmt->get_result()->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 //someone is trying to look at a patron record that doesn't exist
@@ -89,9 +87,7 @@ if ($stmt = $db->prepare($sql)) {
 	$libCards = $stmt->get_result(); //->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 $validCard=false;
@@ -107,9 +103,7 @@ if ($stmt = $db->prepare($sql)) {
 	$booksOut = $stmt->get_result(); //->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 ?>
 

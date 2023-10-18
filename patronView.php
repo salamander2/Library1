@@ -36,9 +36,7 @@ if ($stmt = $db->prepare($sql)) {
 	$patronData = $stmt->get_result()->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 //TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
@@ -51,9 +49,7 @@ if ($stmt = $db->prepare($sql)) {
 	$libCards = $stmt->get_result(); //->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 ?>
 

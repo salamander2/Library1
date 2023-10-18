@@ -27,9 +27,7 @@ if (strlen($patronBC) != 0) {
 		$stmt->fetch();
 		$stmt->close();                 
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL2: ' . $sql;
-		die($message_); 
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 	$obj=new stdClass;
 	$obj->patronID=$result;
@@ -51,9 +49,7 @@ if ($stmt = $db->prepare($sql)) {
 	$resultArray = $stmt->get_result();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $sql;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 

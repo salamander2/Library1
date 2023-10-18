@@ -81,9 +81,7 @@ if (strlen($barcode) > 0) {
 		$stmt->fetch();
 		$stmt->close();                 
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL2: ' . $sql;
-		die($message_); 
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 	if ($result == "") echo "ERROR No book with this barcode";
 	else header("location:bibEdit.php?ID=$result");
@@ -132,9 +130,7 @@ function queryMain() {
 		$resultArray = $stmt->get_result();
 		$stmt->close();                 
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL2: ' . $sql;
-		die($message_); 
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 	return $resultArray;
 }

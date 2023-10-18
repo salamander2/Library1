@@ -38,9 +38,7 @@ $error_message = "";
 		$stmt->execute();
 		$stmt->close();
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL: ' . $sql;
-		die($message_);
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 
 	$_SESSION['success_message'] = "Patron record has been updated.";
