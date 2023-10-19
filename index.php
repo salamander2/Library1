@@ -11,6 +11,7 @@ Calls: main.php (the home page)
 *****************************************************************************/
 
 session_start();
+//NOTE: common.php has an exclusion clause for this page (index.php)
 require_once('common.php');
 
 //Override the common.php functionality. Username needs to be cleared because this is a login page.
@@ -46,17 +47,16 @@ if(isset($_POST['submit'])) {
 	//Check if user exists, then verify password
 	$row_cnt = mysqli_num_rows($result);
 	if (0 === $row_cnt) {		
-		$error_message = "That user does not exist. <br><span class='small'>(Check case of username or talk to admin.)</span>";
+		$notify["message"] = "That user does not exist. <br><span class='small'>(Check case of username or talk to admin.)</span>";
 	} elseif (!password_verify ($password, $userdata['pwdHash'])) {
-		$error_message = "Invalid password";
+		$notify["message"] = "Invalid password";
 	}
 	//Password has been checked, now clear the variable for security reasons.
 	$password = "---";
 	$userdata['pwdHash'] = "";
 	
 	// error message ...
-	if ($error_message != "") $error_message = '<div class="alert text-white bg-danger w-50 mt-3"><b> '. $error_message .' </b></div>';
-	if (empty($error_message)) {
+	if (empty($notify["message"])) {
 		$_SESSION["userdata"] = $userdata;
 		//This is set here upon login (AND ALSO IN register.php)  and then session-authkey is never set again.
 		$_SESSION["authkey"] = AUTHKEY;
@@ -78,18 +78,10 @@ if(isset($_POST['submit'])) {
 		}
 */
 
-		header('Location:main.php');
+		header('LOCATION:main.php');
 	}
+	
 }
-
-//For development:
-//"shell_exec() or exec() do not allow full ls listing.
-//Also, running "git branch" doesn't work either
-//$gitbranch = "Current branch: ".(exec('git branch --show-current'));
-$gitbranch = file('.git/HEAD', FILE_USE_INCLUDE_PATH)[0];
-$gitbranch = explode("/", $gitbranch, 3)[2]; //seperate out by the "/" in the string, take branchname
-if (trim($gitbranch) == "master") $gitbranch = "";
-else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,31 +98,22 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/library.css" >
-	<!-- This form will call either login.php or register.php with the same fields. -->
+	<script src="resources/library.js"></script>
+
 	<script>
 		function validateData() {
-			let text = "";
-			let x = document.getElementById("username").value;
+			var x = document.getElementById("username").value;
 			if (!x || 0 === x.length) {
-				text = "You must include a username";
-				//text = "<div class=\"error\">" + text + "</div>";
-				document.getElementById("error_message").outerHTML =
-					'<div id="error_message" class="alert alert-danger w-50 mt-2"></div>';
-				document.getElementById("username").outerHTML =
-					'<input type="text" name="username" id="username"  class="form-control border-danger" placeholder="Username">';
-				document.getElementById("error_message").innerHTML = text;
+				displayNotification("error", "You must include a username");
+				//document.getElementById("username").classList.add("border-danger");
+				document.getElementById("username").classList.toggle("is-invalid");
 				document.getElementById("username").value = "";
 				return false;
 			}
 			x = document.getElementById("password").value;
 			if (!x || 0 === x.length) {
-				text = "You must include a password";
-				//text = "<div class=\"error\">" + text + "</div>";
-				document.getElementById("error_message").outerHTML =
-					'<div id="error_message" class="alert alert-danger w-50 mt-2"></div>';
-				document.getElementById("password").outerHTML =
-					'<input type="password" name="password" id="password" class="form-control border-danger" placeholder="Password">';
-				document.getElementById("error_message").innerHTML = text;
+				displayNotification("error", "You must include a password");
+				document.getElementById("password").classList.toggle("is-invalid");
 				document.getElementById("password").value = "";
 				return false;
 			}
@@ -142,7 +125,6 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 </head>
 
 <body>
-<span class="small" style="position:absolute;left:0px;top:0px;z-index:-1;"><?=$gitbranch ?></span>
 
 <div class="container-md mt-2">
 	<h2 class="bg-warning text-center rounded py-3">The <?=$institution?> Public Libary</h2>
@@ -176,11 +158,12 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 	<div class="d-none d-md-block col-3 offset-1"><img width=200 height=170 src="images/logoBG.png">
 	</div>
 	</div> 
+
 	<div>&nbsp;</div>
 	<!-- This is the JAVASCRIPT error message -->
-	<div id="error_message"></div>
-	<!-- This is the PHP error message -->
-	<?php if ($error_message != "") echo $error_message; ?>
+	<div id="notif_container"></div>
+	<!-- // This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 
 	<div class="card border border-secondary alert alert-warning">
 	<div class="card-body">

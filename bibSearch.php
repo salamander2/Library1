@@ -10,17 +10,6 @@
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-# TODO Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-
-$error_message = "";
-
 ?>
 
 <!DOCTYPE html>
@@ -30,20 +19,20 @@ $error_message = "";
 	<title><?=$institution?> Library Database</title>
 	<!-- Required meta tags -->
 	<title>Library Database — 2023</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="resources/bootstrap5.min.css" >
-    <!-- our project just needs Font Awesome Solid + Brands -->
-    <!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
-    <link href="resources/fontawesome6.min.css" rel="stylesheet">
-    <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
-    <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="resources/library.css" >
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="resources/bootstrap5.min.css" >
+  <!-- our project just needs Font Awesome Solid + Brands -->
+  <!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
+  <link href="resources/fontawesome6.min.css" rel="stylesheet">
+  <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
+  <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="resources/library.css" >
+	<script src="resources/library.js"></script>
 
 	<style>
-	.form-label { margin-top: .5rem; margin-bottom:0; }
+    .form-label { margin-top: .5rem; margin-bottom:0; }
 	</style>
 
 <script>
@@ -61,20 +50,26 @@ document.addEventListener("DOMContentLoaded", () => {
 function postForm(form) {
 
 	const xhr = new XMLHttpRequest();
-    const myForm = new FormData(form);
+  const myForm = new FormData(form);
 
-	document.getElementById("error_message").innerHTML = "";
+	//document.getElementById("error_message").innerHTML = "";
 	xhr.onload = () => {
-		//The repsonseText can begin with "ERROR". If so, it is handled differently
+		//The responseText can begin with "ERROR". If so, it is handled differently
 		if (xhr.responseText.startsWith("ERROR ")) {
-
-			document.getElementById("error_message").innerHTML = '<div class="btn btn-danger w-50 mt-2">'+xhr.responseText+'</div>';
+      errorMsg = xhr.responseText.replace("ERROR ","");
+			//document.getElementById("error_message").innerHTML = '<div class="btn btn-danger w-50 mt-2">'+xhr.responseText+'</div>';
+      displayNotification("error", errorMsg);
 			document.getElementById("searchTips").style = "display:block";
 			document.getElementById("barcode").value="";
 			document.getElementById("barcode").focus();
-
 			return;
 		}
+		//The responseText can begin with "LOCATION". This is from an exact barcode search.
+		if (xhr.responseText.startsWith("LOCATION ")) {
+      window.location.href = xhr.responseText.replace("LOCATION ","");
+      return;
+    }
+
 		document.getElementById("searchTips").style = "display:none";
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
@@ -113,13 +108,8 @@ function removeTHE() {
 <div class="container-md mt-2">
 
 <!-- page header -->
-<?php $backHref="main.php";
-$text = file_get_contents("pageHeader.html");
-$text = str_replace("BACK", $backHref,$text);
-$text = str_replace("INSTITUTION", $institution,$text);
-echo $text;
+<?php loadHeader("main.php"); ?>
 
-?>
 <h3>Search Books</h3>
 
 <form id="myForm" Xaction="bibFind.php" method="POST" onsubmit="return removeTHE()">
@@ -163,9 +153,8 @@ echo $text;
 </div>
 </form>
 	<!-- This is the JAVASCRIPT error message -->
-	<div id="error_message"></div>
-	<!-- This is the PHP error message -->
-	<?php if ($error_message != "") echo $error_message; ?>
+  <div id="notif_container"></div>
+  <?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 <div id="searchTips">
 &nbsp;
 <div class="row alert alert-success">The searches are done on partial text and combined using AND. So the more information added, the more restrictive the search.<br>

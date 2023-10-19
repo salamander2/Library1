@@ -3,22 +3,12 @@
 * patronList.php
 * 
 * This lists all patrons, searched by name, phone ...
+* No error messages or other notifications happen on this page.
 * Called from main.php
 * Calls patronEdit, patronAdd 
 ********************************************************/
 session_start();
 require_once('common.php');
-
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-# TODO Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-
-$error_message = "";
 
 ?>
 
@@ -39,6 +29,7 @@ $error_message = "";
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/library.css" >
+	<script src="resources/library.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -54,6 +45,7 @@ function dynamicData(str) {
         return;
     } 
 
+    document.getElementById("barcode").value = "";
 	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
@@ -71,23 +63,20 @@ function processBarcode(e) {
 
     //validation of the input...
 	if (isNaN(str)) {
-		error="<div class='bg-danger'>Error: invalid barcode</div>";
-		document.getElementById("dynTable").innerHTML = error;
+		displayNotification("error", "Invalid barcode");
 		return;
 	}
 	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
 		const data = JSON.parse(xhr.responseText);
 		if (data.patronID != null) {
-			window.document.location='patronEdit.php?ID='+data.patronID;
+			window.location.href='patronEdit.php?ID='+data.patronID;
 		} else {
-		   error="<div class='bg-danger'>Error:  barcode not found</div>";
-		   document.getElementById("dynTable").innerHTML = error;
+		   displayNotification("error", "Barcode not found");
 		}
 	}
 	xhr.onerror = () => {
-	   error="<div class='bg-danger'>Error:  Barcode not found</div>";
-	   document.getElementById("dynTable").innerHTML = error;
+		displayNotification("error", "Barcode not found");
 	}
 	xhr.open("GET", "patronFind.php?bar=" + str, true);
 	xhr.send();
@@ -100,13 +89,8 @@ function processBarcode(e) {
 <div class="container-md mt-2">
 
 <!-- page header -->
-<?php $backHref="main.php";
-$text = file_get_contents("pageHeader.html");
-$text = str_replace("BACK", $backHref,$text);
-$text = str_replace("INSTITUTION", $institution,$text);
-echo $text;
+<?php loadHeader("main.php"); ?>
 
-?>
 <h3>Search for a patron</h3>
 <div class="row mt-4">
 <div class="input-group">
@@ -122,12 +106,13 @@ echo $text;
 	</div>
 </div>
 </div>
+<!-- This is the JAVASCRIPT error message -->
+<div id="notif_container"></div>
+<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 
 <!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
 <div id="dynTable" class="mt-4"></div>
 
-
 </div>
 </body>
-
 </html>

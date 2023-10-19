@@ -9,15 +9,6 @@
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-$error_message = "";
 
 /*  describe bib;
 +------------+-----------------+------+-----+-------------------+-------------------+
@@ -36,7 +27,7 @@ $error_message = "";
 	$id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
 	$title=$author=$address=$callNumber=$pubDate=$ISBN="";
-	//if (isset($_POST['firstname'])) $firstname = clean_input($_POST['firstname']);
+	//TODO do we need to check if these variables are set first?  //if (isset($_POST['firstname'])) $firstname = clean_input($_POST['firstname']);
 	$title = clean_input($_POST['title']);
 	$author= clean_input($_POST['author']);
 	$callNumber = clean_input($_POST['callNumber']);
@@ -53,6 +44,6 @@ $error_message = "";
 		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 
-	$_SESSION['success_message'] = "Title record has been updated.";
+	$_SESSION['notify'] = array("type"=>"success", "message"=>"Title record has been updated.");
 
 header("location:bibEdit.php?ID=$id");

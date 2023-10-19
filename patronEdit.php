@@ -10,45 +10,13 @@
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-//FIXME: this will be updated to new notification type messages
-if(isset($_SESSION["error_message"])) {
-	$error_message = $_SESSION["error_message"];
-	unset($_SESSION["error_message"]);
-} else $error_message = "";
-if(isset($_SESSION["success_message"])) {
-	$success_message = $_SESSION["success_message"];
-	unset($_SESSION["success_message"]);
-} else $success_message = "";
-
-/* 
-+------------+--------------+------+-----+-------------------+-------------------+
-| Field      | Type         | Null | Key | Default           | Extra             |
-+------------+--------------+------+-----+-------------------+-------------------+
-| id         | int unsigned | NO   | PRI | NULL              | auto_increment    |
-| firstname  | varchar(30)  | NO   |     | NULL              |                   |
-| lastname   | varchar(30)  | NO   |     | NULL              |                   |
-| address    | varchar(255) | NO   |     | NULL              |                   |
-| city       | varchar(100) | NO   |     | NULL              |                   |
-| prov       | varchar(2)   | NO   |     | NULL              |                   |
-| postalCode | varchar(6)   | NO   |     | NULL              |                   |
-| phone      | varchar(20)  | YES  |     | NULL              |                   |
-| email      | varchar(50)  | YES  |     | NULL              |                   |
-| birthdate  | date         | NO   |     | NULL              |                   |
-| createDate | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+------------+--------------+------+-----+-------------------+-------------------+
-*/
+if(isset($_SESSION["notify"])) $notify = $_SESSION["notify"] ;
 
 $patronID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
-//FIXME add message when returning. PatronList needs to handle messages.
-if (strlen($patronID) == 0) header("Location:patronList.php"); 
+if (strlen($patronID) == 0) {
+	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid patron id. That patron doesn't exist.");	
+	header("Location:patronList.php"); 
+}
 
 $patronData = "";
 
@@ -64,7 +32,10 @@ if ($stmt = $db->prepare($sql)) {
 
 //someone is trying to look at a patron record that doesn't exist
 //FIXME add message when returning. PatronList needs to handle messages.
-if ($patronData == null) header("Location:patronList.php");
+if ($patronData == null) {
+	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid patron id.");	
+	header("Location:patronList.php");
+}
 
 //TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
 
@@ -125,6 +96,7 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
 	<!-- <script src="resources/jquery-3.7.1.min.js"></script> -->
     <link rel="stylesheet" href="resources/library.css" >
+	<script src="resources/library.js"></script>		
 
 <script>
 //document.addEventListener("DOMContentLoaded", () => {
@@ -302,17 +274,12 @@ if ($stmt = $db->prepare($sql)) {
 		<input type="hidden" id="id" name="id" value="<?=$patronID?>">
 
 		<br clear="both">
-		<h4><button type="submit" name="submit" id="submit" class="btn btn-success">Submit</button>
-		<?php
-			if (strlen($success_message)>0) {
-			echo '<span class="float-end rounded fg2 bg2 px-2 py-1">';
-			echo $success_message;
-			echo "</span>";
-			}
-		?>
-		<div id="error_message" class="float-end rounded text-white bg-danger px-2 py-1"></div>
-		</h4>
+		<button type="submit" name="submit" id="submit" class="btn btn-success">Submit</button>
 
+	<!-- This is the JAVASCRIPT error message -->
+	<div id="notif_container"></div>
+	<!-- This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 	</form>
 </div></div> <!-- end of card-body and card -->
 

@@ -32,10 +32,26 @@ $userdata="";
 if (isset($_SESSION["userdata"])) $userdata = $_SESSION["userdata"];
 
 /**********  COMMON VARIABLES  **********/
+// These values are reset each time a page loads.
 $home="index.php"; 
 $institution="Harwood";
 $libCode='0748';
 #$directory="."; 
+$notify = array("type"=>"error", "message"=>"");
+
+/********** COMMON PHP HEADER CODE *******/
+/* EXCEPT for the login page "index.php" */
+
+if (basename($_SERVER['PHP_SELF']) !== "index.php") {
+
+	# Check authorization (ie. that the user is logged in) or go back to login page
+	if ($_SESSION["authkey"] != AUTHKEY)  header("Location:$home?ERROR=Failed%20Auth%20Key"); 
+
+	# TODO Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
+
+	$db = connectToDB();
+}
+//End of common code for all pages.
 
 /**********  COMMON FUNCTIONS  **********/
 

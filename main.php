@@ -12,6 +12,7 @@
 session_start();
 require_once('common.php');
 
+/*
 # Check authorization (ie. that the user is logged in) or go back to login page
 if ($_SESSION["authkey"] != AUTHKEY) { 
     header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
@@ -20,8 +21,7 @@ if ($_SESSION["authkey"] != AUTHKEY) {
 # Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
 
 $db = connectToDB();
-
-$error_message = "";
+*/
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +41,14 @@ $error_message = "";
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
     <link href="resources/library.css" rel="stylesheet">
+
+	<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		let text = (new Date()).toDateString();
+		document.getElementById("date").textContent = text;
+	}); 
+	</script>
+
 </head>
 
 <body>
@@ -92,10 +100,6 @@ $error_message = "";
 	</div><!-- /card -->
 </div>
 
-<script>
-	let text = (new Date()).toDateString();
-	document.getElementById("date").textContent = text;
-</script>
 </body>
 
 </html>

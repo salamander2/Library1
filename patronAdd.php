@@ -9,18 +9,9 @@
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-$error_message = "";
-
 if(isset($_POST['submit'])) {
 
+	//FIXME All validation still needs to be done here and on patronEdit.php
 	$firstname=$lastname="";
 	if (isset($_POST['firstname'])) $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
 	$lastname = clean_input($_POST['lastname']);
@@ -41,7 +32,7 @@ if(isset($_POST['submit'])) {
 	} else {
 		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
-	$_SESSION['success_message'] = "Patron record has been created.";
+	$_SESSION['notify'] = array("type"=>"success", "message"=>"Patron record has been updated.");
 
 	header("location:patronEdit.php?ID=$patronID");
 

@@ -9,19 +9,11 @@
          - If there is an error in the barcode, or no Bib record is found, an error message is returned (via AJAX)
 		 - ISBN will not go directly to bibEdit.php but instead will show a list
 		   since our data has duplicate ISBNs.
+  NOTE: it does not use NOTIFY array to send back error messages, because they are going back via AJAX.
+		The calling program has to detect ERROR and location
  ******************************************************************************/
-
-error_reporting(E_ALL);
 session_start();
 require_once('common.php');
-
-# Check authorization (ie. that the user is logged in) or go back to login page
-# This is important as the computer might be sitting for hours without being logged off and someone could search still...
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-$db = connectToDB();
 
 /*
 > describe bib;
@@ -84,7 +76,7 @@ if (strlen($barcode) > 0) {
 		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
 	if ($result == "") echo "ERROR No book with this barcode";
-	else header("location:bibEdit.php?ID=$result");
+	else echo "LOCATION bibEdit.php?ID=$result";
 	return;
 }
 
@@ -106,9 +98,7 @@ function queryISBN() {
 		$resultArray = $stmt->get_result();
 		$stmt->close();                 
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL2: ' . $sql;
-		die($message_); 
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
     return $resultArray;
 }

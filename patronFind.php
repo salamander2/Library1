@@ -8,11 +8,8 @@
   Note that in both cases, it returns data (via AJAX), not as a new HTML page.
  ******************************************************************************/
 
-error_reporting(E_ALL);
 session_start();
 require_once('common.php');
-
-$db = connectToDB();
 
 //If there is a barcode parameter, then search that.
 $patronBC = "";
@@ -29,9 +26,10 @@ if (strlen($patronBC) != 0) {
 	} else {
 		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
-	$obj=new stdClass;
-	$obj->patronID=$result;
-	echo json_encode($obj); 
+	//$obj=new stdClass;
+	//$obj->patronID=$result;
+	//echo json_encode($obj); 
+	echo json_encode(['patronID'=>$result]);
 	return;
 }
 

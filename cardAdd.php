@@ -10,16 +10,6 @@
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-	header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
-}
-
-#TODO  Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-$error_message = "";
-
 $patronID = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 //This should never happen, but we have to make sure that there is a patronID
 if (strlen($patronID) == 0) header("Location:".$_SERVER['HTTP_REFERER']);
@@ -33,6 +23,6 @@ if ($stmt = $db->prepare($sql)) {
 	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
-$_SESSION['success_message'] = "Library Card added.";
+$_SESSION['notify'] = array("type"=>"success", "message"=>"Library card added.");
 
 header("location:patronEdit.php?ID=$patronID");

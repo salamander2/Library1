@@ -6,10 +6,6 @@
 
 .smaller{ font-size:80%; }
 
-.error_message {}
-.error {"alert text-white bg-danger w-50 mt-3 bold"}
-.error_message {"float-end rounded text-white bg-danger px-2 py-1"}
-
 /* colours for fields. BG is very pale */
 .fg1 {color:#620;}	/* yellow */
 .bg1 {background-color:#FFA;}
@@ -19,14 +15,26 @@
 .bgS {background-color:#C9D5D5;} /* secondary */
 .bgU {background-color:#D1F7DD;} /* success */
 
-li {margin-bottom:5px;}
 
 /* patronEdit */
 td.btns {width:25%;text-align:right;}
-/* bibEdit */
-td.IN {background-color:lightgreen !important;}
-td.OUT {background-color:olive !important;}
-td.LOST {background-color:orangered !important;}
-td.DAMAGED {background-color:rebeccapurple !important;color:white;}
-td.CR {background-color:saddlebrown !important;color:white;}
-td.REPAIR {background-color:#666 !important;color:white;}
+
+li {margin-bottom:5px;}
+
+
+#notif_container {
+
+}
+#notif_container.hover{
+	width:50%;
+	/* the following is used to float the error message above the text */
+	position:absolute;
+	top:30%;
+	left:10%;
+	z-index:100;
+}
+
+/* I was going to copy the CSS from Bootstrap: alert, border, border-4 w-50 mt-2 
+   but it's too much. */
+#notif_msg {
+}
