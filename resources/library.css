@@ -6,16 +6,6 @@
 
 .smaller{ font-size:80%; }
 
-/*.error {"alert text-white bg-danger w-50 mt-3 bold"}*/
-#error_message {
-width:50%;
-/* the following us used to float the error message above the text */
-position:absolute;
-top:30%;
-left:10%;
-z-index:100;
-}
-
 /* colours for fields. BG is very pale */
 .fg1 {color:#620;}	/* yellow */
 .bg1 {background-color:#FFA;}
@@ -30,3 +20,25 @@ z-index:100;
 td.btns {width:25%;text-align:right;}
 
 li {margin-bottom:5px;}
+
+
+#notif-container {
+
+}
+#notif-container.hover{
+	width:50%;
+	/* the following us used to float the error message above the text */
+	position:absolute;
+	top:30%;
+	left:10%;
+	z-index:100;
+}
+
+/* copied from Bootstrap: alert, border, border-4 w-50 mt-2 */
+#notif-msg {
+/*    font-weight: 700 !important;
+    margin-top: .5rem !important;
+    width: 50% !important;
+    border-width: 4px !important;
+	font-weight:bold;*/
+}

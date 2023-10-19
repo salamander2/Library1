@@ -111,44 +111,16 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="resources/library.css" >
+	<script src="resources/library.js"></script>
 
 <script>
 
-/* This displays a notification of the type specified. 
-   It is located wherever the following is: <div id="error_message"></div>
-   NOTE: you cannot display more than one error at a time. The second one replaces the earlier ones
-*/
-function displayNotification(type, message, duration = 3500) {
-	var text;
-	switch(type){
-	case "success":
-		text = '<div id="err" class="alert alert-success border border-success border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-check"></i> SUCCESS: '+message+'</div>';
-		break;
-	case "info":
-		text = '<div id="err" class="alert alert-primary border border-primary border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-comment-dots"></i> INFO: '+message+'</div>';
-		break;
-	case "warning":
-		text = '<div id="err" class="alert alert-warning border border-warning border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-triangle-exclamation"></i> WARNING: '+message+'</div>';
-		break;
-	case "error":
-	default:
-		text = '<div id="err" class="alert alert-danger border border-danger border-4 fw-bold w-50 mt-2"><i class="h3 fa fa-sack-xmark"></i> ERROR: '+message+'</div>';
-		break;
-	}
-	var container = document.getElementById("error_message");
-	document.getElementById("error_message").innerHTML = text;
-    //for multiple notifications, make these nodes
-	//document.getElementById("error_message").appendChild(text);
-	const notification = document.getElementById("err");
-	const timeout = setTimeout(() => { container.removeChild(notification); }, duration);
-}
 <!-- This form will call either login.php or register.php with the same fields. -->
 	function validateData() {
 		var x = document.getElementById("username").value;
 		if (!x || 0 === x.length) {
-			displayNotification("error", "You must include a username");
+			displayNotification("error", "You must include a username",36000);
 			//document.getElementById("username").classList.add("border-danger");
 			document.getElementById("username").classList.toggle("is-invalid");
 			document.getElementById("username").value = "";
@@ -156,13 +128,8 @@ function displayNotification(type, message, duration = 3500) {
 		}
 		x = document.getElementById("password").value;
 		if (!x || 0 === x.length) {
-			var text = "You must include a password";
-			//text = "<div class=\"error\">" + text + "</div>";
-			document.getElementById("error_message").outerHTML =
-				'<div id="error_message" class="alert alert-danger w-50 mt-2"></div>';
-			document.getElementById("password").outerHTML =
-				'<input type="password" name="password" id="password" class="form-control border-danger" placeholder="Password">';
-			document.getElementById("error_message").innerHTML = text;
+			displayNotification("error", "You must include a password");
+			document.getElementById("password").classList.toggle("is-invalid");
 			document.getElementById("password").value = "";
 			return false;
 		}
@@ -210,7 +177,7 @@ function displayNotification(type, message, duration = 3500) {
 	</div> 
 	<div>&nbsp;</div>
 	<!-- This is the JAVASCRIPT error message -->
-	<div id="error_message"></div>
+	<div id="notif_container"></div>
 	<?php if ($error_message != "") echo "<script> displayNotification('error', \"$error_message\")</script>"; ?>
 
 	<div class="card border border-secondary alert alert-warning">
