@@ -120,7 +120,7 @@ else $gitbranch = "Current branch:<br><b>$gitbranch</b>";
 	function validateData() {
 		var x = document.getElementById("username").value;
 		if (!x || 0 === x.length) {
-			displayNotification("error", "You must include a username",36000);
+			displayNotification("error", "You must include a username");
 			//document.getElementById("username").classList.add("border-danger");
 			document.getElementById("username").classList.toggle("is-invalid");
 			document.getElementById("username").value = "";

@@ -25,6 +25,8 @@ function displayNotification(type, message, duration = 3500) {
 	}
 	var container = document.getElementById("notif_container");
 	document.getElementById("notif_container").innerHTML = text;
+	/**** uncomment next line to make popup hover above page *****/
+	//document.getElementById("notif_container").classList.add("hover");
     //for multiple notifications, make these nodes
 	//document.getElementById("error_message").appendChild(text);
 	const notification = document.getElementById("notif_msg");

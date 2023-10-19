@@ -22,23 +22,19 @@ td.btns {width:25%;text-align:right;}
 li {margin-bottom:5px;}
 
 
-#notif-container {
+#notif_container {
 
 }
-#notif-container.hover{
+#notif_container.hover{
 	width:50%;
-	/* the following us used to float the error message above the text */
+	/* the following is used to float the error message above the text */
 	position:absolute;
 	top:30%;
 	left:10%;
 	z-index:100;
 }
 
-/* copied from Bootstrap: alert, border, border-4 w-50 mt-2 */
-#notif-msg {
-/*    font-weight: 700 !important;
-    margin-top: .5rem !important;
-    width: 50% !important;
-    border-width: 4px !important;
-	font-weight:bold;*/
+/* I was going to copy the CSS from Bootstrap: alert, border, border-4 w-50 mt-2 
+   but it's too much. */
+#notif_msg {
 }
