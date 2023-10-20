@@ -10,6 +10,15 @@
 session_start();
 require_once('common.php');
 
+$sql = "SELECT COUNT(*) FROM patron";
+if ($stmt = $db->prepare($sql)) {
+	$stmt->execute(); 
+	$stmt->bind_result($result);
+	$stmt->fetch();
+	$stmt->close();                 
+} else {
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
+}
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +100,7 @@ function processBarcode(e) {
 <!-- page header -->
 <?php loadHeader("main.php"); ?>
 
-<h3>Search for a patron</h3>
+<h3>Search for a Patron <span class="text-secondary smaller float-end">(<?=$result?> patrons registered)</span></h3>
 <div class="row mt-4">
 <div class="input-group">
 	<div class="col me-2">
