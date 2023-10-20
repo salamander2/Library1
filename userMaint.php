@@ -1,0 +1,291 @@
+<?php
+/*******************************************************
+  NAME: userMaint.php
+  CALLED FROM: admin.php
+  PURPOSE: add, delete users. Change permissions.
+ ********************************************************/
+session_start();
+require_once('common.php');
+
+/*******************************************************
+  The following variable determines which user settings can be displayed and modified. Choices are  ALL, WAIT, TEAM
+  The point of this is to be able to use this same program for all 3 sitations.
+*******************************************************/
+$userList="TEAM";
+
+$fileFound=true;
+
+# count number of records in 'students' table
+$sql = "SELECT * FROM users";
+$result = mysqli_query($db,$sql);
+if (!$result) {
+	die("Query of user table failed");
+}
+
+/*
+ describe users;
++------------+-----------------------------------------+------+-----+-------------------+-------------------+
+| Field      | Type                                    | Null | Key | Default           | Extra             |
++------------+-----------------------------------------+------+-----+-------------------+-------------------+
+| username   | varchar(30)                             | NO   | PRI | NULL              |                   |
+| fullname   | varchar(50)                             | NO   |     | ---               |                   |
+| password   | varchar(255)                            | NO   |     | NULL              |                   |
+| defaultPWD | tinyint(1)                              | NO   |     | 1                 |                   |
+| authlevel  | enum('ADMIN','STAFF','PATRON','PUBLIC') | NO   |     | STAFF             |                   |
+| lastLogin  | timestamp                               | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| createDate | timestamp                               | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+-----------------------------------------+------+-----+-------------------+-------------------+
+
+*/
+
+// *************************  Handle form submission for update/delete ************************
+// if(isset($_POST['submit'])) {
+//}
+
+?>
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title><?=$institution?> Library Database</title>
+	<!-- Required meta tags -->
+	<title>Library Database — 2023</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="resources/bootstrap5.min.css" >
+    <!-- our project just needs Font Awesome Solid + Brands -->
+    <!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
+    <link href="resources/fontawesome6.min.css" rel="stylesheet">
+    <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
+    <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
+    <link href="resources/library.css" rel="stylesheet">
+	<script src="resources/library.js"></script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		//null
+	}); 
+	</script>
+</head>
+<body>
+
+<div id="header">
+<a class="fa fa-arrow-left nav-button fleft" href="admin.php">  Go Back</a>
+<h1>Database user administration</h1>
+</div>
+
+<div id="main">
+<script>
+function updateRow(num, login) {
+
+	//Create a formdata object
+	var formData = new FormData();
+
+	formData.append("login", login);
+
+	//get the data from the row
+	var name = "alpha_row" + num;
+	var val = document.getElementById(name).value;
+	formData.append("alpha_row",val);
+
+<?php 
+	if ($userList == "ALL" || $userList == "WAIT") {
+		echo 'name = "isWait_row" + num;';
+		echo 'val = document.getElementById(name).checked;';
+		echo 'formData.append("isWait_row",val);';
+	}
+	if ($userList == "ALL" || $userList == "TEAM") {
+		echo 'name = "isTeam_row" + num;';
+		echo 'val = document.getElementById(name).checked;';
+		echo 'formData.append("isTeam_row",val);';
+	}
+
+?>
+	//Warning: You have to use encodeURIComponent() for all names and especially for the values so that possible & contained in the strings do not break the format.
+
+	var xmlhttp = new XMLHttpRequest();
+	//Send the proper header information along with the request: DOES NOT WORK!
+	//xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	//xmlhttp.setRequestHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=1');
+	//xmlhttp.setRequestHeader("Content-length", params.length);
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			window.location.reload(true);
+		}
+	}
+
+	xmlhttp.open("POST", "updateUser.php");
+	xmlhttp.send(formData);
+}
+
+function validateUserData() {
+	var x, text;
+
+	x = document.getElementById("frm_fullname").value;
+	if (x.length == 0) {
+		text = "You must enter a full name";
+		text = "<div class=\"error\">" + text + "</div>";
+		document.getElementById("error_message").innerHTML = text;
+		return false;
+	}
+
+	x = document.getElementById("frm_login").value;
+	if (x.length == 0) {
+		text = "You must enter a login name";
+		text = "<div class=\"error\">" + text + "</div>";
+		document.getElementById("error_message").innerHTML = text;
+		return false;
+	}
+
+	x = document.getElementById("frm_alpha").value;
+	if (x.length == 0) {
+		text = "You must enter a department";
+		text = "<div class=\"error\">" + text + "</div>";
+		document.getElementById("error_message").innerHTML = text;
+		return false;
+	}
+	return true;
+}
+</script>
+
+<!-- ****************************************** ADD NEW USER ****************************** -->
+
+<h3 class="centered lightblue" style='margin-bottom:0;'> Add a new user</h3>
+<form class="pure-form" style="margin-top:0;"  method="post" action="addUser.php" onsubmit="return validateUserData();">
+<fieldset class="centered" style="margin:auto;max-width:100px;">
+<legend>
+
+<table class="smaller centered">
+<tr>
+<td class="smaller center nomargin">Login</td>
+<td class="smaller center nomargin">Full name</td>
+<td class="smaller center nomargin">Department</td>
+</tr><tr>
+<td><input class="small" id="frm_login" name="frm_login" type="text" value=""></td>
+<td><input class="small" id="frm_fullname" name="frm_fullname" type="text" value=""></td>
+<td><input class="small" id="frm_alpha" name="frm_alpha" type="text" maxlength="26" value=""></td>
+<td><button type="submit" name="submit" class="pure-button fleft" style="margin:0 0.75em;font-weight:bold;">Submit</button></td>
+</tr>
+</table>
+</legend>
+</fieldset>
+</form>
+
+<div id="error_message"></div>
+
+<hr>
+
+<!--
+CREATE USER 'rburen'@'localhost' IDENTIFIED BY 'default_password_here';
+GRANT SELECT, INSERT, UPDATE ON sssDB.* TO 'rburen'@'localhost';
+GRANT SELECT ON schoolDB.* TO 'rburen'@'localhost';
+
+use schoolDB;
+INSERT INTO `users` (`login_name`, `full_name`, `alpha`, `password`, `salt`, `defaultPWD`, `isAdmin`, `isWait`, `isTeam`) VALUES ('ddavis', 'Dawn Davis', 'SST', '', '', '1', '0', '1', '0');
+-->
+
+<!-- ****************************** TABLE OF DB USERS ******************************************************** -->
+
+<?php
+echo "<p style='margin-bottom:0;'>&nbsp;</p>";
+
+echo '<table class="table table-secondary table-striped table-hover table-bordered">';
+echo '<thead>';
+echo '<tr>';
+echo '<th class="smaller ">Login name</th>';
+echo '<th class="smaller ">Full Name</th>';
+echo '<th class="smaller ">Authorization Level</th>';
+echo '<th colspan=3>&nbsp;</th>';
+echo '<th class="smaller fontONE" style="text-align:right;">Default PWD</th>';
+echo '</tr>';
+echo '</thead>'.PHP_EOL;
+echo '<tbody>';
+
+$num = 1;
+while ($row = mysqli_fetch_assoc($result)){
+
+	echo '<tr>';
+	echo '<td>'.$row['username'].'</td>';
+	echo '<td>'.$row['fullname'].'</td>';
+
+		echo '<td><input type="text" class="smaller" id="alpha_row'.$num.'" size=15 value="' .$row['authlevel']. '"></td>';
+#     echo '<td style="color:black;" id="login" name="login">' .$row['login_name']. '</td>';
+#     echo '<td style="color:black;" id="login" name="login">' .$row['full_name']. '</td>';
+#     echo '<td style="color:black;" id="login" name="login">' .$row['alpha']. '</td>';
+
+#     echo '<td style="color:black;" id="login" name="login">' .$row['isWait']. '</td>';
+		/* The delete button is a straight call to a separate php page.
+		   So is the reset password button
+
+		   The update button must be the submit button on a form. The form is comprized of everything in the row up to there.
+		   Each field must have a name, then the form can be done using POST method.
+		 */
+		echo '<td><button type="submit" onclick="updateRow('.$num.',\''.$row['username'].'\')">Update</button></td>';
+		echo '<td><a href="deleteUser.php?ID='.$row['username'].'"><button type="submit" name="delete" style="color:red;" onclick="return confirm(\'Are you sure?\');" >Delete</button></a></td>';
+
+	echo '<td><a href="resetPWD.php?ID='.$row['username'].'"><button type="submit" name="changePWD" onclick="return confirm(\'Are you sure?\');" >Reset Password</button></a></td>';
+	echo "<td>";
+	if ($row['defaultPWD'] == 1) echo " <center><b>*</b></center> ";
+	else echo " <center><b>&check;</b></center> ";
+	echo '</td>';
+
+	echo '</tr>';
+	echo  PHP_EOL; //for viewing source code.
+	$num ++;
+}
+
+echo '</tbody></table>';
+echo '<select>';
+    $result = runSimpleQuery($db,'SHOW COLUMNS FROM users WHERE field="authlevel"');
+    while ($row = mysqli_fetch_row($result)) {
+		echo (var_dump($row));
+			//row1 = "enum('ADMIN','STAFF','PATRON','PUBLIC')"
+			//substring produces this: ADMIN','STAFF','PATRON','PUBLIC
+            foreach(explode("','",substr($row[1],6,-2)) as $option) {
+//add "selected" to the current value
+//                print("<option value=\'$option\'>$option</option>");
+            }
+        }
+
+echo '</select>';
+#   echo '<input id="isTeam" name="isTeam" type="text" value="' .$row['isTeam'].'">';
+
+/*
+   echo password_hash("rasmuslerdorf", PASSWORD_DEFAULT)."<br>";
+   echo password_hash("rasmuslerdorf", PASSWORD_DEFAULT)."<br>";
+   echo password_hash("rasmuslerdorf", PASSWORD_DEFAULT)."<br>";
+
+   $aa='$2y$10$/VQDiyei7ppcivPkQ1Hk7OcJmSUQAw3YRILGWIRKPpWN/2JCkNJlK';
+   $bb='$2y$10$iY7md6WkX/bhc5dI8pQAAeArBKzFV.vi0lfQPTayE8ANzrVBbrB0u';
+   $cc='$2y$10$pOJY5bXv5TmC4KvYegef0.A7Yh.NegLxNnpL4fX7.jqcziv/4Ic4C';
+
+   echo password_verify("rasmuslerdorf",$aa);
+   echo password_verify("rasmuslerdorf",$bb);
+   echo password_verify("rasmuslerdorf",$cc);
+ */
+
+echo '<br>';
+echo '<button type="button" onclick="showDP();">Show Default Password</button>';
+echo '<hr>';
+$defaultPWD="sunshine";
+$DP = base64_encode($defaultPWD);
+//$rand = substr(uniqid('', true), -5);	//5 random numbers
+$length = 5;
+$randomletter = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, $length);
+$DP = $randomletter . $DP;
+#echo $DP;
+?>
+
+<br>
+<script>
+function showDP() {
+  var s = "<?php echo $DP?>";
+  s = s.substr(5);
+  alert(atob(s));
+}
+</script>
+</div>
+</body>
+</html>
+

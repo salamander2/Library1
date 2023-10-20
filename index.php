@@ -192,6 +192,7 @@ if(isset($_POST['submit'])) {
 				<li>public access console (search)
 				<li>different user levels and different users
 				<li>patrons searching and placing holds
+				<li>administrative reports
 			</ul>
 			</div>
 		</div>
@@ -208,6 +209,9 @@ if(isset($_POST['submit'])) {
 	</div><!-- /card-body -->
 	</div><!-- /card -->
 
+</div>
+<div id="footer" class="centered">
+Created by Michael Harwood &copy; 2023.
 </div>
 </body>
 
