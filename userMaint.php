@@ -7,7 +7,7 @@
 session_start();
 require_once('common.php');
 
-
+if(isset($_SESSION["notify"])) $notify = $_SESSION["notify"] ;
 
 $sql = "SELECT * FROM users";
 if ($stmt = $db->prepare($sql)) {
@@ -150,7 +150,7 @@ function validateUserData() {
 
 
 <h3 class=""> Add a new user</h3>
-<form class="" method="post" action="addUser.php" onsubmit="return validateUserData();">
+<form class="" method="post" action="userAdd.php" onsubmit="return validateUserData();">
 
 <!-- TODO change this into inputs, NOT a table -->
 	<table class="">
@@ -174,7 +174,6 @@ function validateUserData() {
 	</table>
 
 </form>
-
 
 	<!-- This is the JAVASCRIPT error message -->
 	<div id="notif_container"></div>

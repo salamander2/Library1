@@ -44,7 +44,6 @@ $defaultPWD="CairParavel";
 /* EXCEPT for the login page "index.php" */
 
 if (basename($_SERVER['PHP_SELF']) !== "index.php") {
-
 	# Check authorization (ie. that the user is logged in) or go back to login page
 	if ($_SESSION["authkey"] != AUTHKEY)  header("Location:$home?ERROR=Failed%20Auth%20Key"); 
 

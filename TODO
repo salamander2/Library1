@@ -51,3 +51,8 @@ FILTER_VALIDATE_EMAIL
 
 FILTER_SANITIZE_EMAIL
 Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
+
+
+	$_SESSION['notify'] = array("type"=>"success", "message"=>"User record has been added.");
+AT TOP, after common.php
+if(isset($_SESSION["notify"])) $notify = $_SESSION["notify"] ;
