@@ -1,7 +1,7 @@
 This is just listing what needs to be done in the next few days, not the whole project.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-** DONE **
+********************* DONE *************************
 
 * Patrons: list, search, add. 
 * Patrons: barcode search
@@ -14,21 +14,22 @@ This is just listing what needs to be done in the next few days, not the whole p
 * BIB search: ISBN needs to be done
 * BIB records: display, how many copies, how many are available.
 
-<<<< TODO >>>>>
+* Harmonize all error messages. Move to new notify.js system
+
+<<<<<<<<<<<<<<<<<<<<<<<<<< TODO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 * Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
-* Harmonize all error messages. Move to new notify.js system
+** Users: add an admin user. 
+                Then have a usermaint page
+                also add/edit site announcements
+* fix header so that "administer" button only shows up for ADMIN and also not on the actual ADMIN pages.
 
 * checkin / checkout
 
 * PAtron: PAC, login and display,
 
 * DELETE patron: check for fines, books out.
-
-** Users: add an admin user. 
-                Then have a usermaint page
-                also add/edit site announcements
 
 * night process: overdues, ...
 * staff place holds, holds filled upon CKI

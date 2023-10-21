@@ -38,6 +38,7 @@ $institution="Harwood";
 $libCode='0748';
 #$directory="."; 
 $notify = array("type"=>"error", "message"=>"");
+$defaultPWD="CairParavel";
 
 /********** COMMON PHP HEADER CODE *******/
 /* EXCEPT for the login page "index.php" */
