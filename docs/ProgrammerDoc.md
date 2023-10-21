@@ -20,17 +20,18 @@ Another alternative is to write my own in JS - and this is what I've done.  The 
 
 **Usage**
 
-* The JS function is `displayNotification(type, message, duration = 3500)`  where "type" is one of "error", "warning", "info", "success". "message" is the message to be displayed. Duration is the length time it will be displayed (ms).
-* The HTML must have these lines which should be located at the place in the page where you want the error message to appear (normally fairly close to the top).
-    `<!-- This is the JAVASCRIPT error message --><div id="notif_container"></div>`
-* The HTML must have these lines in order to display errors originating from php. Add this code to the HTML right after `<div id="notif_container"></div>`    
-`<!-- // This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->`    
-`<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>`
+* The JS function is `displayNotification(type, message, duration = 3500)`  where "type" is one of "error", "warning", "info", "success". "message" is the message to be displayed. Duration is the length time it will be displayed (ms). For php messages to work, a few lines need to be added to common.php .
+* **The HTML must have the following two lines** which should be located at the place in the page where you want the error message to appear (normally fairly close to the top). The &lt;div&gt; is to locate the notification.  The following line will be activated anytime the page loads and there is a notification message ready to be displayed.  The php variables are not JS variables, so we need to add \" .
+  
+```javascript
+<!-- This is the JAVASCRIPT error message --><div id="notif_container"></div>
+<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+```
 
-* Calling the notification function:
- * In JS just add a line like this: `displayNotification("error", "You must include a username");`
- * In php we are using an array for 'type' and 'message': `$notify = array("type"=>"error", "message"=>"");`
-It is declared in common.php and thus is set to these values for each page.
+**Calling the notification function**
+:pencil2: In JS just add a line like this: `displayNotification("error", "You must include a username");`    
+:pencil2: In php we are using an array for 'type' and 'message': `$notify = array("type"=>"error", "message"=>"");`    
+This array is declared in common.php and thus is set to these values for each page.
 To make an error popup via php, just set $notify['message'] to a non-empty string. Change 'type' as well if needed.
  
 If you want to make the notifications "hover" over the page instead of taking up space in the page, uncomment the line indicated in resources/library.js (in the displayNotification function). 
