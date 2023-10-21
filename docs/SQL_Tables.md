@@ -7,26 +7,28 @@ CREATE TABLE `users` (
   `username` varchar(30) NOT NULL,
   `fullname` varchar(50) NOT NULL DEFAULT '---',
   `password` varchar(255) NOT NULL,
+  `defaultPWD` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is the user still using the default password?',
+  `authlevel` enum('ADMIN','STAFF','PATRON','PUBLIC') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'STAFF',
   `lastLogin` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 ```
 
 ```
 mysql> describe users;
-+-----------+--------------+------+-----+-------------------+-------+
-| Field     | Type         | Null | Key | Default           | Extra |
-+-----------+--------------+------+-----+-------------------+-------+
-| username  | varchar(30)  | NO   | PRI | NULL              |       |
-| fullname  | varchar(50)  | NO   |     | ---               |       |
-| password  | varchar(255) | NO   |     | NULL              |       |
-| lastLogin | timestamp    | NO   |     | CURRENT_TIMESTAMP |       |
-+-----------+--------------+------+-----+-------------------+-------+
-4 rows in set (0.00 sec)
++------------+-----------------------------------------+------+-----+-------------------+-------------------+
+| Field      | Type                                    | Null | Key | Default           | Extra             |
++------------+-----------------------------------------+------+-----+-------------------+-------------------+
+| username   | varchar(30)                             | NO   | PRI | NULL              |                   |
+| fullname   | varchar(50)                             | NO   |     | ---               |                   |
+| password   | varchar(255)                            | NO   |     | NULL              |                   |
+| defaultPWD | tinyint(1)                              | NO   |     | 1                 |                   |
+| authlevel  | enum('ADMIN','STAFF','PATRON','PUBLIC') | NO   |     | STAFF             |                   |
+| lastLogin  | timestamp                               | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| createDate | timestamp                               | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+-----------------------------------------+------+-----+-------------------+-------------------+
 ```
-
-
-## PATRON
 
 ```
 CREATE TABLE `patron` (
