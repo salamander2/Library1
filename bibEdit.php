@@ -9,7 +9,6 @@
 session_start();
 require_once('common.php');
 
-if(isset($_SESSION["notify"])) $notify = $_SESSION["notify"] ;
 
 $bibID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 

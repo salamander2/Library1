@@ -10,7 +10,6 @@
 session_start();
 require_once('common.php');
 
-if(isset($_SESSION["notify"])) $notify = $_SESSION["notify"] ;
 
 $patronID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 if (strlen($patronID) == 0) {

@@ -33,11 +33,20 @@ if (isset($_SESSION["userdata"])) $userdata = $_SESSION["userdata"];
 
 /**********  COMMON VARIABLES  **********/
 // These values are reset each time a page loads.
+
 $home="index.php"; 
 $institution="Harwood";
 $libCode='0748';
 #$directory="."; 
+
+//create the notification array and set it to an empty message. If there is a message from the previous page, set it now.
 $notify = array("type"=>"error", "message"=>"");
+if(isset($_SESSION["notify"])) {
+	 $notify = $_SESSION["notify"];
+	 unset($_SESSION["notify"]);
+	
+}
+
 $defaultPWD="CairParavel";
 
 /********** COMMON PHP HEADER CODE *******/

@@ -7,7 +7,6 @@
 session_start();
 require_once('common.php');
 
-if(isset($_SESSION["notify"])) $notify = $_SESSION["notify"] ;
 
 $sql = "SELECT * FROM users";
 if ($stmt = $db->prepare($sql)) {
@@ -85,19 +84,6 @@ function updateRow(num, login) {
 	var val = document.getElementById(name).value;
 	formData.append("alpha_row",val);
 
-	<?php 
-		if ($userList == "ALL" || $userList == "WAIT") {
-			echo 'name = "isWait_row" + num;';
-			echo 'val = document.getElementById(name).checked;';
-			echo 'formData.append("isWait_row",val);';
-		}
-	if ($userList == "ALL" || $userList == "TEAM") {
-		echo 'name = "isTeam_row" + num;';
-		echo 'val = document.getElementById(name).checked;';
-		echo 'formData.append("isTeam_row",val);';
-	}
-
-	?>
 	//Warning: You have to use encodeURIComponent() for all names and especially for the values so that possible & contained in the strings do not break the format.
 
 	var xhr = new XMLHttpRequest();
@@ -115,20 +101,6 @@ function updateRow(num, login) {
 	xhr.send(formData);
 }
 */
-
-function validateUserData() {
-	var x = document.getElementById("username").value;
-	if (x.length == 0) {
-		displayNotification("error","You must enter a user name (login)");
-		return false;
-	}
-	x = document.getElementById("fullname").value;
-	if (x.length == 0) {
-		displayNotification("error","You must enter a full name");
-		return false;
-	}
-	return true;
-}
 
 </script>
 </head>
@@ -149,33 +121,35 @@ function validateUserData() {
 <!-- ****************************************** ADD NEW USER ****************************** -->
 
 
-<h3 class=""> Add a new user</h3>
-<form class="" method="post" action="userAdd.php" onsubmit="return validateUserData();">
-
-<!-- TODO change this into inputs, NOT a table -->
-	<table class="">
-	<tr>
-		<td class="">Login</td>
-		<td class="">Full name</td>
-		<td class="">Access Level</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td><input class="" id="username" name="username" type="text" value=""></td>
-		<td><input class="" id="fullname" name="fullname" type="text" value=""></td>
-		<td><select id="authlevel" name="authlevel">
+<div class="border border-secondary p-2 rounded" style="border-color:#C9F !important">
+<form method="POST" action="userAdd.php">
+<h4 class=""> Add a new user
+<button type="submit" id="submit" name="submit" class="float-end btn btn-outline-primary">Create User</button>
+</h4>
+	<div class="row">
+		<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
+			<label for="username" class="form-label fg2">Login</label>
+			<input class="form-control bg2" type="text" id="username" name="username" required>
+		</div>
+		<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
+			<label for="fullname" class="form-label fg2">Full name</label>
+			<input class="form-control bg2 rounded-end" type="text" id="fullname" name="fullname" required>
+		</div>
+		<div class="col-sm-6 col-md-4 col-lg-2 mt-1">
+			<label for="authlevel" class="form-label fg2">Access Level</label>
+		<select class="form-control border border-secondary fg2" id="authlevel" name="authlevel">
 			<option value="ADMIN">ADMIN</option>
 			<option selected value="STAFF">STAFF</option>
 			<option value="PATRON">PATRON</option>
 			<option value="PUBLIC">PUBLIC</option>
-		</select></td>
-		<td><button type="submit" name="submit" class="pure-button fleft" style="margin:0 0.75em;font-weight:bold;">Submit</button></td>
-	</tr>
-	</table>
-
+		</select>
+		</div>
+	</div>
 </form>
+</div>
 
-	<!-- This is the JAVASCRIPT error message -->
+
+<!-- This is the JAVASCRIPT error message -->
 	<div id="notif_container"></div>
 	<!-- This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
