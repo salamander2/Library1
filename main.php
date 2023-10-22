@@ -53,7 +53,6 @@ require_once('common.php');
 <div class="container-md mt-2">
 	<span class="float-end px-2 pt-1" style="background-color: rgba(255,255,255,0.35);"><img width=200 height=170 src="images/logoBG.png"></span>
 	<h2 class="bg-warning text-center rounded py-3">The <?=$institution?> Public Libary</h2>
-<span class="float-end"> <a class="d-block btn btn-outline-dark" href="userMaint.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
 &nbsp;
 
 	<div class="row">
@@ -61,6 +60,9 @@ require_once('common.php');
 		<div class="card border border-primary p-2">
 			<div class="alert alert-warning mb-0">Welcome "<b><?=$userdata['fullname']?></b>"</div>
 		</div>
+	</div>
+	<div class="col">
+		<span class="float-end"> <a class="d-block btn btn-danger" href="admin.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
 	</div>
 	</div>
 &nbsp;
@@ -73,7 +75,8 @@ require_once('common.php');
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Reports</button></a>
-		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>
+		<span class="float-end"><a href="changePWD.php"><button type="button" class="btn btn-outline-secondary">Change Password</button></a>&nbsp;
+		<a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>
 		</div>
 
 		</div><!-- /card-body -->

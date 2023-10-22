@@ -177,21 +177,24 @@ if(isset($_POST['submit'])) {
 				<li>login and log out
 				<li>patrons: responsive search, add, edit
 				<li>library cards: add, change status (via patron page)
-				<li>books: seach (multiple fields), edit, add
+				<li>books: search (multiple fields), edit, <s>add new book</s>
+				<li>adding users
+				<li>changing and resetting passwords
 			</ul>
 			</div>
 			<div class="col">
 			<p class="alert alert-danger fw-bold">The following is NOT YET working:</p>
 			<ul>
+				<li>modifying users
+				<li>different access levels
+				<li>public access console (search)
 				<li>checkout/check in books
+				<li>patrons searching and placing holds
 				<li>fines
 				<li>crontab to update status/fines overnight
 				<li>delete patron
 				<li>delete copies and titles
 				<li>placing and reconciling holds
-				<li>public access console (search)
-				<li>different user levels and different users
-				<li>patrons searching and placing holds
 				<li>administrative reports
 			</ul>
 			</div>

@@ -27,6 +27,8 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require_once '../library.config.php';
 
+
+
 /**********  SESSION VARIABLES  **********/
 $userdata="";
 if (isset($_SESSION["userdata"])) $userdata = $_SESSION["userdata"];
@@ -38,8 +40,9 @@ $home="index.php";
 $institution="Harwood";
 $libCode='0748';
 #$directory="."; 
+$defaultPWD="CairParavel";
 
-//create the notification array and set it to an empty message. If there is a message from the previous page, set it now.
+//Create the notification array and set it to an empty message. If there is a message from the previous page, set it now.
 $notify = array("type"=>"error", "message"=>"");
 if(isset($_SESSION["notify"])) {
 	 $notify = $_SESSION["notify"];
@@ -47,7 +50,6 @@ if(isset($_SESSION["notify"])) {
 	
 }
 
-$defaultPWD="CairParavel";
 
 /********** COMMON PHP HEADER CODE *******/
 /* EXCEPT for the login page "index.php" */
@@ -60,10 +62,13 @@ if (basename($_SERVER['PHP_SELF']) !== "index.php") {
 
 	$db = connectToDB();
 }
-//End of common code for all pages.
+
 
 /**********  COMMON FUNCTIONS  **********/
 
+/********************************
+* Connect to the database specified in the config file
+********************************/
 function connectToDB() {
     $db = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
     if ($db->connect_errno) {
@@ -72,13 +77,12 @@ function connectToDB() {
         echo "window.location='index.php';";
         echo "</script>";
         // header("Location: index.php");
-#       echo "Failed to connect to MySQL database $database : " . mysqli_connect_error();
-#       die("Program terminated");
     }
     //mysqli_query($db, "set names UTF8;");
     return $db;
 }
 
+/*
 // This is a legacy function.
 // ONly use this for queries that do not use any variables. Otherwise SQL injection attacks can happen.
 function runSimpleQuery($mysqli, $sql_) {
@@ -93,6 +97,7 @@ function runSimpleQuery($mysqli, $sql_) {
     }
     return $result;
 }
+*/
 
 /*************************************************
 This ensures a standard header on all pages.
@@ -107,6 +112,7 @@ function loadHeader(String $backHref="main.php"){
 	$text = str_replace("INSTITUTION", $institution,$text);
 	echo $text;
 //TODO need to check administrator priviledges
+//<span class="float-end"> <a class="d-block btn btn-outline-dark" href="userMaint.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
 //TODO add in ELSE statement in case the html file is missing. Then just print this standard code.
 }
 
