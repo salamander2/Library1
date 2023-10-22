@@ -7,7 +7,7 @@ Javascript is used for data validation and Ajax.
 * Security and authentication is descibed in a [separate document](1_Security.md)
 
 --------------------
-
+### Miscellaneous
 :star: I'm not using `if(isset($_POST['submit'])) {...}` a whole lot. Instead I'm calling other PHP pages to do things like update the database.
 This is because each page is getting longer as I'm adding more JS to do input validations and I'm making the UI look better. 
 
@@ -28,7 +28,19 @@ Another alternative is to write my own in JS - and this is what I've done.  The 
 <?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 ```
 
-**Calling the notification function**
+In **common.php** the following lines are required:
+
+```javascript
+//Create the notification array and set it to an empty message. If there is a message from the previous page, set it now.
+$notify = array("type"=>"error", "message"=>"");                       
+if(isset($_SESSION["notify"])) {                                       
+     $notify = $_SESSION["notify"];                                    
+     //and prevent the same message from displaying next time the page loads
+     unset($_SESSION["notify"]);                                       
+}
+```
+
+**Calling the notification function**    
 :pencil2: In JS just add a line like this: `displayNotification("error", "You must include a username");`    
 :pencil2: In php we are using an array for 'type' and 'message': `$notify = array("type"=>"error", "message"=>"");`    
 This array is declared in common.php and thus is set to these values for each page.
@@ -38,4 +50,5 @@ If you want to make the notifications "hover" over the page instead of taking up
 
 The functionality to have multiple messages at the same time does not yet exist.  "Styled notifications" can do this nicely.
 
+------------
 -- to be continued --
