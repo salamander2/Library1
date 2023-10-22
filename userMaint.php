@@ -166,21 +166,21 @@ INSERT INTO `users` (`login_name`, `full_name`, `alpha`, `password`, `salt`, `de
 
 <!-- ****************************** TABLE OF DB USERS ******************************************************** -->
 
+<p style='margin-bottom:0;'>&nbsp;</p>
+
+<table class="table table-secondary table-striped table-hover table-bordered">
+<thead>
+<tr>
+<th class="">Login name</th>
+<th class="">Full Name</th>
+<th class="">Access Level</th>
+<th >&nbsp;</th>
+<th class="">Default PWD changed?</th>
+</tr>
+</thead>
+<tbody>
+
 <?php
-echo "<p style='margin-bottom:0;'>&nbsp;</p>";
-
-echo '<table class="table table-secondary table-striped table-hover table-bordered">';
-echo '<thead>';
-echo '<tr>';
-echo '<th class="">Login name</th>';
-echo '<th class="">Full Name</th>';
-echo '<th class="">Access Level</th>';
-echo '<th >&nbsp;</th>';
-echo '<th class="">Default PWD changed?</th>';
-echo '</tr>';
-echo '</thead>'.PHP_EOL;
-echo '<tbody>';
-
 $num = 1;
 while ($row = mysqli_fetch_assoc($resultArray)){
 
@@ -189,9 +189,16 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	echo '<td>'.$row['fullname'].'</td>';
 
 	//echo '<td><input type="text" class="" id="alpha_row'.$num.'" size=15 value="' .$row['authlevel']. '">';
-	echo "<td>${row['authlevel']} &nbsp;";
-	echo '<select>';
-	$result = runSimpleQuery($db,'SHOW COLUMNS FROM users WHERE field="authlevel"');
+	echo "<td class='text-primary'>${row['authlevel']} &nbsp;";
+	echo '<select class="fg2 float-end">';
+	$sql = "SHOW COLUMNS FROM users WHERE FIELD='authlevel'";
+	if ($stmt = $db->prepare($sql)) {
+		$stmt->execute(); 
+		$result= $stmt->get_result();
+		$stmt->close();                 
+	} else {
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
+	}
 
 	while ($row2 = mysqli_fetch_row($result)) {
 		//row1 = "enum('ADMIN','STAFF','PATRON','PUBLIC')"

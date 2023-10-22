@@ -4,7 +4,7 @@
 * 
 * This is just a simple page to hold links to other pages.
 * Called from main.php
-* Calls XXX
+* Calls userMaint.php and ____
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -38,14 +38,15 @@ require_once('common.php');
 <!-- page header -->
 <?php loadHeader("main.php"); ?>
 
+<div class="card alert alert-secondary">
 	<div class="card-body">
 		<h2 class="text-center"><u>Administrative Functions</u></h2>
 		<br>
-		<a class="btn btn-warning my-2" href="userMaint.php"><i class="fa fa-plus-circle"></i>  User Maintenance</a><br>
-		<a class="btn btn-info my-2" href="reports.php"><i class="fa fa-plus-circle"></i>  Reports</a><br>
+		<a class="btn btn-warning my-2" href="userMaint.php"><i class="fa fa-users"></i>  User Maintenance</a><br>
+		<a class="btn btn-info my-2" href="reports.php"><i class="fa fa-clipboard-list"></i>  Reports</a><br>
 		<a class="btn btn-primary my-2" href=""><i class="fa fa-plus-circle"></i>  Another Button</a>
 	</div>
-
+</div>
 
 </div>
 </body>

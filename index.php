@@ -139,7 +139,7 @@ if(isset($_POST['submit'])) {
 		<!-- <div class="input-group mb-3"> -->
 		<div class="row">
 			<div class="col-4">
-				<input type="text" name="username" id="username" class="form-control" placeholder="Username" >
+				<input type="text" name="username" id="username" class="form-control" placeholder="Username" autofocus>
 			</div>
 			<div class="col-4">
 				<input type="password" name="password" id="password" class="form-control" placeholder="Password">

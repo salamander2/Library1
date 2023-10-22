@@ -25,9 +25,9 @@ if(isset($_POST['submit'])) {
 	if (empty($notify["message"])) {
 		$hashPassword = password_hash($newpass, PASSWORD_DEFAULT);
 
-		$sql = "UPDATE users SET password=?, defaultPWD=0 WHERE username=?";
-
-		if ($stmt = $schoolDB->prepare($sql)) {
+		$sql = "UPDATE users SET password=?, defaultPWD=0 WHERE username=BINARY ?";
+echo $userdata['username'];  
+		if ($stmt = $db->prepare($sql)) {
 			$stmt->bind_param("ss", $hashPassword, $userdata['username'] );
 			$stmt->execute();
 			$stmt->close();
@@ -61,35 +61,33 @@ if(isset($_POST['submit'])) {
 </head>
 
 <body>
+
+<div class="container-md mt-2">
+
+<!-- page header -->
 <?php loadHeader("main.php"); ?>
-	<div id="header">
-		<h1>Change your login password: <span class="green"><?php echo $userdata['fullname']; ?></span></h1>
+
+<div class="card alert alert-secondary">
+	<div class="card-body">
+		<h3 class="text-success">Change your login password: <span class="text-dark"><?php echo $userdata['fullname']; ?></h3>
+		<br>
 	</div>
 
-
-	<form class="pure-form" method="post" action="<?php echo ($_SERVER["PHP_SELF"]);?>">
-		<p class="white">You will have to login again after changing your password.</p>
-		<fieldset>
-			<legend>
-
-				<table>
-					<tr>
-						<td class="tcol1">
-							<p>New Password:</p>
-						</td><td class="tcol2">
-							<input name="newpass" style="color:#777;" type="password" size="15" maxlength="15" value=""><br>
-						</td>
-					</tr>
-				</table>
-			</legend>
-			<button type="submit" name="submit" class="pure-button fleft" style="margin:0 0.75em;font-weight:bold;">Submit</button>
-		</fieldset>
+	<form class="form" method="post" action="<?php echo ($_SERVER["PHP_SELF"]);?>">
+			<div class="input-group">
+			<label for="newpass" class="input-group-prepend btn btn-success">New Password: </label>
+			<input class="Xform-control bgU rounded-end" type="password" id="newpass" name="newpass" size="25" value="" required autofocus>
+			</div>
+			<br>
+			<p class="white">You will have to login again after changing your password.</p>
+			<button type="submit" name="submit" class="btn btn-secondary" style="margin:0 0.75em;font-weight:bold;">Submit</button>
 	</form>
-	</div>
 
 	<!-- This is the JAVASCRIPT error message -->
 	<div id="notif_container"></div>
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+</div>
+</div>
 </body>
 </html>
 

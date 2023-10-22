@@ -46,8 +46,8 @@ $defaultPWD="CairParavel";
 $notify = array("type"=>"error", "message"=>"");
 if(isset($_SESSION["notify"])) {
 	 $notify = $_SESSION["notify"];
+	 //and prevent the same message from displaying next time the page loads
 	 unset($_SESSION["notify"]);
-	
 }
 
 
