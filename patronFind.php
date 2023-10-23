@@ -11,6 +11,14 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Listing Patrons");
+	header("location:main.php");
+}
+/********************************************************/
+
 //If there is a barcode parameter, then search that.
 $patronBC = "";
 if (isset($_GET['bar'])) $patronBC= filter_var($_GET['bar'], FILTER_SANITIZE_NUMBER_INT);

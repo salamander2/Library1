@@ -10,6 +10,13 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Patron Edit");
+	header("location:main.php");
+}
+/********************************************************/
 
 $patronID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 if (strlen($patronID) == 0) {
@@ -275,10 +282,11 @@ if ($stmt = $db->prepare($sql)) {
 		<br clear="both">
 		<button type="submit" name="submit" id="submit" class="btn btn-success">Submit</button>
 
-	<!-- This is the JAVASCRIPT error message -->
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
-	<!-- This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
+
 	</form>
 </div></div> <!-- end of card-body and card -->
 

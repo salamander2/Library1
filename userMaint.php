@@ -7,6 +7,22 @@
 session_start();
 require_once('common.php');
 
+/*
+$access = "ADMIN";
+if (($userdata['authlevel']) != $access)  {
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information.");
+	header("location:main.php");
+}
+*/
+
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - UserMaintenance");
+	header("location:main.php");
+}
+/********************************************************/
+
 
 $sql = "SELECT * FROM users";
 if ($stmt = $db->prepare($sql)) {
@@ -149,10 +165,10 @@ function updateRow(num, login) {
 </div>
 
 
-<!-- This is the JAVASCRIPT error message -->
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
-	<!-- This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 <hr>
 
 <!--
@@ -174,7 +190,7 @@ INSERT INTO `users` (`login_name`, `full_name`, `alpha`, `password`, `salt`, `de
 <th class="">Login name</th>
 <th class="">Full Name</th>
 <th class="">Access Level</th>
-<th >&nbsp;</th>
+<th><i>These buttons don't work yet!</i>&nbsp;</th>
 <th class="">Default PWD changed?</th>
 </tr>
 </thead>

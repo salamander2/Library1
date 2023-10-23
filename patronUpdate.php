@@ -9,6 +9,14 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Patron Update");
+	header("location:main.php");
+}
+/********************************************************/
+
 $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
 $firstname=$lastname=$address=$city=$prov=$postalCode=$phone=$email=$birthdate="";

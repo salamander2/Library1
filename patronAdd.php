@@ -9,6 +9,14 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add Patron");
+	header("location:main.php");
+}
+/********************************************************/
+
 if(isset($_POST['submit'])) {
 
 	//FIXME All validation still needs to be done here and on patronEdit.php

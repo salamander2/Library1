@@ -11,6 +11,14 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF","PATRON");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - View Patron Info");
+	header("location:main.php");
+}
+/********************************************************/
+
 # Check authorization (ie. that the user is logged in) or go back to login page
 if ($_SESSION["authkey"] != AUTHKEY) { 
     header("Location:index.php?ERROR=Failed%20Auth%20Key"); 

@@ -160,10 +160,11 @@ if(isset($_POST['submit'])) {
 	</div> 
 
 	<div>&nbsp;</div>
-	<!-- This is the JAVASCRIPT error message -->
+
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
-	<!-- // This is the PHP error message. The php variables are not JS variables, so we need to add \"  -->
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 
 	<div class="card border border-secondary alert alert-warning">
 	<div class="card-body">

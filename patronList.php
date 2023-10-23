@@ -10,6 +10,14 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Listing Patrons");
+	header("location:main.php");
+}
+/********************************************************/
+
 $sql = "SELECT COUNT(*) FROM patron";
 if ($stmt = $db->prepare($sql)) {
 	$stmt->execute(); 
@@ -115,9 +123,11 @@ function processBarcode(e) {
 	</div>
 </div>
 </div>
-<!-- This is the JAVASCRIPT error message -->
-<div id="notif_container"></div>
-<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 
 <!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
 <div id="dynTable" class="mt-4"></div>

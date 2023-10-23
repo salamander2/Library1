@@ -12,6 +12,8 @@
 session_start();
 require_once('common.php');
 
+/*  -- this is available to all users (well, except PUBLIC) */
+
 $newpass = "";
 
 //if the submit button has been pressed:
@@ -83,9 +85,11 @@ echo $userdata['username'];
 			<button type="submit" name="submit" class="btn btn-secondary" style="margin:0 0.75em;font-weight:bold;">Submit</button>
 	</form>
 
-	<!-- This is the JAVASCRIPT error message -->
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
+
 </div>
 </div>
 </body>

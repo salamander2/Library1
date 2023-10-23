@@ -9,6 +9,13 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - BIB update");
+	header("location:main.php");
+}
+/********************************************************/
 
 /*  describe bib;
 +------------+-----------------+------+-----+-------------------+-------------------+

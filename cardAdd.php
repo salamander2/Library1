@@ -10,6 +10,14 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add Card");
+	header("location:main.php");
+}
+/********************************************************/
+
 $patronID = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 //This should never happen, but we have to make sure that there is a patronID
 if (strlen($patronID) == 0) header("Location:".$_SERVER['HTTP_REFERER']);

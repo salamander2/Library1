@@ -48,6 +48,10 @@ require_once('common.php');
 	</div>
 </div>
 
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 </div>
 </body>
 </html>

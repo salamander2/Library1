@@ -9,6 +9,13 @@
 session_start();
 require_once('common.php');
 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - BIB Edit");
+	header("location:main.php");
+}
+/********************************************************/
 
 $bibID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 
@@ -167,9 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </form>
 </div>
-	<!-- This is the JAVASCRIPT error message -->
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 		
 
 </div> <!-- end of card-body and card -->

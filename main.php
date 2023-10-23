@@ -12,11 +12,13 @@
 session_start();
 require_once('common.php');
 
-/*
-
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-*/
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Staff information");
+	header("location:logout.php");
+}
+/********************************************************/
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +64,11 @@ require_once('common.php');
 		</div>
 	</div>
 	<div class="col">
-		<span class="float-end"> <a class="d-block btn btn-danger" href="admin.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
+		<?php 
+		if ($userdata['authlevel'] === "ADMIN") {
+			echo '<span class="float-end"> <a class="d-block btn btn-danger" href="admin.php"><i class="fa fa-cogs"></i>   Administer</a> </span>';
+		}
+		?>
 	</div>
 	</div>
 &nbsp;
@@ -81,6 +87,11 @@ require_once('common.php');
 
 		</div><!-- /card-body -->
 	</div><!-- /card -->
+
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 
 	<div class="card border border-secondary alert alert-warning">
 		<div class="card-body">

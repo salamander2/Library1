@@ -5,14 +5,10 @@
   PURPOSE: resets suer password to default
   TABLES: schoolDB/users
 ********************************************************/
-error_reporting(E_ALL);
 session_start();
-require_once('../../DB-admin/php_includes/sssDB.inc.php');
 require_once('common.inc.php');
 
-$schoolDB = connectToDB("schoolDB", $sql_user, $sql_pass);
-
-$error_message="";
+/* -- Access is allowed to all levels of users */
 
 $frm_login = $_GET['ID'];
 #$frm_login = clean_input($_POST['ID']);

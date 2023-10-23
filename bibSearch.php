@@ -161,9 +161,11 @@ function removeTHE() {
 				</div>
 			</div>
 		</form>
-		<!-- This is the JAVASCRIPT error message -->
-		<div id="notif_container"></div>
-		<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
+
 		<div id="searchTips">
 			&nbsp;
 			<div class="row alert alert-success">The searches are done on partial text and combined using AND. So the more information added, the more restrictive the search.<br>
