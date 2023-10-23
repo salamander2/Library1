@@ -180,14 +180,13 @@ if(isset($_POST['submit'])) {
 				<li>library cards: add, change status (via patron page)
 				<li>books: search (multiple fields), edit, <s>add new book</s>
 				<li>adding users
-				<li>changing and resetting passwords
+				<li>changing and <s>resetting passwords</s>
+				<li>different access levels
 			</ul>
 			</div>
 			<div class="col">
 			<p class="alert alert-danger fw-bold">The following is NOT YET working:</p>
 			<ul>
-				<li>modifying users
-				<li>different access levels
 				<li>public access console (search)
 				<li>checkout/check in books
 				<li>patrons searching and placing holds
@@ -207,6 +206,7 @@ if(isset($_POST['submit'])) {
 				<li>multiple library branches
 				<li>various patron types (senior, child, ...)
 				<li>different fine amounts for different materials/patron types
+				<li><s>modifying users</s>: <i>not necessary</i>
 			</ul>
 			</div>
 		</div>
