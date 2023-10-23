@@ -4,7 +4,7 @@
 * The top of each php file describes its function and where it is called from.
 * php is used for most data manipulation, and most of the formatting of data for display, but also for data validation.     
 Javascript is used for data validation and Ajax.
-* Security and authentication is descibed in a [separate document](1_Security.md)
+* Security and authentication is descibed in a [separate document](Security.md)
 
 --------------------
 ### Miscellaneous
