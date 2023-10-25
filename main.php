@@ -1,25 +1,24 @@
 <?php
 /*******************************************************
+* main.php
+*
+* Called from index.php
+* Calls: many pages, depending on which button is pressed
 * This is the main landing page after one has logged on
 * Other possibilities are: PAC page and patron page
-* Visible options vary depending on the access level of the user (admin or staff)
+* Options vary depending on the access level of the user (admin or staff)
 *
-* This is called from index.php
-* It calls patronEdit.php  and   patronAdd.php
 ********************************************************/
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Staff information");
+	header("location:logout.php");
 }
-
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-
-$error_message = "";
+/********************************************************/
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +37,16 @@ $error_message = "";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
+    <link href="resources/library.css" rel="stylesheet">
+	<script src="resources/library.js"></script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		let text = (new Date()).toDateString();
+		document.getElementById("date").textContent = text;
+	}); 
+	</script>
+
 </head>
 
 <body>
@@ -46,7 +55,6 @@ $error_message = "";
 <div class="container-md mt-2">
 	<span class="float-end px-2 pt-1" style="background-color: rgba(255,255,255,0.35);"><img width=200 height=170 src="images/logoBG.png"></span>
 	<h2 class="bg-warning text-center rounded py-3">The <?=$institution?> Public Libary</h2>
-
 &nbsp;
 
 	<div class="row">
@@ -55,6 +63,13 @@ $error_message = "";
 			<div class="alert alert-warning mb-0">Welcome "<b><?=$userdata['fullname']?></b>"</div>
 		</div>
 	</div>
+	<div class="col">
+		<?php 
+		if ($userdata['authlevel'] === "ADMIN") {
+			echo '<span class="float-end"> <a class="d-block btn btn-danger" href="admin.php"><i class="fa fa-cogs"></i>   Administer</a> </span>';
+		}
+		?>
+	</div>
 	</div>
 &nbsp;
 
@@ -62,15 +77,21 @@ $error_message = "";
 		<div class="card-body">
 		<div class="ml-3">
 		<a href="patronList.php"><button type="button" class="btn btn-success">Search Patrons</button></a>
-		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
 		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary">Books</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Reports</button></a>
-		<span class="float-end"><a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>
+		<span class="float-end"><a href="changePWD.php"><button type="button" class="btn btn-outline-secondary">Change Password</button></a>&nbsp;
+		<a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>
 		</div>
 
 		</div><!-- /card-body -->
 	</div><!-- /card -->
+
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 
 	<div class="card border border-secondary alert alert-warning">
 		<div class="card-body">
@@ -78,22 +99,17 @@ $error_message = "";
 		<p class="float-end"><span class="border-bottom border-end border-warning p-1">Today is <span id="date"></span></span></p>
 		<h3>Staff Announcements</h3>
 
-		<p> Here we will do the following:</p>
 		<ul>
-			<li>Patrons: update address, phone; add, delete; renew library card;
-			<li>Books: add new books to the library, discard, repair
-			<li>Reports: list of overdues, fines, etc.
-			<li>Handle fines, lost books, etc.
+			<li><i class="fa fa-crown"></i> Reminder: <b>the royal family</b> is coming for a visit in two weeks 
+			<li><i class="fa fa-book"></i> We just received <b>$10,000</b> to buy new aooks 
+			<li><i class="fa fa-mug-saucer"></i> Jane bought a <b>coffee maker</b> for us, it's in the staff lounge.
+			<li><i class="fa fa-jet-fighter"></i> This weekend is our <b>jet fighter ride</b> bonding experience!
 		</ul>
 
 		</div><!-- /card-body -->
 	</div><!-- /card -->
 </div>
 
-<script>
-	let text = (new Date()).toDateString();
-	document.getElementById("date").innerHTML = text;
-</script>
 </body>
 
 </html>

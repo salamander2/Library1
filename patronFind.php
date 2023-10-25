@@ -8,11 +8,16 @@
   Note that in both cases, it returns data (via AJAX), not as a new HTML page.
  ******************************************************************************/
 
-error_reporting(E_ALL);
 session_start();
 require_once('common.php');
 
-$db = connectToDB();
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Listing Patrons");
+	header("location:main.php");
+}
+/********************************************************/
 
 //If there is a barcode parameter, then search that.
 $patronBC = "";
@@ -27,13 +32,12 @@ if (strlen($patronBC) != 0) {
 		$stmt->fetch();
 		$stmt->close();                 
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL2: ' . $sql;
-		die($message_); 
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
-	$obj=new stdClass;
-	$obj->patronID=$result;
-	echo json_encode($obj); 
+	//$obj=new stdClass;
+	//$obj->patronID=$result;
+	//echo json_encode($obj); 
+	echo json_encode(['patronID'=>$result]);
 	return;
 }
 
@@ -51,9 +55,7 @@ if ($stmt = $db->prepare($sql)) {
 	$resultArray = $stmt->get_result();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $sql;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 

@@ -1,14 +1,23 @@
 <?php
 /*******************************************************
-* patronEdit.php
+* patronView.php
+* TODO:  This page needs to be actually written properly. It's just a copy of patronEdit so far.
+* ############################################################
 * called from patronList (by clicking on a patron)
 * 		 and also from patronUpdate
 * calls patronUpdate
-* This displays the patron data for editing.
 * It also displays library cards, and books out.
 ********************************************************/
 session_start();
 require_once('common.php');
+
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF","PATRON");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - View Patron Info");
+	header("location:main.php");
+}
+/********************************************************/
 
 # Check authorization (ie. that the user is logged in) or go back to login page
 if ($_SESSION["authkey"] != AUTHKEY) { 
@@ -35,9 +44,7 @@ if ($stmt = $db->prepare($sql)) {
 	$patronData = $stmt->get_result()->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
 //TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
@@ -50,9 +57,7 @@ if ($stmt = $db->prepare($sql)) {
 	$libCards = $stmt->get_result(); //->fetch_assoc();
 	$stmt->close();                 
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL2: ' . $query;
-	die($message_); 
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 ?>
 
@@ -72,15 +77,7 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
-<style>
-	.fg1 {color:#620;}	/* yellow */
-	.bg1 {background-color:#FFA;}
-	.fg2 {color:#518;} /* purple */
-	.bg2 {background-color:#CAF;}
-	.bg3 {background-color:#cfe2ff;} /* primary */
-	.bg4 {background-color:#C9D5D5;} /* secondary */
-</style>
+    <link rel="stylesheet" href="resources/library.css" >
 
 <style>
 	/* for Patron View page only */
@@ -116,13 +113,13 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patronData['lastname']?>"><span class="text-danger"></span>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patronData['lastname']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" readonly value="<?=$patronData['firstname']?>"><span class="text-danger"></span>
+				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" readonly value="<?=$patronData['firstname']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>
@@ -130,7 +127,7 @@ if ($stmt = $db->prepare($sql)) {
 		<div class="col-sm-8 col-md-6 col-lg-4">
 			<div class="input-group rounded">
 			<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
-			<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
+			<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
 		</div></div></div>
 
 		<h5 class="mt-3"><u>Address:</u></h5>
@@ -138,7 +135,7 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-md-6">
 				<div class="input-group rounded">
 				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" readonly value="<?=$patronData['address']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="address" name="address" readonly value="<?=$patronData['address']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>
@@ -147,19 +144,19 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-6 col-md-4">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" readonly value="<?=$patronData['city']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="city" name="city" readonly value="<?=$patronData['city']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-lg-3 col-xxl-2">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" readonly value="<?=$patronData['prov']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" readonly value="<?=$patronData['prov']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$patronData['postalCode']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$patronData['postalCode']?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>

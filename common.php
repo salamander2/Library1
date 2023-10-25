@@ -8,6 +8,7 @@
 /**********  ERROR REPORTING  **********/
 // Development
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 ini_set('log_errors', 1);
 
 // Production
@@ -26,18 +27,45 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require_once '../library.config.php';
 
+
+
 /**********  SESSION VARIABLES  **********/
 $userdata="";
 if (isset($_SESSION["userdata"])) $userdata = $_SESSION["userdata"];
 
 /**********  COMMON VARIABLES  **********/
+// These values are reset each time a page loads.
+
 $home="index.php"; 
 $institution="Harwood";
 $libCode='0748';
 #$directory="."; 
+$defaultPWD="CairParavel";
+
+//Create the notification array and set it to an empty message. If there is a message from the previous page, set it now.
+$notify = array("type"=>"error", "message"=>"");
+if(isset($_SESSION["notify"])) {
+	 $notify = $_SESSION["notify"];
+	 //and prevent the same message from displaying next time the page loads
+	 unset($_SESSION["notify"]);
+}
+
+
+/********** COMMON PHP HEADER CODE *******/
+/* EXCEPT for the login page "index.php" */
+
+if (basename($_SERVER['PHP_SELF']) !== "index.php") {
+	# Check authorization (ie. that the user is logged in) or go back to login page
+	if ($_SESSION["authkey"] != AUTHKEY)  header("Location:$home?ERROR=Failed%20Auth%20Key"); 
+	$db = connectToDB();
+}
+
 
 /**********  COMMON FUNCTIONS  **********/
 
+/********************************
+* Connect to the database specified in the config file
+********************************/
 function connectToDB() {
     $db = mysqli_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB);
     if ($db->connect_errno) {
@@ -46,13 +74,12 @@ function connectToDB() {
         echo "window.location='index.php';";
         echo "</script>";
         // header("Location: index.php");
-#       echo "Failed to connect to MySQL database $database : " . mysqli_connect_error();
-#       die("Program terminated");
     }
     //mysqli_query($db, "set names UTF8;");
     return $db;
 }
 
+/*
 // This is a legacy function.
 // ONly use this for queries that do not use any variables. Otherwise SQL injection attacks can happen.
 function runSimpleQuery($mysqli, $sql_) {
@@ -63,12 +90,11 @@ function runSimpleQuery($mysqli, $sql_) {
 
     // Check result. This shows the actual query sent to MySQL, and the error. Useful for debugging.
     if (!$result) {
-       $message_  = 'Invalid query: ' . mysqli_error($mysqli) . "\n<br>";
-       $message_ .= 'SQL: ' . $sql_;
-       die($message_);
+		die("Invalid query: " . mysqli_error($mysqli) . "\n<br>SQL: $sql_");
     }
     return $result;
 }
+*/
 
 /*************************************************
 This ensures a standard header on all pages.
@@ -83,10 +109,11 @@ function loadHeader(String $backHref="main.php"){
 	$text = str_replace("INSTITUTION", $institution,$text);
 	echo $text;
 //TODO need to check administrator priviledges
+//<span class="float-end"> <a class="d-block btn btn-outline-dark" href="userMaint.php"><i class="fa fa-cogs"></i>   Administer</a> </span>
 //TODO add in ELSE statement in case the html file is missing. Then just print this standard code.
 }
 
-/*********************
+/*************************************************
 * Simple code to sanitize strings. 
   AddSlashes is a pain. The would have to be removed before being displayed.
   It's unnecessary since I'm using prepared statements.
@@ -98,7 +125,7 @@ function loadHeader(String $backHref="main.php"){
      &amp; &lt; &gt;  " and ' -- options to allow/disable quotes
 * htmlspecialchars() is good enough and better than using htmlentities()
 * addslashes  -- quote string with slashes
-**********************/
+**************************************************/
 function clean_input($string) {
     $string = trim(htmlspecialchars($string));
     //$string = trim(strip_tags(addslashes($string)));

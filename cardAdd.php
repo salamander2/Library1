@@ -1,7 +1,7 @@
 <?php
 /*******************************************************
  * cardAdd.php 
- * Called from patronEdit.php
+ * Called from: patronEdit.php
  * This adds a new Library Card to the patron.
  * It should not happen if there is already a card with ACTIVE status 
  *	(patronEdit.php should prevent this)
@@ -10,15 +10,13 @@
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-	header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add Card");
+	header("location:main.php");
 }
-
-#TODO  Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-$error_message = "";
+/********************************************************/
 
 $patronID = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 //This should never happen, but we have to make sure that there is a patronID
@@ -30,11 +28,9 @@ if ($stmt = $db->prepare($sql)) {
 	$stmt->execute();
 	$stmt->close();
 } else {
-	$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-	$message_ .= 'SQL: ' . $sql;
-	die($message_);
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
-$_SESSION['success_message'] = "Library Card added.";
+$_SESSION['notify'] = array("type"=>"success", "message"=>"Library card added.");
 
 header("location:patronEdit.php?ID=$patronID");

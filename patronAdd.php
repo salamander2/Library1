@@ -1,26 +1,25 @@
 <?php
 /*******************************************************
-* This is the main landing page after one has logged on
-* Other possibilities are: pac page and patron page
-* Visible options vary depending on the access level of the user (admin or staff)
-*
-* This is called from index.php
+* patronAdd.php
+* Called from patronList.php
+* Calls: patronEdit.php upon success
+* Purpose: allow user to enter patron information for a new record.
+* 		validates input and adds record
 ********************************************************/
 session_start();
 require_once('common.php');
 
-# Check authorization (ie. that the user is logged in) or go back to login page
-if ($_SESSION["authkey"] != AUTHKEY) { 
-    header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
+/********** Check permissions for page access ***********/
+$allowed = array("ADMIN","STAFF");
+if (false === array_search($userdata['authlevel'],$allowed)) { 
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add Patron");
+	header("location:main.php");
 }
-
-# Check user access level for the page (ie. Does the user have appropriate permissions to do this?)
-
-$db = connectToDB();
-$error_message = "";
+/********************************************************/
 
 if(isset($_POST['submit'])) {
 
+	//FIXME All validation still needs to be done here and on patronEdit.php
 	$firstname=$lastname="";
 	if (isset($_POST['firstname'])) $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
 	$lastname = clean_input($_POST['lastname']);
@@ -39,13 +38,9 @@ if(isset($_POST['submit'])) {
 		$patronID = $stmt->insert_id;
 		$stmt->close();
 	} else {
-		$message_  = 'Invalid query: ' . mysqli_error($db) . "\n<br>";
-		$message_ .= 'SQL: ' . $sql;
-		die($message_);
+		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
-	$_SESSION['success_message'] = "Patron record has been created.";
-
-die("patron = ".$patronID);
+	$_SESSION['notify'] = array("type"=>"success", "message"=>"Patron record has been updated.");
 
 	header("location:patronEdit.php?ID=$patronID");
 
@@ -92,16 +87,7 @@ $patronData = "";
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
 
-<style>
-	.fg1 {color:#620;}	/* yellow */
-	.bg1 {background-color:#FFA;}
-	.fg2 {color:#518;} /* purple */
-	.bg2 {background-color:#CAF;}
-	.bg3 {background-color:#cfe2ff;} /* primary */
-	.bg4 {background-color:#C9D5D5;} /* secondary */
-</style>
-
-
+    <link rel="stylesheet" href="resources/library.css" >
 
 </head>
 <body>
@@ -126,13 +112,13 @@ echo $text;
 			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="lastname" name="lastname" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bg3 rounded-end" type="text" id="firstname" name="firstname" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -140,7 +126,7 @@ echo $text;
 		<div class="col-sm-8 col-md-6 col-lg-4">
 			<div class="input-group rounded">
 				<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
-				<input class="form-control bg3 rounded-end" type="date" id="birthdate" name="birthdate" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" required><span class="text-danger">&nbsp;*</span>
 			</div>
 		</div></div>
 
@@ -149,7 +135,7 @@ echo $text;
 			<div class="col-md-6">
 				<div class="input-group rounded">
 				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bg4 rounded-end" type="text" id="address" name="address" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="address" name="address" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
@@ -158,19 +144,19 @@ echo $text;
 			<div class="col-sm-6 col-md-4">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bg4 rounded-end" type="text" id="city" name="city" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="city" name="city" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-lg-3 col-xxl-2">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bg4 rounded-end" type="text" id="prov" name="prov" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bg4 rounded-end" type="text" id="postalCode" name="postalCode" required><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" required><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
