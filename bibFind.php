@@ -10,7 +10,7 @@
 		 - ISBN will not go directly to bibEdit.php but instead will show a list
 		   since our data has duplicate ISBNs.
   NOTE: it does not use NOTIFY array to send back error messages, because they are going back via AJAX.
-		The calling program has to detect ERROR and location
+		The calling program has to detect ERROR and LOCATION
  ******************************************************************************/
 session_start();
 require_once('common.php');
@@ -52,9 +52,9 @@ require_once('common.php');
 $title=$title2=$author=$ISBN=$subjects="";
 $callNumber=$barcode="";
 
-//if a barcode is being searched for, ignore all of the other fields.
 if (isset($_POST['barcode'])) $barcode= filter_var($_POST['barcode'], FILTER_SANITIZE_NUMBER_INT);
 
+//if a barcode is being searched for, ignore all of the other fields.
 if (strlen($barcode) > 0) {
 	if (strlen($barcode) != 10) {
 		echo 'ERROR Invalid barcode.';
