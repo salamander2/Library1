@@ -1,6 +1,5 @@
 <?php
 /*******************************************************
-* This is AJAX version : using AJAX to update card status
 * patronEdit.php
 * called from patronList.php (by clicking on a patron)
 * 		 and also from patronUpdate and patronAdd
@@ -106,45 +105,28 @@ if ($stmt = $db->prepare($sql)) {
 	<script src="resources/library.js"></script>		
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-	// Get the form element
-	const form = document.getElementById("myForm");
+//document.addEventListener("DOMContentLoaded", () => {
+  // anonymous inner function goes here
+//}); 
 
-	// Add 'submit' event handler
-	form.addEventListener("submit", (event) => {
-		event.preventDefault();
-		postForm(form);
-	});
-});
+/* Javascript input validation:
+	When possible, it's best to use JS validation. PHP validation is server based and slower.
+	PHP validation is still necessary, however, as Postman or similar apps can submit invalid information.
+	We never have to make sure that the fields are filled in because "required" does that just fine.
+	So validate the actual data.
+	Jquery validation is not really worth it - unless you add in the validation plugin/library.
 
-//FIXME need to make the form.
-function postForm(form) {
+	TO VALIDATE:  (1) email, (2) year of birth (patron must be between 6 and 120 years old
+	(3) Prov. two letters, capitalize them (4) Phone: 10 digits when () and - are removed.
+	
+	PHONE:  let phoneno = /^\d{10}$/;
+	  if (!(inputtxt.value.match(phoneno)) return false;
 
-	const xhr = new XMLHttpRequest();
-	const myForm = new FormData(form);
-
-	xhr.onload = () => {
-		//The responseText can begin with "ERROR". If so, it is handled differently
-		if (xhr.responseText.startsWith("ERROR ")) {
-			errorMsg = xhr.responseText.replace("ERROR ","");
-			displayNotification("error", errorMsg);
-			return;
-		}
-
-		document.getElementById("libCards").innerHTML = xhr.responseText;
-	}
-	// Define what happens in case of error
-	//xhr.addEventListener("error", (event) => {
-	//  alert("Oops! Something went wrong.");
-	//});
-
-	// Set up our request
-	xhr.open("POST", "cardStatus2.php");
-
-	// The data sent is what the user provided in the form
-	xhr.send(myForm);
+	EMAIL: 
+		let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(! inputText.value.match(mailformat)) ...
 }
-
+*/
 
 //FIXME: I need to write a general function for this. It's too much repeated code.
 	function validateForm() {
@@ -316,24 +298,61 @@ function postForm(form) {
 <div class="card border-success mt-3">
 <div class="card-body">
 	<div class="card-head alert fg2 bg2"> <h2>Library Cards
-	<?php
-	if ($validCard == false) {
-		//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
-		echo '<a class="float-end btn btn-outline-success rounded" href="cardAdd.php?id='.$patronID.'"><i class="fa fa-circle-plus"></i>  Add Card</a>';
-	}
-	?>
+<?php
+if ($validCard == false) {
+	//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
+	echo '<a class="float-end btn btn-outline-success rounded" href="cardAdd.php?id='.$patronID.'"><i class="fa fa-circle-plus"></i>  Add Card</a>';
+}
+?>
 	</h2></div>
 
-<!-- *********** LIBRARY CARD CODE & CHANGING STATUS ********* -->
-FIXME : I need AJAX to simply LOAD the field, let alone update it.  So split it into two functions. Which means that JS will need the variables from PHP
-... only patronID
-so add this inside script <?php echo "const patronID = $patronID;"; ?>
-<div id="libCards">
-</div>
-
-<hr>
-
 <?php
+
+$num_rows = mysqli_num_rows($libCards);
+if($num_rows > 0) {
+	// printing table rows: student name, student number
+	echo '<table class="table table-secondary table-striped table-hover table-bordered">';
+	echo '<thead>';
+	echo '<tr>';
+	echo '<th>Barcode</th>';
+	echo '<th>Status</th>';
+	echo '<th>Date Issued</th>';
+	echo '<th>Expiry Date</th>';
+	echo '<th>Change status to:</th>';
+	echo '</tr>';
+	echo '</thead>';
+	echo '<tbody>';
+
+	// Reset our pointer since we've already done fetch_assoc
+	mysqli_data_seek( $libCards, 0 );
+
+	while ($card = $libCards->fetch_assoc()){ 
+		$status = $card['status'];
+		$barcode = $card['barcode'];
+		echo "<tr>";
+		echo "<td>".$barcode. "</td>";
+		echo "<td>".$status."</td>";
+		echo "<td>".strtok($card['createDate']," "). "</td>";
+		echo "<td>".$card['expiryDate']. "</td>";
+		echo '<td class="btns">';
+		//for the status change buttons, we need to send barcode, new status, and patronID. It's shorter just to write the GET URL instead of a POST FORM.
+		if ($status == "ACTIVE") 
+			echo "<a href='cardStatus.php?id=".$barcode."&status=L&patron=".$patronID."'><button class='btn btn-outline-danger shadow'>Lost</button></a> &nbsp; ".PHP_EOL;
+		if ($status == 'EXPIRED' && !$validCard) 
+			echo "<a href='cardStatus.php?id=".$barcode."&status=R&patron=".$patronID."'><button class='btn btn-outline-success shadow'>Renew</button></a> &nbsp; ".PHP_EOL;
+			#echo "<form class='d-inline' method='POST' action='cardStatus.php'><input name='id' value='$barcode' hidden><input name='status' value='R' hidden><button class='btn btn-success shadow'>Renew</button></form> &nbsp; ".PHP_EOL;
+		if ($status == 'LOST') 
+			echo "<a href='cardStatus.php?id=".$barcode."&status=A&patron=".$patronID."'><button class='btn btn-outline-primary shadow'>Found</button></a> &nbsp; ".PHP_EOL;
+			#echo "<form class='d-inline' method='POST' action='cardStatus.php?='id' value='$barcode' hidden><input name='status' value='A' hidden><button class='btn btn-primary shadow'>Found</button></form> &nbsp; ".PHP_EOL;
+		echo "</td>";
+		echo "</tr>";
+	} 
+
+	echo '</tbody>';
+	echo '</table>';
+}
+	echo '<hr>';
+
 	/*********** List of books out (table) ***************/
 	echo '<div class="card-head alert alert-success"> <h2>Books Out </h2></div>';
 
@@ -353,6 +372,7 @@ if($num_rows > 0) {
 	echo '<th>Call Number</th>';
 	echo '</tr>';
 	echo '</thead>';
+	echo '<tbody>';
 
 	// Reset our pointer since we've already done fetch_assoc
 	mysqli_data_seek( $booksOut, 0 );
