@@ -142,12 +142,13 @@ function updateCardStatus(barcode, newStatus) {
 		if (xhr.responseText.startsWith("SUCCESS ")) {
 			errorMsg = xhr.responseText.replace("SUCCESS ","");
 			displayNotification("success", errorMsg);
+			getLibraryCards();
 			return;
 		}
 	}
 	xhr.open("GET", "cardStatus.php?&id="+barcode+"&patron="+patronID+"&status="+newStatus);
 	xhr.send();
-	getLibraryCards();
+	//getLibraryCards();
 }
 
 
