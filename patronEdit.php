@@ -106,23 +106,15 @@ if ($stmt = $db->prepare($sql)) {
 	<script src="resources/library.js"></script>		
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-	// Get the form element
-	const form = document.getElementById("myForm");
+<?php echo "const patronID = $patronID;"; ?>
 
-	// Add 'submit' event handler
-	form.addEventListener("submit", (event) => {
-		event.preventDefault();
-		postForm(form);
-	});
+document.addEventListener("DOMContentLoaded", () => {
+	getLibraryCards();
 });
 
-//FIXME need to make the form.
-function postForm(form) {
-
+//This function grabs all of the cards that the patron has and diplays them with the appropriate buttons.
+function getLibraryCards() {
 	const xhr = new XMLHttpRequest();
-	const myForm = new FormData(form);
-
 	xhr.onload = () => {
 		//The responseText can begin with "ERROR". If so, it is handled differently
 		if (xhr.responseText.startsWith("ERROR ")) {
@@ -130,19 +122,32 @@ function postForm(form) {
 			displayNotification("error", errorMsg);
 			return;
 		}
-
 		document.getElementById("libCards").innerHTML = xhr.responseText;
 	}
-	// Define what happens in case of error
-	//xhr.addEventListener("error", (event) => {
-	//  alert("Oops! Something went wrong.");
-	//});
+	xhr.open("GET", "patronLibraryCard.php?&patron="+patronID);
+	xhr.send();
+}
 
-	// Set up our request
-	xhr.open("POST", "cardStatus2.php");
+//This function changes the status of a specific card
+function updateCardStatus(barcode, newStatus) {
 
-	// The data sent is what the user provided in the form
-	xhr.send(myForm);
+	const xhr = new XMLHttpRequest();
+	xhr.onload = () => {
+		//The responseText can begin with "ERROR". If so, it is handled differently
+		if (xhr.responseText.startsWith("ERROR ")) {
+			errorMsg = xhr.responseText.replace("ERROR ","");
+			displayNotification("error", errorMsg);
+			return;
+		}
+		if (xhr.responseText.startsWith("SUCCESS ")) {
+			errorMsg = xhr.responseText.replace("SUCCESS ","");
+			displayNotification("success", errorMsg);
+			return;
+		}
+	}
+	xhr.open("GET", "cardStatus.php?&id="+barcode+"&patron="+patronID+"&status="+newStatus);
+	xhr.send();
+	getLibraryCards();
 }
 
 
@@ -315,19 +320,8 @@ function postForm(form) {
 
 <div class="card border-success mt-3">
 <div class="card-body">
-	<div class="card-head alert fg2 bg2"> <h2>Library Cards
-	<?php
-	if ($validCard == false) {
-		//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
-		echo '<a class="float-end btn btn-outline-success rounded" href="cardAdd.php?id='.$patronID.'"><i class="fa fa-circle-plus"></i>  Add Card</a>';
-	}
-	?>
-	</h2></div>
 
 <!-- *********** LIBRARY CARD CODE & CHANGING STATUS ********* -->
-FIXME : I need AJAX to simply LOAD the field, let alone update it.  So split it into two functions. Which means that JS will need the variables from PHP
-... only patronID
-so add this inside script <?php echo "const patronID = $patronID;"; ?>
 <div id="libCards">
 </div>
 
