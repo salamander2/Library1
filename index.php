@@ -132,30 +132,40 @@ if(isset($_POST['submit'])) {
 &nbsp;
 
 	<div class="row">
-	<div class="col-md-8">
+	<!-- main left column, only the logo is in the next column -->
+	<div class="col-md-9">
 	<div class="card border border-primary p-2">
-		<form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" onsubmit="return validateData()">
-		<div class="alert alert-warning"><b>Sign in</b></div>
-		<!-- <div class="input-group mb-3"> -->
 		<div class="row">
-			<div class="col-4">
-				<input type="text" name="username" id="username" class="form-control" placeholder="Username" autofocus>
+		<!-- left inner column 8 /12 wide -->
+		<div class="col-8">
+			<div class="row">
+				<div class="col"> <div class="alert alert-warning"><b>Staff Sign in</b></div></div>
 			</div>
-			<div class="col-4">
-				<input type="password" name="password" id="password" class="form-control" placeholder="Password">
-			</div>
-			<div class="col-md-2">
-			<!--<div class="col-lg-2 col-md-4 col-12 mt-1"> -->
-				<button type="submit" name="submit" class="btn btn-primary">
-					Login
-				</button>
+
+			<form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" onsubmit="return validateData()">
+			<div class="row">
+				<div class="col-4">
+					<input type="text" name="username" id="username" class="form-control" placeholder="Username" autofocus>
+				</div>
+				<div class="col-4">
+					<input type="password" name="password" id="password" class="form-control" placeholder="Password">
+				</div>
+				<div class="col-md-2">
+				<!--<div class="col-lg-2 col-md-4 col-12 mt-1"> -->
+					<button type="submit" name="submit" class="btn btn-primary">
+						Login
+					</button>
+				</div>
+				<p class="small mt-3">Temp username: "staff", password "SnowyMarch"</p>
 			</div>
 		</div>
-		<p class="small mt-3">Temp username: "staff", password "SnowyMarch"</p>
+		<!-- right inner column for PAC logo, rowspan= all the rows, as many as needed -->
+		<div class="col"><div class="btn btn-success" style="width:100%;height:100%;">PAC LOGO<br>more text<br>and more</div></div>
+		</div>
 		</form>
 		</div>
 	</div>
-	<div class="d-none d-md-block col-3 offset-1"><img width=200 height=170 src="images/logoBG.png">
+	<div class="d-none d-md-block col-3 xoffset-1"><img width=200 height=170 src="images/logoBG.png">
 	</div>
 	</div> 
 
