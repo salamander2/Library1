@@ -152,7 +152,7 @@ if(isset($_POST['submit'])) {
 				</div>
 				<div class="col-md-2">
 				<!--<div class="col-lg-2 col-md-4 col-12 mt-1"> -->
-					<button type="submit" name="submit" class="btn btn-primary">
+					<button type="submit" name="submit" class="btn btn-primary shadow">
 						Login
 					</button>
 				</div>
@@ -160,7 +160,11 @@ if(isset($_POST['submit'])) {
 			</div>
 		</div>
 		<!-- right inner column for PAC logo, rowspan= all the rows, as many as needed -->
-		<div class="col"><div class="btn btn-success" style="width:100%;height:100%;">PAC LOGO<br>more text<br>and more</div></div>
+		<div class="col"><a href="PAC.php">
+		<div class="btn btn-success shadow" style="width:100%;height:100%;">
+			PAC LOGO<br>Click here to launch<br>the public access console
+		</div>
+		</a></div>
 		</div>
 		</form>
 		</div>
@@ -186,7 +190,7 @@ if(isset($_POST['submit'])) {
 			<p class="alert alert-success fw-bold">So far the following is working:</p>
 			<ul>
 				<li>login and log out
-				<li>patrons: responsive search, add, edit
+				<li>patrons: responsive search, add, edit, <s>delete</s>
 				<li>library cards: add, change status (via patron page)
 				<li>books: search (multiple fields), edit, <s>add new book</s>
 				<li>adding users
@@ -202,10 +206,10 @@ if(isset($_POST['submit'])) {
 				<li>patrons searching and placing holds
 				<li>fines
 				<li>crontab to update status/fines overnight
-				<li>delete patron
 				<li>delete copies and titles
 				<li>placing and reconciling holds
 				<li>administrative reports
+				<li>copying deleted patrons, titles, holdings to history files. 
 			</ul>
 			</div>
 		</div>
@@ -216,7 +220,7 @@ if(isset($_POST['submit'])) {
 				<li>multiple library branches
 				<li>various patron types (senior, child, ...)
 				<li>different fine amounts for different materials/patron types
-				<li><s>modifying users</s>: <i>not necessary</i>
+				<li><s>modifying users</s>: <i>not necessary except to change names</i>
 			</ul>
 			</div>
 		</div>
