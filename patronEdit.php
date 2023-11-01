@@ -74,6 +74,7 @@ while ($card = $libCards->fetch_assoc()){
 }
 
 /* PATRON: LIST OF BOOKS CHECKED OUT */
+//call_number!!! needs to be changed in SQL to callNumber
 $sql = "SELECT holdings.barcode, holdings.status, holdings.dueDate, holdings.bibID, bib.title, bib.author, bib.callNumber FROM holdings INNER JOIN bib ON holdings.bibID = bib.id WHERE holdings.patronID = ?;";
 if ($stmt = $db->prepare($sql)) {
 	$stmt->bind_param("i", $patronID);
@@ -212,7 +213,11 @@ function updateCardStatus(barcode, newStatus) {
 
 		return true;
 	}
-	 
+
+	function resetPWD(n) {
+        window.alert("delete " + n);
+    } 
+
 </script>
 
 </head>
@@ -225,7 +230,10 @@ function updateCardStatus(barcode, newStatus) {
 
 <div class="card border-primary mt-3">
 	<div class="card-head alert alert-primary mb-0"> <h2>Patron Information
-	<a class="float-end btn btn-outline-danger rounded" href="patronDelete.php"><i class="fa fa-circle-minus"></i>  Delete Patron</a></h2>
+<!-- <button type="button" name="resetPWD" class="btn btn-secondary"
+  onclick="if(confirm('Please confirm password reset ')) resetPWD(88);">Reset Password</button>
+-->                                   
+	<a class="float-end btn btn-outline-danger rounded" onclick="if(confirm('Please confirm deletion ')) " href="patronDelete.php"><i class="fa fa-circle-minus"></i>  Delete Patron</a></h2>
 	</div>
 
 <div class="card-body">

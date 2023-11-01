@@ -15,21 +15,22 @@ This is just listing what needs to be done in the next few days, not the whole p
 * BIB records: display, how many copies, how many are available.
 
 * Harmonize all error messages. Move to new notify.js system
+** Users: add an admin user. 
+                Then have a usermaint page
+* fix header so that "administer" button only shows up for ADMIN and also not on the actual ADMIN pages.
 
 <<<<<<<<<<<<<<<<<<<<<<<<<< TODO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 * Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
 ** Users: add an admin user. 
-                Then have a usermaint page
-                also add/edit site announcements
-* fix header so that "administer" button only shows up for ADMIN and also not on the actual ADMIN pages.
+                then also add/edit site announcements
 
 * checkin / checkout
 
 * PAtron: PAC, login and display,
 
-* DELETE patron: check for fines, books out.
+* DELETE patron: check for fines, books out.  What happen with LibraryCards?
 
 * night process: overdues, ...
 * staff place holds, holds filled upon CKI

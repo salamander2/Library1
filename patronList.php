@@ -112,7 +112,7 @@ function processBarcode(e) {
 <div class="row mt-4">
 <div class="input-group">
 	<div class="col me-2">
-	<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
+	<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." autofocus >&nbsp;&nbsp;
 	</div>
 	<div class="col-3 me-2">
 	<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Type Barcode, press ENTER">
