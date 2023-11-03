@@ -1,7 +1,16 @@
 This is just listing what needs to be done in the next few days, not the whole project.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-********************* DONE *************************
+********************* IN PROCESS *******************
+
+PAC.php
+
+-- browse books
+-- search by fields, 
+-- shrink search box so that books can be displayed
+-- check what happens if PAC tries to go to a different page (e.g. userMaint..., bibEdit, ...)
+
+************************* DONE *************************
 
 * Patrons: list, search, add. 
 * Patrons: barcode search
@@ -31,6 +40,19 @@ This is just listing what needs to be done in the next few days, not the whole p
 * PAtron: PAC, login and display,
 
 * DELETE patron: check for fines, books out.  What happen with LibraryCards?
+
+	PatronEdit: add confirm to delete button
+        change the <a href> to a simple button
+        write the deletion code and return the success / error message
+        DELETE FROM patron WHERE id = 33;
+
+        To see if the patron exists, you can do 
+                SELECT id FROM patron WHERE id = 33;   If you get an empty set, then there is no patron 33.
+
+                the deletion code must move the patron to patron.his
+                just copy the record, then delete it. Do we need a field explaining why it was deleted? Nah, maybe later. 
+                Also initials of staff who deleted?
+
 
 * night process: overdues, ...
 * staff place holds, holds filled upon CKI

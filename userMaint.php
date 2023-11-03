@@ -64,7 +64,6 @@ $DP = $randomletter . $DP;
 <head>
 	<title><?=$institution?> Library Database</title>
 	<!-- Required meta tags -->
-	<title>Library Database — 2023</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="resources/bootstrap5.min.css" >

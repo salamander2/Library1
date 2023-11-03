@@ -1,14 +1,59 @@
 <?php
 /*******************************************************
- * bibList.php
+ * PAC.php
  * 
  * This lists/searches all books, by various fields
-
- * Called from: main.php
- * Calls: bibFind.php, which sends back a table that calls bibEdit.php
+ * It is the public access catalog and the HTML is based on bibSearch.php
+ * Called from: index.php
+ * ??? Calls: bibFind.php, which sends back a table that calls bibView.php
  ********************************************************/
 session_start();
+
+//PAC special startup:
+#Login as PAC[:
+//$_SESSION["authkey"] = AUTHKEY;
+
+
 require_once('common.php');
+
+//Load PAC user$username = clean_input($_POST['username']);
+
+//TODO: do I need to fix this?
+$username = "PAC";
+$password = "CairParavel";
+
+$db = connectToDB();
+
+//Retrieve all data for that user and verify the password for that user. It is stored into an array "userdata".
+$sql = "SELECT username, fullname, password as pwdHash, authlevel, createDate, lastLogin FROM users WHERE username = BINARY ?";
+if ($stmt = $db->prepare($sql)) {
+	$stmt->bind_param("s", $username);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$userdata = $result->fetch_array(MYSQLI_ASSOC);
+	$stmt->close();
+} else {
+	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
+}
+
+	//Check if user exists, then verify password
+	$row_cnt = mysqli_num_rows($result);
+	if (0 === $row_cnt) {		
+		$notify["message"] = "That user does not exist. <br><span class='small'>(Check case of username or talk to admin.)</span>";
+	} elseif (!password_verify ($password, $userdata['pwdHash'])) {
+		$notify["message"] = "Invalid password";
+	}
+	//Password has been checked, now clear the variable for security reasons.
+	$password = "---";
+	$userdata['pwdHash'] = "";
+	// error message ...
+	if (empty($notify["message"])) {
+		$_SESSION["userdata"] = $userdata;
+		//This is set here upon login (AND ALSO IN register.php)  and then session-authkey is never set again.
+		$_SESSION["authkey"] = AUTHKEY;
+	}
+
+
 
 $sql = "SELECT COUNT(*) FROM bib";
 if ($stmt = $db->prepare($sql)) {
@@ -86,7 +131,7 @@ function postForm(form) {
 	//});
 
 	// Set up our request
-	xhr.open("POST", "bibFind.php");
+	xhr.open("POST", "bibFindPAC.php");
 
 	// The data sent is what the user provided in the form
 	xhr.send(myForm);
@@ -115,8 +160,24 @@ function removeTHE() {
 	<div class="container-md mt-2">
 
 		<!-- page header -->
-		<?php loadHeader("main.php"); ?>
+<div id="pageheader" class="alert alert-warning text-center rounded py-3">
+	<a class="float-end btn btn-secondary float-start" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
+	<h2 class="fw-bold">The INSTITUTION Public Libary</h2>
+	<h1 class="fg2"><i class="fa fa-arrow-right"></i>&nbsp;Public Access Catalog&nbsp;<i class="fa fa-arrow-left"></i></h1>
+	<br clear="both">
+    <hr class="py-0 mb-0">
+</div>
+<!-- end page header.-->
 
+	<div class="row  py-2">
+		<div class="col-md-8">
+			<div class="input-group rounded">
+			<button type="submit" class="t-1 btn btn-primary">Browse Books</button> &nbsp;
+			<input type="text" class="form-control" name="title2" id="title2" placeholder="beginning with letter ...">
+		</div>
+	</div>
+	<p></p>
+	<hr>
 		<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)</span></h3>
 
 		<form id="myForm" Xaction="bibFind.php" method="POST" onsubmit="return removeTHE()">

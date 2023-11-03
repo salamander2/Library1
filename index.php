@@ -24,7 +24,6 @@ if (isset($username)){
 $_SESSION["authkey"] = "";
 
 $db = connectToDB();
-$error_message = "";
 
 /**** LOGIN LOGIC *******/
 
@@ -70,19 +69,11 @@ if(isset($_POST['submit'])) {
 		} else {
 			die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 		}
-/*
-		if ($username == ADMINUSER) {
-			header('Location:adminMain.php');
-		} else {
-			header('Location:main.php');
-		}
-*/
-
 		header('LOCATION:main.php');
 	}
-	
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
