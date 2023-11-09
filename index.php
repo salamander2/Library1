@@ -187,6 +187,7 @@ if(isset($_POST['submit'])) {
 				<li>adding users
 				<li>changing and <s>resetting passwords</s>
 				<li>different access levels
+				<li>most pages work on mobile devices
 			</ul>
 			</div>
 			<div class="col">

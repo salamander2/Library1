@@ -160,10 +160,10 @@ function removeTHE() {
 	<div class="container-md mt-2">
 
 		<!-- page header -->
-<div id="pageheader" class="alert alert-warning text-center rounded py-3">
-	<a class="float-end btn btn-secondary float-start" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
-	<h2 class="fw-bold">The INSTITUTION Public Libary</h2>
-	<h1 class="fg2"><i class="fa fa-arrow-right"></i>&nbsp;Public Access Catalog&nbsp;<i class="fa fa-arrow-left"></i></h1>
+<div id="pageheader" class="alert alert-warning text-center rounded py-3" style="position:relative">
+	<div class="" style="z-index:20; position:absolute;"><a class="btn btn-secondary" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a> </div>
+	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
+	<h1 class=""><i class="fa fa-xs fa-star-of-life"></i>&nbsp;Public Access Catalog&nbsp;<i class="fa fa-star-of-life fa-xs"></i></h1>
 	<br clear="both">
     <hr class="py-0 mb-0">
 </div>

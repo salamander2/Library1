@@ -91,7 +91,7 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 <!-- ********************************************************************* -->
 
-	<div class="card border border-secondary alert alert-warning">
+	<div class="card border border-secondary alert alert-warning mt-4">
 		<div class="card-body">
 
 		<p class="float-end"><span class="border-bottom border-end border-warning p-1">Today is <span id="date"></span></span></p>
