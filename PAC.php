@@ -190,49 +190,50 @@ function updateButton() {
 </div>
 <!-- end page header.-->
 
-	<div class="row  py-2">
+	<div class="row py-2">
 		<div class="col-md-8">
 			<form id="browseForm">
-			<div class="input-group rounded">
-			<button type="button" id="btnBrowse" class="t-1 btn btn-primary">Browse Books</button> &nbsp;
-			<input type="text" class="form-control" name="title2" id="title2" placeholder="beginning with letter ..." value="C">
+				<label for="title2" class="form-label">starting at letter:</label>
+				<div class="input-group rounded">
+				<button type="button" id="btnBrowse" class="t-1 btn btn-primary">Browse Books</button> &nbsp;
+				<input type="text" xclass="form-control" name="title2" id="title2" size="1" value="C">
+				</div>
 			</form>
 		</div>
 	</div>
 	<p></p>
 	<hr>
-		<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)</span></h3>
+	<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)</span></h3>
 
-		<form id="myForm" onsubmit="return removeTHE()">
-			<div class="row bgS pb-2">
-				<div class="col-md-6">
-					<label for="title" class="form-label">Title</label>
-					<input type="text" class="form-control" name="title" id="title" autofocus="">
-				</div>
-				<div class="col-md-6">
-					<label for="author" class="form-label">Author</label>
-					<input type="text" class="form-control" name="author" id="author">
-				</div>
+	<form id="myForm" onsubmit="return removeTHE()">
+		<div class="row bgS pb-2">
+			<div class="col-md-6">
+				<label for="title" class="form-label">Title</label>
+				<input type="text" class="form-control" name="title" id="title" autofocus="">
 			</div>
-			<div class="row bgS pb-2">
-				<div class="col-8 pt-4">
-					<button id="btnSubmit" type="submit" class="btn btn-primary">Search</button>
-				</div>
-				<div class="col-md-4">
-					<label for="ISBN" class="form-label">ISBN</label>
-					<input type="text" class="form-control" name="ISBN" id="ISBN" >
-				</div>
+			<div class="col-md-6">
+				<label for="author" class="form-label">Author</label>
+				<input type="text" class="form-control" name="author" id="author">
 			</div>
-		</form>
+		</div>
+		<div class="row bgS pb-2">
+			<div class="col-8 pt-4">
+				<button id="btnSubmit" type="submit" class="btn btn-primary">Search</button>
+			</div>
+			<div class="col-md-4">
+				<label for="ISBN" class="form-label">ISBN</label>
+				<input type="text" class="form-control" name="ISBN" id="ISBN" >
+			</div>
+		</div>
+	</form>
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
 <!-- ********************************************************************* -->
 
-		<!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
-		<div id="dynTable" class="mt-4"></div>
+	<!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
+	<div id="dynTable" class="mt-4"></div>
 
-	</div>
 </div>
 </body>
 

@@ -81,10 +81,10 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	$tit = $row['title'];
 	if (strlen($tit) > 74) $tit = substr($tit,0,70)." ...";
 	echo "<tr>";
-	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$tit. "</td>";
-	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['author']."</td>";
-	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['pubDate']. "</td>";
-	echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" >".$row['callNumber']. "</td>";
+	echo "<td onclick=\"window.document.location='bibView.php?ID=". $row['bibID'] . "';\" >".$tit. "</td>";
+	echo "<td onclick=\"window.document.location='bibView.php?ID=". $row['bibID'] . "';\" >".$row['author']."</td>";
+	echo "<td onclick=\"window.document.location='bibView.php?ID=". $row['bibID'] . "';\" >".$row['pubDate']. "</td>";
+	echo "<td onclick=\"window.document.location='bibView.php?ID=". $row['bibID'] . "';\" >".$row['callNumber']. "</td>";
 	echo "</tr>";
 
 } //this is the end of the while loop

@@ -1,16 +1,15 @@
 <?php
 /*******************************************************
-* bibEdit.php
-* called from : bibSearch.php
-* calls: bibUpdate.php
-* This displays the title data for editing.
-* It also shows the copies (holdings). 
+* bibView.php
+* called from : PAC.php
+* calls: 
+* This displays the title data and the number of copies available.
 ********************************************************/
 session_start();
 require_once('common.php');
 
 /********** Check permissions for page access ***********/
-$allowed = array("ADMIN","STAFF");
+$allowed = array("ADMIN","STAFF","PATRON", "PUBLIC");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - BIB Edit");
 	header("location:main.php");
@@ -19,7 +18,7 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 
 $bibID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 
-if (strlen($bibID) == 0) header("Location:bibSearch.php"); 
+if (strlen($bibID) == 0) header("Location:PAC.php"); 
 
 $bibData = "";
 
@@ -34,13 +33,11 @@ if ($stmt = $db->prepare($sql)) {
 }
 
 //someone is trying to look at a bib record that doesn't exist
-//FIXME add message when returning. PatronList needs to handle messages.
-if ($bibData == null) header("Location:bibSearch.php");
+if ($bibData == null) header("Location:PAC.php");
 
 /************ Get the Holdings records for this BIB *********/
-#$sql = "SELECT * FROM holdings where bibID = ?";
-//This will get the name of the patron if the book is out.
-$sql = "SELECT holdings.*, patron.lastname, patron.firstname FROM holdings LEFT JOIN patron on holdings.patronID = patron.id WHERE holdings.bibID = ?";
+//$sql = "SELECT holdings.*, patron.lastname, patron.firstname FROM holdings LEFT JOIN patron on holdings.patronID = patron.id WHERE holdings.bibID = ?";
+$sql = "SELECT status, dueDate FROM holdings WHERE bibID = ? ORDER BY status ASC";
 if ($stmt = $db->prepare($sql)) {
 	$stmt->bind_param("i", $bibID);
 	$stmt->execute(); 
@@ -50,7 +47,23 @@ if ($stmt = $db->prepare($sql)) {
 	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
+//see if "place hold" is available. As long as at least one is out and no copies are in.
+$allowHold = false;
+while ($copy = $holdings->fetch_assoc()){ 
+	$status = $copy['status'];
+	if ($status == "OUT") $allowHold = true;
+}
+mysqli_data_seek( $holdings, 0 );
+
+if ($allowHold) { //at least one is out
+	while ($copy = $holdings->fetch_assoc()){ 
+		$status = $copy['status'];
+		if ($status == "IN") $allowHold = false;
+	}
+	mysqli_data_seek( $holdings, 0 );
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,49 +83,17 @@ if ($stmt = $db->prepare($sql)) {
     <link rel="stylesheet" href="resources/library.css" >
 	<script src="resources/library.js"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // anonymous inner (lambda) function goes here
-}); 
-
-/* Javascript input validation:
-	When possible, it's best to use JS validation. PHP validation is server based and slower.
-	PHP validation is still necessary, however, as Postman or similar apps can submit invalid information.
-	We never have to make sure that the fields are filled in because "required" does that just fine.
-	So validate the actual data.
-	Jquery validation is not really worth it - unless you add in the validation plugin/library.
-	Validate: (1) email, (2) year of birth (patron must be between 6 and 120 years old
-	(3) Prov. two letters, capitalize them (4) Phone: 10 digits when () and - are removed.
-	
-	PHONE:  var phoneno = /^\d{10}$/;
-	  if (!(inputtxt.value.match(phoneno)) return false;
-
-	EMAIL: 
-		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		if(! inputText.value.match(mailformat)) ...
-}
- 
-*/
-
-	function validateForm(){
-		return true;
-	}
-	 
-</script>
-
 </head>
 <body>
 
 <div class="container-md mt-2">
 
 <!-- page header -->
-<?php loadHeader("bibSearch.php"); ?>
+<?php loadHeader("PAC.php"); ?>
 
 <div class="card border-success mt-3">
 	<div class="card-head alert alert-success mb-0"> 
-	<h2>Title Information <span class="smaller">&mdash; Bib record
-		<a class="float-end btn btn-outline-danger rounded" href="bibDelete.php"><i class="fa fa-circle-minus"></i>  Delete Title</a>
-	</h2>
+	<h2>Title Information</h2>
 	</div>
 
 <div class="card-body">
@@ -125,14 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		<div class="col-12"><div class="input-group rounded">
 			<!-- FIXME ? on smaller screens the title might run past the end. So maybe make it a textArea -->
 			<label for="title" class="input-group-prepend btn btn-success">Title</label>
-			<input class="form-control bgU rounded-end" type="text" id="title" name="title" required value="<?=$bibData['title']?>"><span class="text-danger">&nbsp;*</span>
+			<input class="form-control bgU rounded-end" type="text" id="title" name="title" required value="<?=$bibData['title']?>">
 		</div></div>
 	</div>
 
 	<div class="row my-2">
 		<div class="col-md-6"><div class="input-group rounded">
 			<label for="author" class="input-group-prepend btn btn-success">Author</label>
-			<input class="form-control bgU rounded-end" type="text" id="author" name="author" required value="<?=$bibData['author']?>"><span class="text-danger">&nbsp;*</span>
+			<input class="form-control bgU rounded-end" type="text" id="author" name="author" required value="<?=$bibData['author']?>">
 		</div></div>
 	</div>
 
@@ -148,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		<div class="col-sm-6 col-md-4 my-2">
 			<div class="input-group rounded">
 			<label for="pubDate" class="input-group-prepend btn btn-secondary">Pub. Date</label>
-			<input class="form-control bgS rounded-end" type="text" id="pubDate" name="pubDate" required value="<?=$bibData['pubDate']?>"><span class="text-danger">&nbsp;*</span>
+			<input class="form-control bgS rounded-end" type="text" id="pubDate" name="pubDate" required value="<?=$bibData['pubDate']?>">
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4 my-2">
@@ -165,11 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		</div>
 	</div>
 
-	<input type="hidden" id="id" name="id" value="<?=$bibID?>">
-
-	<br clear="both">
-	<button type="submit" name="submit" id="submit" class="btn btn-warning">Submit</button>
-
 </form>
 </div>
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
@@ -180,20 +156,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div> <!-- end of card-body and card -->
 
-<a class="btn btn-outline-dark rounded" href="bibEdit.php?ID=<?php echo $bibID-1; ?>"><i class="fa fa-arrow-left"></i></a> Title 
-<a class="btn btn-outline-dark rounded" href="bibEdit.php?ID=<?php echo $bibID+1; ?>"><i class="fa fa-arrow-right"></i></a>
 
-<div class="card border-success mt-3">
+<div class="card border-primary mt-3 col-md-6">
 <div class="card-body">
-	<div class="card-head alert alert-success"> 
-	<h2>Copies <span class="smaller">&mdash; Holdings record</span>
+	<div class="card-head alert alert-primary"> 
 <?php
-	//Using a button instead of a form.		 echo "<td><button type=\"submit\" onclick=\"updateRow(".$id.")\">Update</button></td>".PHP_EOL;
-	echo '<a class="float-end btn btn-outline-success rounded" Xhref="holdingsAdd.php?id='.$bibID.'"><i class="fa fa-circle-plus"></i>  Add Copy</a>';
-?>
-	</h2></div>
 
-<?php
+if ($allowHold) {
+	echo "<a class=\"float-end btn btn-primary rounded\" href=\"placeHold.php?id=<?=$bibID?>\"><i class=\"fa fa-circle-plus\"></i>  Place Hold</a>";
+}
+echo "<h2>Status of Copies</h2>";
+echo "</div>";
+
 
 $num_rows = mysqli_num_rows($holdings);
 if($num_rows > 0) {
@@ -201,11 +175,8 @@ if($num_rows > 0) {
 	echo '<table class="table table-secondary Xtable-striped table-hover table-bordered">';
 	echo '<thead>';
 	echo '<tr>';
-	echo '<th>Barcode</th>';
 	echo '<th>Status</th>';
-	echo '<th>Patron<br>(Prev. Patron)</th>';
-	echo '<th>Cost</th>';
-	echo '<th>Due Date<br>(Checkout date)</th>';
+	echo '<th>Due Date</th>';
 	echo '</tr>';
 	echo '</thead>';
 	echo '<tbody>';
@@ -215,23 +186,9 @@ if($num_rows > 0) {
 
 	while ($copy = $holdings->fetch_assoc()){ 
 		$status = $copy['status'];
-		$barcode = $copy['barcode'];
-		$cost = '$'.($copy['cost']/100);
-		$patron = "";
-		if ($copy['patronID'] != NULL) $patron = $copy['lastname'].", ".$copy['firstname'];
-		$prevPatron = $copy['prevPatron'];
 		echo "<tr class='align-middle'>";
-		echo "<td>".$barcode. "</td>";
 		echo "<td class=\"$status\">".$status."</td>";
-		//echo "<td>".$copy['patronID']."<br>(".$prevPatron.")</td>";
-		echo "<td>".$patron;
-#		echo "<td>".$copy['patronID'];
-		if ($prevPatron != "") echo"<br>(".$prevPatron.")";
-		echo "</td>";
-		echo "<td>".$cost. "</td>";
-		echo "<td>".$copy['dueDate'];
-		if ($status != "IN") echo "<br>(".$copy['ckoDate'].")";
-		echo "</td>";
+		echo "<td>".$copy['dueDate']."</td>";
 		echo "</tr>";
 	} 
 
