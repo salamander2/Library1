@@ -63,8 +63,6 @@ if ($allowHold) { //at least one is out
 	mysqli_data_seek( $holdings, 0 );
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,14 +80,24 @@ if ($allowHold) { //at least one is out
 	<!-- <script src="resources/jquery-3.7.1.min.js"></script> -->
     <link rel="stylesheet" href="resources/library.css" >
 	<script src="resources/library.js"></script>
-
 </head>
 <body>
 
 <div class="container-md mt-2">
 
 <!-- page header -->
-<?php loadHeader("PAC.php"); ?>
+<div id="pageheader" class="alert alert-warning text-center rounded py-3">
+	<!-- The spacing of the H2 and H1 can be aligned by adding a similar sized button at the beginning or by floating a button over the text (on the left) -->
+	<!-- <div style="z-index:20; position:absolute;"><a class="btn btn-secondary" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a> </div> -->
+	<a class="float-start btn btn-outline-secondary invisible" href=""><i class="fa fa-stop"></i>   SPACER</a>
+	<a class="float-end btn btn-secondary" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
+	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
+	<h1 class=""><i class="fa fa-xs fa-star-of-life"></i>&nbsp;Public Access Catalog&nbsp;<i class="fa fa-star-of-life fa-xs"></i></h1>
+	<br clear="both">
+    <hr class="py-0 mb-0">
+</div>
+<!-- end page header.-->
+
 
 <div class="card border-success mt-3">
 	<div class="card-head alert alert-success mb-0"> 
@@ -100,20 +108,19 @@ if ($allowHold) { //at least one is out
 	<div class="row text-secondary smaller">
 		<div class="col-sm-2">ID: <?=$bibID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($bibData['createDate'], " ")?></div>
 	</div>
-<form id="myForm" action="bibUpdate.php" method="POST" onsubmit="return validateForm()">
 
 	<div class="row my-2">
 		<div class="col-12"><div class="input-group rounded">
 			<!-- FIXME ? on smaller screens the title might run past the end. So maybe make it a textArea -->
 			<label for="title" class="input-group-prepend btn btn-success">Title</label>
-			<input class="form-control bgU rounded-end" type="text" id="title" name="title" required value="<?=$bibData['title']?>">
+			<input class="form-control bgU rounded-end" type="text" id="title" name="title" readonly value="<?=$bibData['title']?>">
 		</div></div>
 	</div>
 
 	<div class="row my-2">
 		<div class="col-md-6"><div class="input-group rounded">
 			<label for="author" class="input-group-prepend btn btn-success">Author</label>
-			<input class="form-control bgU rounded-end" type="text" id="author" name="author" required value="<?=$bibData['author']?>">
+			<input class="form-control bgU rounded-end" type="text" id="author" name="author" readonly value="<?=$bibData['author']?>">
 		</div></div>
 	</div>
 
@@ -129,24 +136,23 @@ if ($allowHold) { //at least one is out
 		<div class="col-sm-6 col-md-4 my-2">
 			<div class="input-group rounded">
 			<label for="pubDate" class="input-group-prepend btn btn-secondary">Pub. Date</label>
-			<input class="form-control bgS rounded-end" type="text" id="pubDate" name="pubDate" required value="<?=$bibData['pubDate']?>">
+			<input class="form-control bgS rounded-end" type="text" id="pubDate" name="pubDate" readonly value="<?=$bibData['pubDate']?>">
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4 my-2">
 			<div class="input-group rounded">
 			<label for="callNumber" class="input-group-prepend btn btn-secondary">Call NUmber</label>
-			<input class="form-control bgS rounded-end" type="text" id="callNumber" name="callNumber" value="<?=$bibData['callNumber']?>">
+			<input class="form-control bgS rounded-end" type="text" id="callNumber" name="callNumber" readonly value="<?=$bibData['callNumber']?>">
 			</div>
 		</div>
 		<div class="col-sm-6 col-lg-6 col-xl-4 my-2">
 			<div class="input-group rounded">
 			<label for="ISBN" class="input-group-prepend btn btn-secondary">ISBN</label>
-			<input class="form-control bgS rounded-end" type="text" id="ISBN" name="ISBN" value="<?=$bibData['ISBN']?>">
+			<input class="form-control bgS rounded-end" type="text" id="ISBN" name="ISBN" readonly value="<?=$bibData['ISBN']?>">
 			</div>
 		</div>
 	</div>
 
-</form>
 </div>
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>

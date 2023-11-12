@@ -188,12 +188,12 @@ if(isset($_POST['submit'])) {
 				<li>changing and <s>resetting passwords</s>
 				<li>different access levels
 				<li>most pages work on mobile devices
+				<li>public access console (search)
 			</ul>
 			</div>
 			<div class="col">
 			<p class="alert alert-danger fw-bold">The following is NOT YET working:</p>
 			<ul>
-				<li>public access console (search)
 				<li>checkout/check in books
 				<li>patrons searching and placing holds
 				<li>fines

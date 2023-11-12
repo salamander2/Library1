@@ -11,7 +11,7 @@
 .bg1 {background-color:#FFA;}
 .fg2 {color:#518;} /* purple */
 .bg2 {background-color:#D9C0FF;}
-.bgP {background-color:#cfe2ff;} /* primary/info */
+.bgP {background-color:#cfe2ff !important;} /* primary/info */
 .bgS {background-color:#C9D5D5;} /* secondary */
 .bgU {background-color:#D1F7DD;} /* success */
 

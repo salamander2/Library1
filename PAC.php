@@ -71,11 +71,12 @@ if ($stmt = $db->prepare($sql)) {
 <html lang="en">
 
 <head>
-	<title><?=$institution?> Library Database</title>
+	<title><?=$institution?> Library Database : PAC</title>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="resources/bootstrap5.min.css" >
+	<script src="resources/bootstrap5.min.js"></script>
 	<!-- our project just needs Font Awesome Solid + Brands -->
 	<!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
 	<link href="resources/fontawesome6.min.css" rel="stylesheet">
@@ -90,27 +91,43 @@ if ($stmt = $db->prepare($sql)) {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-		const btnBrowse = document.getElementById("btnBrowse");
-		btnBrowse.addEventListener("click", () => {
-			const form2 = document.getElementById("browseForm");
-			postForm(form2);
-		});
 
-		const form = document.getElementById("myForm");
-		// Add 'submit' event handler
-		form.addEventListener("submit", (event) => {
-				event.preventDefault();
-				if (!validateForm()) return;
-				postForm(form);
-				updateButton();
-				});
-		form.addEventListener("reset", () => {
-				document.getElementById("dynTable").innerHTML = "";
-				updateButton();
-				});
-		});
+	//for Bootstrap collapse. I need to change the symbol when the item has collapsed / expanded.
+	const collapseDivs = document.querySelectorAll(".collapseBtn");
+    for (const item of collapseDivs) {
+        item.addEventListener("click", 
+        () => {
+            if   (item.textContent == " + ") item.textContent = '\u2013'; //en-dash
+            else                             item.textContent = " + ";
+        });
+    }
+ 
+	//searching is done by POST upon either button click
+	const btnBrowse = document.getElementById("btnBrowse");
+	btnBrowse.addEventListener("click", () => {
+		const form2 = document.getElementById("browseForm");
+		postForm(form2);
+		new bootstrap.Collapse(document.getElementById("collapse1"), {toggle:false} ).hide();
+		document.querySelector(".collapseBtn").textContent = " + ";
+	});
 
-//This form requires title or author to be filled in.
+	//handles submit button on search form
+	const form = document.getElementById("myForm");
+	form.addEventListener("submit", (event) => {
+		event.preventDefault();
+		if (!validateForm()) return;
+		postForm(form);
+		new bootstrap.Collapse(document.getElementById("collapse1"), {toggle:false} ).hide();
+		document.querySelector(".collapseBtn").textContent = " + ";
+		updateButton();
+	});
+	form.addEventListener("reset", () => {
+		document.getElementById("dynTable").innerHTML = "";
+		updateButton();
+	});
+});
+
+//This form requires title OR author OR ISBN to be filled in.
 function validateForm() {
 	
 	if (document.getElementById("title").value == "" &&
@@ -171,6 +188,51 @@ function updateButton() {
 }
 </script>
 
+
+<style>
+[data-quantity] {position:relative;width:100%;max-width:11rem;padding:0;margin:30px 0;border:0}
+[data-quantity] legend{display:none}
+[data-quantity] input{
+	Xfont-size:18px;
+	height:4rem;
+	padding:0 4rem;
+	border-radius:2rem;
+	border:0;
+	background:#BBCEFB;
+	color:#222;
+	text-align:center;
+	width:100%;
+	box-sizing:border-box;
+	font-weight:lighter}
+[data-quantity] Xinput:focus{outline:none;box-shadow:0 5px 55px -10px rgba(0,0,0,.2),0 0 4px #3fb0ff}
+[data-quantity] Xinput[type=number]::-webkit-inner-spin-button,[data-quantity] input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+[data-quantity] input[type=number]{-moz-appearance:textfield;appearance:textfield}
+[data-quantity] button{
+	position:absolute;
+	width:2rem;
+	height:2rem;
+	top:.6rem;
+	display:block;
+	padding:0;
+	margin:0;
+	border:0;
+	background-color:#FFC;
+	/* this has both the - and + signs in one image. It's moved left to show the correct one */
+	Xbackground:#FFC 
+		url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNTAiPjxwYXRoIGQ9Ik0xNyAyNWgxNk02NyAyNWgxNk03NSAxN3YxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2IoNTksNjksNjYpIiBzdHJva2Utd2lkdGg9IjEuNXB4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PC9zdmc+) no-repeat 0 0;
+	background-size:4rem 3rem;
+	overflow:hidden;
+	white-space:nowrap;
+	border-radius:1.4rem;
+	cursor:pointer;
+	transition:opacity .12s;
+	opacity:.5}
+[data-quantity] Xbutton:active{background-position-y:1px;box-shadow:inset 0 2px 12px -4px #c5d1d9}
+[data-quantity] Xbutton:focus{outline:none}
+[data-quantity] button:hover{opacity:1}
+[data-quantity] button.sub{left:.6rem}
+[data-quantity] button.add{right:0rem;background-position-x:-2.6rem}
+</style>
 </head>
 
 <body>
@@ -189,21 +251,40 @@ function updateButton() {
     <hr class="py-0 mb-0">
 </div>
 <!-- end page header.-->
+	<form><div data-quantity></div></form>
+
+<script type="module">
+  import QuantityInput from './quantity.js';
+  (function(){
+	   let quantities = document.querySelectorAll('[data-quantity]');
+	   if (quantities instanceof Node) quantities = [quantities];
+	   if (quantities instanceof NodeList) quantities = [].slice.call(quantities);
+	   if (quantities instanceof Array) {
+		   quantities.forEach(div => (div.quantity = new QuantityInput(div, '–', '+')));
+	   }
+   })();
+</script>
+
 
 	<div class="row py-2">
 		<div class="col-md-8">
 			<form id="browseForm">
-				<label for="title2" class="form-label">starting at letter:</label>
 				<div class="input-group rounded">
 				<button type="button" id="btnBrowse" class="t-1 btn btn-primary">Browse Books</button> &nbsp;
-				<input type="text" xclass="form-control" name="title2" id="title2" size="1" value="C">
+				<input type="text" xclass="form-control" name="title2" id="title2" size="1" value="M" style="text-align:center;">
 				</div>
+				<label for="title2" class="px-3 smaller xform-label">Starting at letter:</label>
 			</form>
 		</div>
 	</div>
 	<p></p>
 	<hr>
-	<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)</span></h3>
+
+	<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)
+	<button class="collapseBtn btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1"> – </button>
+	</span></h3>
+	<hr>
+	<div class="card-body collapse show" id="collapse1">
 
 	<form id="myForm" onsubmit="return removeTHE()">
 		<div class="row bgS pb-2">
@@ -226,6 +307,7 @@ function updateButton() {
 			</div>
 		</div>
 	</form>
+	</div>
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>

@@ -2,15 +2,15 @@ This is just listing what needs to be done in the next few days, not the whole p
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ********************* IN PROCESS *******************
-
 PAC.php
-
--- browse books
--- search by fields, 
 -- shrink search box so that books can be displayed
--- check what happens if PAC tries to go to a different page (e.g. userMaint..., bibEdit, ...)
 
 ************************* DONE *************************
+
+* PAC.php
+-- browse books
+-- search by fields, 
+-- check what happens if PAC tries to go to a different page (e.g. userMaint..., bibEdit, ...)
 
 * Patrons: list, search, add. 
 * Patrons: barcode search
