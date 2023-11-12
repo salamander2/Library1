@@ -190,46 +190,19 @@ function updateButton() {
 
 
 <style>
-[data-quantity] {position:relative;width:100%;max-width:11rem;padding:0;margin:30px 0;border:0}
-[data-quantity] legend{display:none}
-[data-quantity] input{
-	Xfont-size:18px;
-	height:4rem;
-	padding:0 4rem;
-	border-radius:2rem;
-	border:0;
-	background:#BBCEFB;
-	color:#222;
-	text-align:center;
-	width:100%;
-	box-sizing:border-box;
-	font-weight:lighter}
-[data-quantity] Xinput:focus{outline:none;box-shadow:0 5px 55px -10px rgba(0,0,0,.2),0 0 4px #3fb0ff}
-[data-quantity] Xinput[type=number]::-webkit-inner-spin-button,[data-quantity] input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-[data-quantity] input[type=number]{-moz-appearance:textfield;appearance:textfield}
+[data-quantity] input{ background:#BBCEFB; color:#222; text-align:center; }
 [data-quantity] button{
-	position:absolute;
-	width:2rem;
-	height:2rem;
-	top:.6rem;
-	display:block;
-	padding:0;
-	margin:0;
+	font-weight:bold;
 	border:0;
-	background-color:#FFC;
-	/* this has both the - and + signs in one image. It's moved left to show the correct one */
-	Xbackground:#FFC 
-		url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNTAiPjxwYXRoIGQ9Ik0xNyAyNWgxNk02NyAyNWgxNk03NSAxN3YxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2IoNTksNjksNjYpIiBzdHJva2Utd2lkdGg9IjEuNXB4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PC9zdmc+) no-repeat 0 0;
+	background-color:#FFF;
 	background-size:4rem 3rem;
 	overflow:hidden;
 	white-space:nowrap;
 	border-radius:1.4rem;
 	cursor:pointer;
-	transition:opacity .12s;
-	opacity:.5}
-[data-quantity] Xbutton:active{background-position-y:1px;box-shadow:inset 0 2px 12px -4px #c5d1d9}
-[data-quantity] Xbutton:focus{outline:none}
-[data-quantity] button:hover{opacity:1}
+	transition:background-color .12s;
+	}
+[data-quantity] button:hover{opacity:1; background-color: #FD3;}
 [data-quantity] button.sub{left:.6rem}
 [data-quantity] button.add{right:0rem;background-position-x:-2.6rem}
 </style>
@@ -251,29 +224,24 @@ function updateButton() {
     <hr class="py-0 mb-0">
 </div>
 <!-- end page header.-->
-	<form><div data-quantity></div></form>
 
-<script type="module">
-  import QuantityInput from './quantity.js';
-  (function(){
-	   let quantities = document.querySelectorAll('[data-quantity]');
-	   if (quantities instanceof Node) quantities = [quantities];
-	   if (quantities instanceof NodeList) quantities = [].slice.call(quantities);
-	   if (quantities instanceof Array) {
-		   quantities.forEach(div => (div.quantity = new QuantityInput(div, '–', '+')));
-	   }
-   })();
-</script>
 
+	<script type="module">
+	  import QuantityInput from './resources/quantity.js';
+	  (function(){
+		   new QuantityInput(document.querySelector('[data-quantity]'), '–', '+');
+	   })();
+	</script>
 
 	<div class="row py-2">
 		<div class="col-md-8">
 			<form id="browseForm">
 				<div class="input-group rounded">
-				<button type="button" id="btnBrowse" class="t-1 btn btn-primary">Browse Books</button> &nbsp;
-				<input type="text" xclass="form-control" name="title2" id="title2" size="1" value="M" style="text-align:center;">
+				<button type="button" id="btnBrowse" class="btn btn-primary">Browse Books</button> &nbsp;
+				<div data-quantity class="border border-primary rounded py-1"></div>
+				<!-- <input type="text" xclass="form-control" name="title2" id="title2" size="1" value="M" style="text-align:center;"> -->
 				</div>
-				<label for="title2" class="px-3 smaller xform-label">Starting at letter:</label>
+				<label for="title2" class="px-3 smaller xform-label">Titles beginning with letter:</label>
 			</form>
 		</div>
 	</div>

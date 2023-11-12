@@ -62,8 +62,12 @@ function queryMain() {
 	return $resultArray;
 }
 
+$num_rows = mysqli_num_rows($resultArray);
+mysqli_data_seek( $resultArray, 0 );
+
 //general HTML now being written
-echo '<p class="text-primary"><i class="fa fa-arrow"></i>Please click on the desired book to view details.';
+echo '<p class="text-primary"><i class="fa fa-arrow-down"></i>&nbsp;Please click on the desired book to view details.';
+echo '<span class="float-end">'.$num_rows.' books found.</span></p>';
 echo '<table class="table table-secondary table-striped table-hover table-bordered">';
 echo '<thead>';
 echo '<tr>';

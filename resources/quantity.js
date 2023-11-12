@@ -4,10 +4,12 @@ export default class QuantityInput{
 		this.input=document.createElement('input');
 		this.input.value="M";
 		this.input.type='text';
-		this.input.name='quantity';
-		this.input.pattern='[A-Z]'; //this does not work!!!
-		this.decreaseText=decreaseText||'Decrease quantity';
-		this.increaseText=increaseText||'Increase quantity';
+		this.input.name='title2';
+		this.input.id='title2';
+		this.input.size='1';
+		//this.input.pattern='[A-Z][a-z]'; //this does not work!!!
+		this.decreaseText=decreaseText||'Prev. Letter';
+		this.increaseText=increaseText||'Next Letter';
 
 		function Button(text,className){
 			this.button=document.createElement('button');
@@ -19,22 +21,18 @@ export default class QuantityInput{
 		}
 		this.subtract=new Button(this.decreaseText,'sub');
 		this.add=new Button(this.increaseText,'add');
-		let intID;
-		this.subtract.addEventListener('click',()=>this.change_quantity(-1));
+		let intID, intID2;
 		this.add.addEventListener('click',()=>this.change_quantity(1));
 		this.add.addEventListener('mousedown',(e)=> {
-			// tell the browser we're handling this event
-			//e.preventDefault();
-			//e.stopPropagation();
-			intID = setInterval(() => {
-				this.change_quantity(1);
-			}, 200);
-			 // clearTimeout(timeout);
-			//this.change_quantity(1);
+			intID = setInterval(() => { this.change_quantity(1); }, 200);
 		});
-		this.add.addEventListener('mouseup',(e)=> {
-			clearInterval(intID);
+		this.add.addEventListener('mouseup',(e)=> { clearInterval(intID); });
+
+		this.subtract.addEventListener('click',()=>this.change_quantity(-1));
+		this.subtract.addEventListener('mousedown',(e)=> {
+			intID2 = setInterval(() => { this.change_quantity(-1); }, 200);
 		});
+		this.subtract.addEventListener('mouseup',(e)=> { clearInterval(intID2); });
 
 		self.appendChild(this.subtract);
 		self.appendChild(this.input);

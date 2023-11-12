@@ -89,7 +89,7 @@ if ($allowHold) { //at least one is out
 <div id="pageheader" class="alert alert-warning text-center rounded py-3">
 	<!-- The spacing of the H2 and H1 can be aligned by adding a similar sized button at the beginning or by floating a button over the text (on the left) -->
 	<!-- <div style="z-index:20; position:absolute;"><a class="btn btn-secondary" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a> </div> -->
-	<a class="float-start btn btn-outline-secondary invisible" href=""><i class="fa fa-stop"></i>   SPACER</a>
+	<a class="float-start btn btn-warning rounded" href="PAC.php"><i class="fa fa-arrow-left"></i>  Back</a>
 	<a class="float-end btn btn-secondary" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
 	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
 	<h1 class=""><i class="fa fa-xs fa-star-of-life"></i>&nbsp;Public Access Catalog&nbsp;<i class="fa fa-star-of-life fa-xs"></i></h1>
