@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		<!-- right inner column for PAC logo, rowspan= all the rows, as many as needed -->
 		<div class="col"><a href="PAC.php">
 		<div class="btn btn-success shadow" style="width:100%;height:100%;">
-			PAC LOGO<br>Click here to launch<br>the public access console
+			&lt;PAC LOGO&gt;<br>Click here to launch<br>the public access console
 		</div>
 		</a></div>
 		</div>

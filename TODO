@@ -3,6 +3,9 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 ********************* IN PROCESS *******************
 
+- move all ajax to a folder
+- fix all TODO and FIXME
+
 ************************* DONE *************************
 
 * PAC.php
@@ -26,7 +29,7 @@ This is just listing what needs to be done in the next few days, not the whole p
                 Then have a usermaint page
 * fix header so that "administer" button only shows up for ADMIN and also not on the actual ADMIN pages.
 
-<<<<<<<<<<<<<<<<<<<<<<<<<< TODO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<< TO DO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 * Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
@@ -57,13 +60,10 @@ This is just listing what needs to be done in the next few days, not the whole p
 * Patron: place holds
 
 * failed authentication: why not use logout?
-* Look at all FIXME and TODO
-
 * Is there any way of using CRUD for this?
 
 ------------------------------------------
 php filter_var()
-
 
 Sanitize then validate. Validate works a lot better than sanitizing.
 

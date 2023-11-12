@@ -8,17 +8,9 @@
  * ??? Calls: bibFind.php, which sends back a table that calls bibView.php
  ********************************************************/
 session_start();
-
-//PAC special startup:
-#Login as PAC[:
-//$_SESSION["authkey"] = AUTHKEY;
-
-
 require_once('common.php');
 
-//Load PAC user$username = clean_input($_POST['username']);
-
-//TODO: do I need to fix this?
+//PAC special startup:
 $username = "PAC";
 $password = "CairParavel";
 

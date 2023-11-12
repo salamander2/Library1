@@ -34,8 +34,10 @@ if ($stmt = $db->prepare($sql)) {
 }
 
 //someone is trying to look at a bib record that doesn't exist
-//FIXME add message when returning. PatronList needs to handle messages.
-if ($bibData == null) header("Location:bibSearch.php");
+if ($bibData == null) {
+	$_SESSION['notify'] = array("type"=>"error", "message"=>"That book  does not exist!");
+	header("Location:bibSearch.php");
+}
 
 /************ Get the Holdings records for this BIB *********/
 #$sql = "SELECT * FROM holdings where bibID = ?";
