@@ -38,3 +38,20 @@ li {margin-bottom:5px;}
    but it's too much. */
 #notif_msg {
 }
+
+/* for PAC.php -- the alphabet spinner */
+[data-quantity] input{ background:#BBCEFB; text-align:center;}
+[data-quantity] button{
+	font-weight:bold;
+	border:0;
+	background-color:#FFF;
+	/*background-size:4rem 3rem;*/
+	overflow:hidden;
+	white-space:nowrap;
+	border-radius:1.4rem;
+	cursor:pointer;
+	transition:background-color .12s;
+	}
+[data-quantity] button:hover{background-color: #FD3;}
+/* [data-quantity] button.sub{left:.6rem}
+   [data-quantity] button.add{right:0rem;}*/

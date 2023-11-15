@@ -7,15 +7,18 @@
 * and the default will be lastname, first initial
 * Josiah Smythe  -->> smythej
 *
-* This requires the password field to be added to the patron file.
+* This requires the password field to be added to the patron file (because it was not done when the table was created).
 * ALTER TABLE `patron` ADD `password` VARCHAR(255) NOT NULL AFTER `birthdate`; 
 **************************************************/
+echo "Do not run this ever. Unless you know what you're doing and why you're doing it."
+exit; exit; exit;
+
 require_once('common.php');
 $db = connectToDB();
 //This will get all of the patrons who DO have a library card. and then set their default password to their lastname+first initial. 
 //In the SQL only the "login" field is actually needed. The others are there just to double check when debugging.
 //This will get patron ids multiple times: once for each libraryCard that they have. I don't think that this matters as only a handful have more than one.
-//We could do this: SELECT DISTINCT patron.id, LCASE(CONCAT(lastname, SUBSTRING(firstname,1,1))) AS login FROM patron LEFT JOIN libraryCard on patron.id=libraryCard.patronID WHERE libraryCard.barcode is NOT NULL GROUP BY (patron.id);
+//We could do this: SELECT patron.id, LCASE(CONCAT(lastname, SUBSTRING(firstname,1,1))) AS login FROM patron LEFT JOIN libraryCard on patron.id=libraryCard.patronID WHERE libraryCard.barcode is NOT NULL GROUP BY (patron.id);
 $sql = "SELECT patron.id, LCASE(CONCAT(lastname, SUBSTRING(firstname,1,1))) AS login, libraryCard.barcode FROM patron LEFT JOIN libraryCard on patron.id=libraryCard.patronID where libraryCard.barcode is NOT NULL;";
 if ($stmt = $db->prepare($sql)) {
 	$stmt->execute(); 
@@ -24,6 +27,9 @@ if ($stmt = $db->prepare($sql)) {
 } else {
 	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
+
+echo "Stop here. Now. Seriously."
+exit; exit; exit;
 
 while($row = mysqli_fetch_assoc($patronData)) {
 	$pwd = password_hash("password", PASSWORD_DEFAULT);

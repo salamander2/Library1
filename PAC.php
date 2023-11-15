@@ -89,8 +89,15 @@ if ($stmt = $db->prepare($sql)) {
 	.form-label { margin-top: .5rem; margin-bottom:0; }
 	</style>
 
+<script type="module">
+  import QuantityInput from './resources/quantity.js';
+  (function(){
+	   new QuantityInput(document.querySelector('[data-quantity]'), '–', '+');
+   })();
+</script>
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
 
 	//for Bootstrap collapse. I need to change the symbol when the item has collapsed / expanded.
 	const collapseDivs = document.querySelectorAll(".collapseBtn");
@@ -188,26 +195,7 @@ function updateButton() {
 }
 </script>
 
-
-<style>
-[data-quantity] input{ background:#BBCEFB; color:#222; text-align:center; }
-[data-quantity] button{
-	font-weight:bold;
-	border:0;
-	background-color:#FFF;
-	background-size:4rem 3rem;
-	overflow:hidden;
-	white-space:nowrap;
-	border-radius:1.4rem;
-	cursor:pointer;
-	transition:background-color .12s;
-	}
-[data-quantity] button:hover{opacity:1; background-color: #FD3;}
-[data-quantity] button.sub{left:.6rem}
-[data-quantity] button.add{right:0rem;background-position-x:-2.6rem}
-</style>
 </head>
-
 <body>
 
 <div class="container-md mt-2">
@@ -226,12 +214,6 @@ function updateButton() {
 <!-- end page header.-->
 
 
-	<script type="module">
-	  import QuantityInput from './resources/quantity.js';
-	  (function(){
-		   new QuantityInput(document.querySelector('[data-quantity]'), '–', '+');
-	   })();
-	</script>
 
 	<div class="row py-2">
 		<div class="col-md-8">

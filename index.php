@@ -91,9 +91,26 @@ if(isset($_POST['submit'])) {
     <link rel="stylesheet" href="resources/library.css" >
 	<script src="resources/library.js"></script>
 
-	<script>
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+	//const radio = document.getElementById("fillin"); //this does not work because we have to do it for each radio button
+	document.body.addEventListener('change', (e) => {			//event will "bubble" up to <body>
+		switch (e.target.id) {
+			case 'fillinStaff':
+				document.getElementById("username").value = "staff";
+				document.getElementById("password").value = "SnowyMarch";
+			break;
+			case 'fillinAdmin':
+				document.getElementById("username").value = "umberto";
+				document.getElementById("password").value = "DeadlyRose";
+			break;
+		}
+	});
+}); 
+
 		function validateData() {
-			var x = document.getElementById("username").value;
+			let x = document.getElementById("username").value;
 			if (!x || 0 === x.length) {
 				displayNotification("error", "You must include a username");
 				//document.getElementById("username").classList.add("border-danger");
@@ -147,7 +164,19 @@ if(isset($_POST['submit'])) {
 						Login
 					</button>
 				</div>
-				<p class="small mt-3">Temp username: "staff", password "SnowyMarch"</p>
+			</div>
+			<div class="row">
+				<div class="col-6 m-3 p-2 small border border-secondary rounded">
+					<i>Autofill login info:</i>
+					<div class="form-check">
+					  <input class="form-check-input border-primary" type="radio" name="fillin" id="fillinStaff">
+					  <label class="form-check-label" for="fillinStaff">Staff: staff / SnowyMarch </label>
+					</div>
+					<div class="form-check">
+					  <input class="form-check-input border-primary" type="radio" name="fillin" id="fillinAdmin">
+					  <label class="form-check-label" for="fillinAdmin">Admin: umberto / DeadlyRose </label>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- right inner column for PAC logo, rowspan= all the rows, as many as needed -->

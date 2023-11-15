@@ -1,4 +1,11 @@
-//From https://www.cssscript.com/demo/number-spinner-quantity-input/
+/*******************************************************
+* This code creates an input where the letter is entered. 
+* It also creates two buttons, add and subtract. 
+* These run code to increment/decrement the letter.
+* If you hold + or - down, then the letters increment/decrement rapidly.
+* It's all assembled and then added to the <div> indicated when the function was called.
+* Original code from  https://www.cssscript.com/demo/number-spinner-quantity-input/
+********************************************************/
 export default class QuantityInput{
 	constructor(self,decreaseText,increaseText){
 		this.input=document.createElement('input');
@@ -21,6 +28,7 @@ export default class QuantityInput{
 		}
 		this.subtract=new Button(this.decreaseText,'sub');
 		this.add=new Button(this.increaseText,'add');
+
 		let intID, intID2;
 		this.add.addEventListener('click',()=>this.change_quantity(1));
 		this.add.addEventListener('mousedown',(e)=> {
@@ -43,35 +51,6 @@ export default class QuantityInput{
     	letter=String.fromCharCode(letter.charCodeAt(0) + change);
 	 	if (letter < "A") letter = "Z";
 	 	if (letter > "Z") letter = "A";
-			
-		//if(isNaN(quantity))quantity=1;
-		//quantity+=change;
-		//quantity=Math.max(quantity,1);
 		this.input.value=letter;
 	}
 }
-
-/*
-//if button is keeping pressed execute increment javascript
-var timeout;
-var speed = 500;
-// Increment button
-$('#plus-btn').on('mousedown mouseup mouseleave', e => {
-  if (e.type == "mousedown") {
-    increment(speed);
-  } else {
-    stop()
-  }
-});
-// Increment function
-function increment(speed) {
-  $('#qty-input').val(parseInt($('#qty-input').val()) + 1);
-  timeout = setTimeout(() => {
-    increment(speed * 0.8);
-  }, speed);
-}
-function stop() {
-  clearTimeout(timeout);
-}
-
-*/

@@ -379,7 +379,6 @@ if($num_rows > 0) {
 </div></div> <!-- end of card-body and card -->
 </div>
 
-<button onclick="validateForm()" >Test</button> <br>
 <br><br><br>
 
 </body>
