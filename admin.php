@@ -2,7 +2,8 @@
 /*******************************************************
 * admin.php
 * 
-* This is just a simple page to hold links to other pages.
+* This is just a simple page to hold links to other pages
+* for admin users only.
 * Called from main.php
 * Calls userMaint.php and ____
 ********************************************************/

@@ -2,7 +2,7 @@
 /*******************************************************
 * bibView.php
 * called from : PAC.php
-* calls: 
+* calls: placeHold.php (eventually)
 * This displays the title data and the number of copies available.
 ********************************************************/
 session_start();

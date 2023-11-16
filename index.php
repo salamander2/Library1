@@ -3,11 +3,11 @@
 /****************************************************************************
 File: index.php
 Purpose: This is the login page for the application.
-	     (Taken from ics_upload)
+
 Called from: This is the default page after logout.php
 			 or any failure of authentication.
 Calls: main.php (the home page)
-	   also: public access catalog page
+	   PAC.php (public access page - no logon needed)
 *****************************************************************************/
 
 session_start();
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </head>
 
 <body>
-
+<p class="py-1 px-2 bg1"> Source code and documentation for this project is at <A href="https://github.com/salamander2/Library1">https://github.com/salamander2/Library1</a>
 <div class="container-md mt-2">
 	<h2 class="bg-warning text-center rounded py-3">The <?=$institution?> Public Libary</h2>
 

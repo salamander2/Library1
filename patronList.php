@@ -1,11 +1,11 @@
 <?php
 /*******************************************************
 * patronList.php
+* Called from main.php
+* Calls patronEdit.php, patronAdd.php, patronFind.php
 * 
 * This lists all patrons, searched by name, phone ...
 * No error messages or other notifications happen on this page.
-* Called from main.php
-* Calls patronEdit, patronAdd 
 ********************************************************/
 session_start();
 require_once('common.php');

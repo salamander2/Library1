@@ -1,10 +1,13 @@
 <?php
 /*******************************************
 * patronLibraryCard.php
-* This is called via AJAX from patronEdit.php
+*  called from: patronEdit.php
+*
+*  ** AJAX Version **
+*
 * It lists all of the library cards that the patron has
 * as well as their statuses.
-* The code is from cardStatus.php
+* (The code is based on cardStatus.php)
 *********************************************/
 session_start();
 require_once('common.php');

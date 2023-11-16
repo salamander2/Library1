@@ -2,6 +2,8 @@
 /*******************************************************
  * cardAdd.php 
  * Called from: patronEdit.php
+ *
+ *  ** AJAX Version **
  * This adds a new Library Card to the patron.
  * It should not happen if there is already a card with ACTIVE status 
  *	(patronEdit.php should prevent this)

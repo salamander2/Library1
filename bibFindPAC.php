@@ -2,12 +2,16 @@
 /*******************************************************************************
   Name: bibFindPAC.php
   Called from: PAC.php
-  Calls:
+  Calls: 
+  Links to: bibView.php
+
+  ** AJAX Version **
+
   ## same as bibFind, but no barcode search
 
   Purpose: uses search criteria passed in (via POST) to find matching books.
-         - returns valid data to bibSearch via AJAX. 
-		 - ISBN will not go directly to bibEdit.php but instead will show a list
+         - returns valid data to PAC via AJAX. 
+		 - ISBN will not go directly to bibView.php but instead will show a list
 		   since our data has duplicate ISBNs.
   NOTE: it does not use NOTIFY array to send back error messages, because they are going back via AJAX.
 		The calling program has to detect ERROR and LOCATION

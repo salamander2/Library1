@@ -2,6 +2,7 @@
 /*******************************************************
 * patronView.php
 * TODO:  This page needs to be actually written properly. It's just a copy of patronEdit so far.
+* It's not used yet. It will be used by a patron to view his/her own record
 * ############################################################
 * called from patronList (by clicking on a patron)
 * 		 and also from patronUpdate

@@ -2,6 +2,9 @@
 /*******************************************************************************
   Name: patronFind.php
   Called from: patronList.php
+
+  ** AJAX Version **
+
   Purpose: This does dynamic searching, returning a table that's updated
 	each time the user presses a key. 
 	It also does the search for library barcode and matches that to a patron.

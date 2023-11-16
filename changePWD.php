@@ -1,13 +1,12 @@
 <?php
 /*******************************************************************************
-  Name: changePWD.php
-  Called from: admin.php
-  Purpose: change user password 
- ***NOTE: does not work with prepared statements
- Tables used: schoolDB/users
- Calls: 
- Transfers control to: logout.php
- ******************************************************************************/
+* Name: changePWD.php
+* Called from: admin.php
+* Transfers control to: logout.php
+*
+* Purpose: change user password 
+* PHP does simple validation on password. Currently 7 letters minimum.
+*******************************************************************************/
 
 session_start();
 require_once('common.php');

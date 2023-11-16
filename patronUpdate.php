@@ -2,6 +2,9 @@
 /*******************************************************
 * patronUpdate.php 
 * Called from patronEdit.php
+*
+*  ** AJAX Version **
+*
 * This updates the patron record.
 * Validation has been done by JS, but more is done here.
 * This returns to patronEdit.php with a message upon success. 

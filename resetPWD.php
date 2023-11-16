@@ -2,8 +2,13 @@
 /*******************************************************
   NAME:  resetPWD.php
   CALLED FROM: userMaint.php
-  PURPOSE: resets suer password to default
-  TABLES: schoolDB/users
+
+//TODO This program is not implemented yet. 
+  It needs rewriting.
+
+*  ** AJAX Version **
+
+  PURPOSE: resets user password to default
 ********************************************************/
 session_start();
 require_once('common.inc.php');
@@ -14,8 +19,6 @@ $frm_login = $_GET['ID'];
 #$frm_login = clean_input($_POST['ID']);
 
 $hashPassword = password_hash($defaultPWD, PASSWORD_DEFAULT);
-# for Teacher login only
-#$hashPassword = password_hash("welcome2140", PASSWORD_DEFAULT);
 
 $sql = "UPDATE users SET password=?, defaultPWD=1 WHERE login_name=?";
 

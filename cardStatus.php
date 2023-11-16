@@ -1,16 +1,12 @@
 <?php
 /*******************************************************
- * This is the AJAX version of cardStatus.php
- * cardStatus2.php 
- * Called from: patronEdit.php
- * This updates the Library Card status
-
- * INCOMPLETE:  I just need to copy the large chunk of code that 
-   generates that library card table from "patronEdit.php". (line 310-355)
-   as well as the code that grabs all of the cards for the patron.
-
-* and then in patronEdit, I'll need to change it so that it uses AJAX 
- ********************************************************/
+* cardStatus.php 
+* called from: patronEdit.php
+*
+*  ** AJAX Version **
+*
+* This updates the Library Card status
+********************************************************/
 session_start();
 require_once('common.php');
 

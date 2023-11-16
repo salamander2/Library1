@@ -2,7 +2,7 @@
 /*******************************************************
  * bibList.php
  * 
- * This lists/searches all books, by various fields
+ * This sets up a search to find books by various fields
 
  * Called from: main.php
  * Calls: bibFind.php, which sends back a table that calls bibEdit.php

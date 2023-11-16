@@ -1,7 +1,10 @@
 <?php
 /*******************************************************
 * bibUpdate.php 
-* Called from bibEdit.php
+*
+*  ** AJAX Version **
+*
+* Called from: bibEdit.php
 * This updates the bib record.
 * Validation has been done by JS, but more is done here.
 * This returns to bibEdit.php with a message upon success. 

@@ -4,9 +4,10 @@
 *
 * Called from index.php
 * Calls: many pages, depending on which button is pressed
+*
 * This is the main landing page after one has logged on
 * Other possibilities are: PAC page and patron page
-* Options vary depending on the access level of the user (admin or staff)
+* Options visible vary depending on the access level of the user (admin or staff)
 *
 ********************************************************/
 session_start();

@@ -3,7 +3,7 @@
 # common.php has a set of common utility methods. 
 # It also sets the Error reporting (to /var/log/apache2/error.log)
 # It sets various session variables if they are not already set.
-# and it links to config.php which has the variables needed to log in to MySQL.
+# and it links to config.php which has the secure variables needed to log in to MySQL.
 
 /**********  ERROR REPORTING  **********/
 // Development

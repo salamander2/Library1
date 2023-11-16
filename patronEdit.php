@@ -1,10 +1,9 @@
 <?php
 /*******************************************************
-* This is AJAX version : using AJAX to update card status
 * patronEdit.php
 * called from patronList.php (by clicking on a patron)
 * 		 and also from patronUpdate and patronAdd
-* calls patronUpdate.php
+* calls patronUpdate.php, patronLibraryCard.php, cardStatus.php
 * This displays the patron data for editing.
 * It also displays library cards, and books out.
 ********************************************************/

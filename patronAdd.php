@@ -3,6 +3,7 @@
 * patronAdd.php
 * Called from patronList.php
 * Calls: patronEdit.php upon success
+*
 * Purpose: allow user to enter patron information for a new record.
 * 		validates input and adds record
 ********************************************************/

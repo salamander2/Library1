@@ -1,11 +1,11 @@
 <?php
 /*******************************************************
  * PAC.php
+ * Called from: index.php
+ * Calls: bibFindPAC.php, which sends back a table that calls bibView.php
  * 
  * This lists/searches all books, by various fields
  * It is the public access catalog and the HTML is based on bibSearch.php
- * Called from: index.php
- * ??? Calls: bibFind.php, which sends back a table that calls bibView.php
  ********************************************************/
 session_start();
 require_once('common.php');

@@ -2,7 +2,7 @@
 /*******************************************************
 * bibEdit.php
 * called from : bibSearch.php
-* calls: bibUpdate.php
+* calls: bibUpdate.php, bibDelete.php, holdingsAdd.php
 * This displays the title data for editing.
 * It also shows the copies (holdings). 
 ********************************************************/

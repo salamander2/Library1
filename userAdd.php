@@ -3,6 +3,9 @@
 * userAdd.php
 * Called from userMaint.php
 * Calls: returns to userMaint.php upon success or failure
+*
+*  ** AJAX Version **
+*
 * Purpose: adds new user to database
 * 		validates input and adds record
 ********************************************************/
