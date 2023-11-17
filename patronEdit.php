@@ -7,6 +7,8 @@
 * This displays the patron data for editing.
 * It also displays library cards, and books out.
 ********************************************************/
+//Note about Bootstrap: these fields all need my-1 on the COLUMN, not ROW. 
+//This is so that it still looks good on small screens (mobile friendly).
 session_start();
 require_once('common.php');
 
@@ -47,17 +49,26 @@ $postal = $patronData['postalCode'];
 if (strlen($postal) == 6 ) {
   $postal = substr($postal,0,3)." ".substr($postal,3);
 }
-/*  PATRON'S LIBRARY CARD DATA
-+------------+---------------------------------+------+-----+-------------------+-------------------+
-| Field      | Type                            | Null | Key | Default           | Extra             |
-+------------+---------------------------------+------+-----+-------------------+-------------------+
-| barcode    | int unsigned                    | NO   | PRI | NULL              | auto_increment    |
-| patronId   | int unsigned                    | NO   | MUL | NULL              |                   |
-| status     | enum('ACTIVE','LOST','EXPIRED') | NO   |     | VALID             |                   |
-| expiryDate | date                            | YES  |     | NULL              |                   |
-| createDate | timestamp                       | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+------------+---------------------------------+------+-----+-------------------+-------------------+
+
+/*
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | int unsigned | NO   | PRI | NULL              | auto_increment    |
+| firstname  | varchar(30)  | NO   |     | NULL              |                   |
+| lastname   | varchar(30)  | NO   |     | NULL              |                   |
+| address    | varchar(255) | NO   |     | NULL              |                   |
+| city       | varchar(100) | NO   |     | NULL              |                   |
+| prov       | varchar(2)   | NO   |     | NULL              |                   |
+| postalCode | varchar(6)   | NO   |     | NULL              |                   |
+| phone      | varchar(20)  | YES  |     | NULL              |                   |
+| email      | varchar(50)  | YES  |     | NULL              |                   |
+| birthdate  | date         | NO   |     | NULL              |                   |
+| password   | varchar(255) | NO   |     | NULL              |                   |
+| createDate | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
 */
+
 $sql = "SELECT * FROM libraryCard WHERE patronID = ? ORDER BY expiryDate DESC";
  
 if ($stmt = $db->prepare($sql)) {
@@ -151,83 +162,9 @@ function updateCardStatus(barcode, newStatus) {
 	//getLibraryCards();
 }
 
-
-//FIXME: I need to write a general function for this. It's too much repeated code.
-	function validateForm() {
-		const inputs = ["firstname", "lastname", "birthdate", "address", "city", "prov", "postalCode"];
-
-		//Make sure all the the inputs are filled. This is actually done by the "required" attribute in <input>
-		let retval = true;
-		inputs.forEach( function(input) {
-			let element = document.getElementById(input);
-			if(element.value === "") {
-				element.className = "form-control is-invalid";
-				retval = false;
-			} else {
-				element.className = "form-control is-valid";
-			}
-		});
-		if (retval === false) {
-			displayNotification("error", "Missing input");
-			return false;
-		}
-
-		//validate email if it exists
-		const email = document.getElementById("email");
-		let emailText = email.value.trim();
-		//if (emailText.length > 0) {
-		if (emailText != "") {
-			let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-			if(! emailText.match(mailformat)) {
-				email.className = "form-control is-invalid";
-				displayNotification("error", "Email is invalid");
-				return false;
-			} 		
-		}
-
-		//validate PROV.
-		const prov = document.getElementById("prov");
-		let provText = prov.value.trim().toUpperCase();
-		if (! provText.match('^[A-Z]{2}$')) {
-			prov.className = "form-control is-invalid";
-			displayNotification("error", "Province is invalid");
-			return false;
-		}
-		prov.value = provText;
-
-		//Rudimentary validation of postal code. It must be 5 or 6 charactes long. (US or Canada).
-		const postal = document.getElementById("postalCode");
-		let postalText = postal.value.trim().toUpperCase();
-		if (postalText.length == 5 && Number.isInteger(1*postalText)) return true;   //valid US code
-		//check Canadian code. (1) remove all spaces and make it uppercase (2) it must be 6 characters long
-		postalText = postalText.replace(/\s/g, '');
-		if (postalText.length != 6) {
-			postal.className = "form-control is-invalid";
-			displayNotification("error", "Postal Code is invalid");
-			return false;
-		}
-		postal.value = postalText; //uppercased with spaces removed, to submit to PHP.
-
-
-
-/*  //FIXME this does not work to validate phone numbers!
-		let regex = '^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$';
-		const phone = document.getElementById("phone");
-		phone.className = "form-control is-valid";
-		let phoneText = prov.value.trim();
-		if (! phoneText.match(regex)) {
-			phone.className = "form-control is-invalid";
-			document.getElementById("error_message").innerHTML = "Invalid phone number format";
-			return false;
-		}
-*/
-
-		return true;
-	}
-
-	function resetPWD(n) {
-        window.alert("delete " + n);
-    } 
+function resetPWD(n) {
+	window.alert("delete " + n);
+} 
 
 </script>
 
@@ -248,19 +185,19 @@ function updateCardStatus(barcode, newStatus) {
 	</div>
 
 <div class="card-body">
-	<form action="patronUpdate.php" onsubmit="return validateForm()" method="post">
+	<form action="patronUpdate.php" onsubmit="return validatePatronForm()" method="post">
 		<div class="row text-secondary">
 		<div class="col-sm-2">ID: <?=$patronID?></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
 		</div>
 		
 		<div class="row">
-			<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="col-sm-8 col-md-6 col-lg-4 my-1">
 				<div class="input-group rounded">
 				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
 				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" required value="<?=$patronData['lastname']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
-			<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="col-sm-8 col-md-6 col-lg-4 my-1">
 				<div class="input-group rounded">
 				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
 				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" required value="<?=$patronData['firstname']?>"><span class="text-danger">&nbsp;*</span>
@@ -284,20 +221,20 @@ function updateCardStatus(barcode, newStatus) {
 			</div>
 		</div>
 
-		<div class="row my-2">
-			<div class="col-sm-6 col-md-4">
+		<div class="row">
+			<div class="col-sm-6 col-md-4 my-1">
 				<div class="input-group rounded">
 				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
 				<input class="form-control bgS rounded-end" type="text" id="city" name="city" required value="<?=$patronData['city']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
-			<div class="col-sm-4 col-lg-3 col-xxl-2">
+			<div class="col-sm-4 col-lg-3 col-xxl-2 my-1">
 				<div class="input-group rounded">
 				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
 				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" required value="<?=$patronData['prov']?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
-			<div class="col-sm-6 col-lg-4 col-xl-3">
+			<div class="col-sm-6 col-lg-4 col-xl-3 my-1">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
 				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$postal?>"><span class="text-danger">&nbsp;*</span>
@@ -307,13 +244,13 @@ function updateCardStatus(barcode, newStatus) {
 
 		<h5 class="mt-4 fg1"><u>Contact:</u></h5>
 		<div class="row">
-			<div class="col-sm-8 col-md-4">
+			<div class="col-sm-8 col-md-4 my-1">
 				<div class="input-group rounded">
 				<label for="phone" class="input-group-prepend btn btn-outline-warning fg1"><b>Phone</b></label>
 				<input class="form-control bg1" type="text" id="phone" name="phone" value="<?=$patronData['phone']?>">
 				</div>
 			</div>
-			<div class="col-sm-8 col-md-6 col-lg-5">
+			<div class="col-sm-8 col-md-6 col-lg-5 my-1">
 				<div class="input-group rounded">
 				<label for="email" class="input-group-prepend btn btn-outline-warning fg1"><b>Email</b></label>
 				<input class="form-control bg1" type="text" id="email" name="email" value="<?=$patronData['email']?>">

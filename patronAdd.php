@@ -20,21 +20,31 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 
 if(isset($_POST['submit'])) {
 
-	//FIXME All validation still needs to be done here and on patronEdit.php
-	$firstname=$lastname="";
-	if (isset($_POST['firstname'])) $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-	$lastname = clean_input($_POST['lastname']);
-	$address= clean_input($_POST['address']);
-	$city = clean_input($_POST['city']);
-	$prov = clean_input($_POST['prov']);
-	$postalCode = clean_input($_POST['postalCode']);
-	$phone = clean_input($_POST['phone']);
-	$email = clean_input($_POST['email']);
-	$birthdate = $_POST['birthdate'];
+	$firstname=$lastname=$address=$city=$prov=$postalCode=$phone=$email=$birthdate="";
 
-	$sql = "INSERT INTO patron (firstname, lastname, address, city, prov, postalCode, phone, email, birthdate ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
+	//All validation still needs to be done here (and on patronAdd.php).
+	if (isset($_POST['firstname']))	$firstname = clean_input($_POST['firstname']);
+	if (isset($_POST['lastname'])) 	$lastname = clean_input($_POST['lastname']);
+	if (isset($_POST['address'])) 	$address = clean_input($_POST['address']);
+	if (isset($_POST['city'])) 		$city = clean_input($_POST['city']);
+	if (isset($_POST['prov'])) 		$prov = clean_input($_POST['prov']);
+	if (isset($_POST['postalCode'])) $postalCode = clean_input($_POST['postalCode']);
+	if (isset($_POST['phone'])) 	$phone = clean_input($_POST['phone']);
+	if (isset($_POST['email'])) 	$email = clean_input($_POST['email']);
+	if (isset($_POST['birthdate'])) $birthdate = clean_input($_POST['birthdate']);
+	//Check for required values
+	if ($firstname == "" || $lastname == "" || $address == "" || $city == "" || $prov == "" || $postalCode == || $birthdate == "") {
+		//This does not work with AJAX!
+		//$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing required fields.");
+		echo "ERROR Missing required fields.";
+		return;
+	}
+	$password = $lastname.substr($firstname,0,1);
+	$password = password_hash($password, PASSWORD_DEFAULT);
+
+	$sql = "INSERT INTO patron (firstname, lastname, address, city, prov, postalCode, phone, email, birthdate, password ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 	if ($stmt = $db->prepare($sql)) {
-		$stmt->bind_param("sssssssss", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $birthdate );
+		$stmt->bind_param("ssssssssss", $firstname, $lastname, $address, $city, $prov, $postalCode, $phone, $email, $birthdate, $password );
 		$stmt->execute();
 		$patronID = $stmt->insert_id;
 		$stmt->close();
@@ -46,26 +56,6 @@ if(isset($_POST['submit'])) {
 	header("location:patronEdit.php?ID=$patronID");
 
 }
-
-
-
-/* patron table
-+------------+--------------+------+-----+-------------------+-------------------+
-| Field      | Type         | Null | Key | Default           | Extra             |
-+------------+--------------+------+-----+-------------------+-------------------+
-| id         | int unsigned | NO   | PRI | NULL              | auto_increment    |
-| firstname  | varchar(30)  | NO   |     | NULL              |                   |
-| lastname   | varchar(30)  | NO   |     | NULL              |                   |
-| address    | varchar(255) | NO   |     | NULL              |                   |
-| city       | varchar(100) | NO   |     | NULL              |                   |
-| prov       | varchar(2)   | NO   |     | NULL              |                   |
-| postalCode | varchar(6)   | NO   |     | NULL              |                   |
-| phone      | varchar(20)  | YES  |     | NULL              |                   |
-| email      | varchar(50)  | YES  |     | NULL              |                   |
-| birthdate  | date         | NO   |     | NULL              |                   |
-| createDate | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+------------+--------------+------+-----+-------------------+-------------------+
-*/
 
 $patronData = "";
 
@@ -85,8 +75,8 @@ $patronData = "";
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="resources/library.css" >
+	<script src="resources/library.js"></script>		
 
 </head>
 <body>
@@ -105,7 +95,7 @@ echo $text;
 	<div class="card-head alert alert-primary mb-0"> <h2>Add New Patron </div>
 
 <div class="card-body">
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return validatePatronForm()" method="post">
 		
 		<div class="row">
 			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
@@ -189,6 +179,10 @@ echo $text;
 	</form>
 
 </div></div> <!-- end of card-body and card -->
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
 
 </div>
 
