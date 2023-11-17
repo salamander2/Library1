@@ -33,10 +33,9 @@ if(isset($_POST['submit'])) {
 	if (isset($_POST['email'])) 	$email = clean_input($_POST['email']);
 	if (isset($_POST['birthdate'])) $birthdate = clean_input($_POST['birthdate']);
 	//Check for required values
-	if ($firstname == "" || $lastname == "" || $address == "" || $city == "" || $prov == "" || $postalCode == || $birthdate == "") {
-		//This does not work with AJAX!
-		//$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing required fields.");
-		echo "ERROR Missing required fields.";
+	if ($firstname == "" || $lastname == "" || $address == "" || $city == "" || $prov == "" || $postalCode == "" || $birthdate == "") {
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing required fields.");
+		header("location:patronAdd.php");
 		return;
 	}
 	$password = $lastname.substr($firstname,0,1);
