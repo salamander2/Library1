@@ -48,7 +48,10 @@ if ($stmt = $db->prepare($sql)) {
 	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
-//TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
+$postal = $patronData['postalCode'];
+if (strlen($postal) ==6 ) {
+  $postal = substr($postal,0,3)." ".substr($postal,4);
+}
 
 $sql = "SELECT * FROM libraryCard WHERE patronID = ? ORDER BY expiryDate DESC";
  
@@ -82,7 +85,6 @@ if ($stmt = $db->prepare($sql)) {
 	/* for Patron View page only */
 	#pageheader {background-color:#DBF;}
 </style>
-
 
 </head>
 <body>
@@ -155,7 +157,7 @@ if ($stmt = $db->prepare($sql)) {
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$patronData['postalCode']?>"><span class="text-danger"></span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$postal?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>

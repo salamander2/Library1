@@ -52,6 +52,7 @@ if ($stmt = $db->prepare($sql)) {
 	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 }
 
+//We also want to find the previous patron name. I think it's too hard to get the prev. patron name, so we'll do a separate search later.
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	<div class="row my-2">
 		<div class="col-12"><div class="input-group rounded">
-			<!-- FIXME ? on smaller screens the title might run past the end. So maybe make it a textArea -->
 			<label for="title" class="input-group-prepend btn btn-success">Title</label>
 			<input class="form-control bgU rounded-end" type="text" id="title" name="title" required value="<?=$bibData['title']?>"><span class="text-danger">&nbsp;*</span>
 		</div></div>
@@ -222,13 +222,28 @@ if($num_rows > 0) {
 		$patron = "";
 		if ($copy['patronID'] != NULL) $patron = $copy['lastname'].", ".$copy['firstname'];
 		$prevPatron = $copy['prevPatron'];
+
+		//Get name of previous patron
+		if ($prevPatron != "") {
+			$sql = "SELECT lastname, firstname FROM patron WHERE patron.id = ?";
+			if ($stmt = $db->prepare($sql)) {
+				$stmt->bind_param("i", $prevPatron);
+				$stmt->execute(); 
+				$stmt->bind_result($prevNameL,$prevNameF);
+				$stmt->fetch(); 
+				$stmt->close();                 
+			} else {
+				die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
+			}
+		}
+
 		echo "<tr class='align-middle'>";
 		echo "<td>".$barcode. "</td>";
 		echo "<td class=\"$status\">".$status."</td>";
 		//echo "<td>".$copy['patronID']."<br>(".$prevPatron.")</td>";
 		echo "<td>".$patron;
 #		echo "<td>".$copy['patronID'];
-		if ($prevPatron != "") echo"<br>(".$prevPatron.")";
+		if ($prevPatron != "") echo"<br>($prevNameL, $prevNameF)";								//(".$prevPatron.")";
 		echo "</td>";
 		echo "<td>".$cost. "</td>";
 		echo "<td>".$copy['dueDate'];

@@ -20,14 +20,14 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 }
 /********************************************************/
 
-	//FIXME All validation still needs to be done here and on patronEdit.php
 	$username=$fullname="";
 	if (isset($_POST['username'])) $username = clean_input($_POST['username']);
 	if (isset($_POST['fullname'])) $fullname = clean_input($_POST['fullname']);
 	$authlevel = $_POST['authlevel'];
 
-	//FIXME It's slighty more robust to use teh actual values in an array. "MIN,ST" would be seen here as a valid string.
-    if (strlen($authlevel) > 6 || strpos("ADMIN,STAFF,PATRON,PUBLIC", $authlevel) === false) $authlevel = "PATRON";
+	$valid = array("ADMIN","STAFF","PATRON","PUBLIC");
+	//If the authlevel is invalid, set it to PATRON
+	if (! in_array($authlevel, $valid)) $authlevel = "PATRON";
 
 	if ($username == "") {
 		$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing username.");

@@ -37,10 +37,9 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 	$id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
 	$title=$author=$address=$callNumber=$pubDate=$ISBN="";
-	//TODO do we need to check if these variables are set first?  //if (isset($_POST['firstname'])) $firstname = clean_input($_POST['firstname']);
-	$title = clean_input($_POST['title']);
-	$author= clean_input($_POST['author']);
-	$callNumber = clean_input($_POST['callNumber']);
+	if (isset($_POST['title'])) 	 $title = clean_input($_POST['title']);
+	if (isset($_POST['author'])) 	 $author= clean_input($_POST['author']);
+	if (isset($_POST['callNumber'])) $callNumber = clean_input($_POST['callNumber']);
 
 	$pubDate = filter_var($_POST['pubDate'], FILTER_SANITIZE_NUMBER_INT);
 	$ISBN = filter_var($_POST['ISBN'], FILTER_SANITIZE_NUMBER_INT);

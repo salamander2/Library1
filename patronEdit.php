@@ -37,14 +37,16 @@ if ($stmt = $db->prepare($sql)) {
 }
 
 //someone is trying to look at a patron record that doesn't exist
-//FIXME add message when returning. PatronList needs to handle messages.
 if ($patronData == null) {
 	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid patron id.");	
 	header("Location:patronList.php");
 }
 
-//TODO Postal code: needs to be split into two parts. Need JS to check input for it (and remove all spaces)
-
+//Postal code: if Canadian (6 digits) split into two parts. JS will validate input and remove all spaces.
+$postal = $patronData['postalCode'];
+if (strlen($postal) == 6 ) {
+  $postal = substr($postal,0,3)." ".substr($postal,3);
+}
 /*  PATRON'S LIBRARY CARD DATA
 +------------+---------------------------------+------+-----+-------------------+-------------------+
 | Field      | Type                            | Null | Key | Default           | Extra             |
@@ -158,7 +160,6 @@ function updateCardStatus(barcode, newStatus) {
 		let retval = true;
 		inputs.forEach( function(input) {
 			let element = document.getElementById(input);
-			console.log(input);
 			if(element.value === "") {
 				element.className = "form-control is-invalid";
 				retval = false;
@@ -167,36 +168,49 @@ function updateCardStatus(barcode, newStatus) {
 			}
 		});
 		if (retval === false) {
-			document.getElementById("error_message").innerHTML = "Missing Input";
+			displayNotification("error", "Missing input");
 			return false;
 		}
 
 		//validate email if it exists
 		const email = document.getElementById("email");
-		email.className = "form-control is-valid";
 		let emailText = email.value.trim();
 		//if (emailText.length > 0) {
 		if (emailText != "") {
 			let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 			if(! emailText.match(mailformat)) {
 				email.className = "form-control is-invalid";
-				document.getElementById("error_message").innerHTML = "Email is invalid";
+				displayNotification("error", "Email is invalid");
 				return false;
 			} 		
 		}
 
 		//validate PROV.
 		const prov = document.getElementById("prov");
-		prov.className = "form-control is-valid";
 		let provText = prov.value.trim().toUpperCase();
 		if (! provText.match('^[A-Z]{2}$')) {
 			prov.className = "form-control is-invalid";
-			document.getElementById("error_message").innerHTML = "Province is invalid";
+			displayNotification("error", "Province is invalid");
 			return false;
 		}
+		prov.value = provText;
 
-/*
-		//FIXME this does not work!
+		//Rudimentary validation of postal code. It must be 5 or 6 charactes long. (US or Canada).
+		const postal = document.getElementById("postalCode");
+		let postalText = postal.value.trim().toUpperCase();
+		if (postalText.length == 5 && Number.isInteger(1*postalText)) return true;   //valid US code
+		//check Canadian code. (1) remove all spaces and make it uppercase (2) it must be 6 characters long
+		postalText = postalText.replace(/\s/g, '');
+		if (postalText.length != 6) {
+			postal.className = "form-control is-invalid";
+			displayNotification("error", "Postal Code is invalid");
+			return false;
+		}
+		postal.value = postalText; //uppercased with spaces removed, to submit to PHP.
+
+
+
+/*  //FIXME this does not work to validate phone numbers!
 		let regex = '^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$';
 		const phone = document.getElementById("phone");
 		phone.className = "form-control is-valid";
@@ -286,7 +300,7 @@ function updateCardStatus(barcode, newStatus) {
 			<div class="col-sm-6 col-lg-4 col-xl-3">
 				<div class="input-group rounded">
 				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$patronData['postalCode']?>"><span class="text-danger">&nbsp;*</span>
+				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" required value="<?=$postal?>"><span class="text-danger">&nbsp;*</span>
 				</div>
 			</div>
 		</div>
