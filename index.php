@@ -70,6 +70,7 @@ if(isset($_POST['submit'])) {
 			die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 		}
 		header('LOCATION:main.php');
+		exit;
 	}
 }
 ?>

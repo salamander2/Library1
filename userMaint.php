@@ -20,6 +20,7 @@ $allowed = array("ADMIN");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - UserMaintenance");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 

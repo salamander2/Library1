@@ -14,12 +14,16 @@ $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - BIB Edit");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
 $bibID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 
-if (strlen($bibID) == 0) header("Location:bibSearch.php"); 
+if (strlen($bibID) == 0) {
+	header("Location:bibSearch.php"); 
+	exit;
+}
 
 $bibData = "";
 
@@ -37,6 +41,7 @@ if ($stmt = $db->prepare($sql)) {
 if ($bibData == null) {
 	$_SESSION['notify'] = array("type"=>"error", "message"=>"That book  does not exist!");
 	header("Location:bibSearch.php");
+	exit;
 }
 
 /************ Get the Holdings records for this BIB *********/

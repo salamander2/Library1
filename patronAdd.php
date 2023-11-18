@@ -15,6 +15,7 @@ $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add Patron");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
@@ -36,7 +37,7 @@ if(isset($_POST['submit'])) {
 	if ($firstname == "" || $lastname == "" || $address == "" || $city == "" || $prov == "" || $postalCode == "" || $birthdate == "") {
 		$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing required fields.");
 		header("location:patronAdd.php");
-		return;
+		exit;
 	}
 	$password = $lastname.substr($firstname,0,1);
 	$password = password_hash($password, PASSWORD_DEFAULT);
@@ -53,7 +54,7 @@ if(isset($_POST['submit'])) {
 	$_SESSION['notify'] = array("type"=>"success", "message"=>"Patron record has been updated.");
 
 	header("location:patronEdit.php?ID=$patronID");
-
+	exit;
 }
 
 $patronData = "";

@@ -13,12 +13,16 @@ $allowed = array("ADMIN","STAFF","PATRON", "PUBLIC");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - BIB Edit");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
 $bibID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 
-if (strlen($bibID) == 0) header("Location:PAC.php"); 
+if (strlen($bibID) == 0) {
+	header("Location:PAC.php"); 
+	exit;
+}
 
 $bibData = "";
 
@@ -33,7 +37,10 @@ if ($stmt = $db->prepare($sql)) {
 }
 
 //someone is trying to look at a bib record that doesn't exist
-if ($bibData == null) header("Location:PAC.php");
+if ($bibData == null) {
+	header("Location:PAC.php");
+	exit;
+}
 
 /************ Get the Holdings records for this BIB *********/
 //$sql = "SELECT holdings.*, patron.lastname, patron.firstname FROM holdings LEFT JOIN patron on holdings.patronID = patron.id WHERE holdings.bibID = ?";

@@ -17,6 +17,7 @@ $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add Card");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
@@ -36,3 +37,4 @@ if ($stmt = $db->prepare($sql)) {
 $_SESSION['notify'] = array("type"=>"success", "message"=>"Library card added.");
 
 header("location:patronEdit.php?ID=$patronID");
+exit;

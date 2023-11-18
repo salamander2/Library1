@@ -17,6 +17,7 @@ $allowed = array("ADMIN");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Add User");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
@@ -32,10 +33,12 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 	if ($username == "") {
 		$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing username.");
 		header("location:userMaint.php");
+		exit;
 	}
 	if ($fullname == "") {
 		$_SESSION['notify'] = array("type"=>"error", "message"=>"Missing fullname.");
 		header("location:userMaint.php");
+		exit;
 	}
 		
 	$password = password_hash($defaultPWD, PASSWORD_DEFAULT);
@@ -50,4 +53,5 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 
 	$_SESSION['notify'] = array("type"=>"success", "message"=>"User record has been added.");
 	header("location:userMaint.php");
+	exit;
 ?>

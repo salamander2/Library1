@@ -17,6 +17,7 @@ $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - BIB update");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
@@ -56,3 +57,4 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 	$_SESSION['notify'] = array("type"=>"success", "message"=>"Title record has been updated.");
 
 header("location:bibEdit.php?ID=$id");
+exit;

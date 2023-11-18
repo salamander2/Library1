@@ -33,5 +33,6 @@ if ($stmt = $schoolDB->prepare($sql)) {
 }
 
 header("Location: userMaint.php");
+exit;
 
 ?>

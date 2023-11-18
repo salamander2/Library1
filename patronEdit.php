@@ -17,6 +17,7 @@ $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
 	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Patron Edit");
 	header("location:main.php");
+	exit;
 }
 /********************************************************/
 
@@ -24,6 +25,7 @@ $patronID = filter_var($_GET['ID'], FILTER_SANITIZE_NUMBER_INT);
 if (strlen($patronID) == 0) {
 	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid patron id. That patron doesn't exist.");	
 	header("Location:patronList.php"); 
+	exit;
 }
 
 $patronData = "";
@@ -42,6 +44,7 @@ if ($stmt = $db->prepare($sql)) {
 if ($patronData == null) {
 	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid patron id.");	
 	header("Location:patronList.php");
+	exit;
 }
 
 //Postal code: if Canadian (6 digits) split into two parts. JS will validate input and remove all spaces.

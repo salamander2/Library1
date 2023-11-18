@@ -37,6 +37,7 @@ echo $userdata['username'];
 		}
 
 		header("Location: logout.php");
+		exit;
 	}
 }
 
