@@ -4,6 +4,16 @@
 
 This documentation is aimed at library staff, not patrons. Patron access should be simple enough to be self-explanatory.
 
+### Terminology
+
+* "record" and "table" are essentially interchangelable. _A database table has certain fields (columns). Each row in the table is a record._
+* Bib record = title record
+* Holdings = table that holds the copies of each book (title)
+* PURF = patron unresolved file.  This keeps track of all outstanding issues for the patron, eg. fines, validate address, etc. These need to be addressed before the patron can sign out any more materials.
+* xxxx.his  the .his files (purf.his  patron.his) are history files, where things go when they are deleted. When a patron wants to cancel his account, his record is moved to the patron.his file.  When the issue in the purf file is resolved, that issue is moved to purf.his.
+
+* Note that for privacy, we do not keep a history of materials that users take out. We only record the current user and the previous one.
+
 ### Library Cards
 -- see Patron
 ### Patron
