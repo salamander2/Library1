@@ -30,6 +30,7 @@ if ($stmt = $db->prepare($sql)) {
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="resources/bootstrap5.min.css" >
+	<script src="resources/bootstrap5.min.js"></script>
 	<!-- our project just needs Font Awesome Solid + Brands -->
 	<!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
 	<link href="resources/fontawesome6.min.css" rel="stylesheet">
@@ -44,15 +45,26 @@ if ($stmt = $db->prepare($sql)) {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-		// Get the form element
-		const form = document.getElementById("myForm");
+	//for Bootstrap collapse. I need to change the symbol when the item has collapsed / expanded.
+	const collapseDivs = document.querySelectorAll(".collapseBtn");
+    for (const item of collapseDivs) {
+        item.addEventListener("click", 
+        () => {
+            if   (item.textContent == " + ") item.textContent = '\u2013'; //en-dash
+            else                             item.textContent = " + ";
+        });
+    }
 
-		// Add 'submit' event handler
-		form.addEventListener("submit", (event) => {
-				event.preventDefault();
-				postForm(form);
-				});
+	// Get the form element
+	const form = document.getElementById("myForm");
+	// Add 'submit' event handler
+	form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			postForm(form);
+			new bootstrap.Collapse(document.getElementById("collapse1"), {toggle:false} ).hide();
+			document.querySelector(".collapseBtn").textContent = " + ";
 		});
+});
 
 function postForm(form) {
 
@@ -117,8 +129,11 @@ function removeTHE() {
 		<!-- page header -->
 		<?php loadHeader("main.php"); ?>
 
-		<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)</span></h3>
-
+		<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)
+		<button class="collapseBtn btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1"> – </button>
+		</span></h3>
+		<hr>
+		<div class="card-body collapse show" id="collapse1">
 		<form id="myForm" Xaction="bibFind.php" method="POST" onsubmit="return removeTHE()">
 			<div class="row bgS pb-2">
 				<div class="col-md-6">
@@ -159,6 +174,7 @@ function removeTHE() {
 				</div>
 			</div>
 		</form>
+		</div>
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
 	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>

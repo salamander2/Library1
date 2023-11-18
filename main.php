@@ -76,13 +76,13 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 	<div class="card border border-secondary alert alert-warning">
 		<div class="card-body">
 		<div class="ml-3">
-		<a href="patronList.php"><button type="button" class="btn btn-success">Search Patrons</button></a>
-		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary">Books</button></a>
-		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Circulation</button></a>
-		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Fines</button></a>
-		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary">Reports</button></a>
-		<span class="float-end"><a href="changePWD.php"><button type="button" class="btn btn-outline-secondary">Change Password</button></a>&nbsp;
-		<a href="logout.php"><button type="button" class="btn btn-secondary">Logout</button></a></span>
+		<a href="patronList.php"><button type="button" class="btn btn-success mt-1">Search Patrons</button></a>
+		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary mt-1">Books</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Circulation</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Fines</button></a>
+		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Reports</button></a>
+		<span class="float-end"><a href="changePWD.php"><button type="button" class="btn btn-outline-secondary mt-1">Change Password</button></a>&nbsp;
+		<a href="logout.php"><button type="button" class="btn btn-secondary mt-1">Logout</button></a></span>
 		</div>
 
 		</div><!-- /card-body -->

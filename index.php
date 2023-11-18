@@ -153,13 +153,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			<form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" onsubmit="return validateData()">
 			<div class="row">
-				<div class="col-4">
+				<div class="col-12 col-sm-8 m col-md-4 t-1">
 					<input type="text" name="username" id="username" class="form-control" placeholder="Username" autofocus>
 				</div>
-				<div class="col-4">
+				<div class="col-12 col-sm-8 col-md-4 mt-1">
 					<input type="password" name="password" id="password" class="form-control" placeholder="Password">
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-2 mt-1">
 				<!--<div class="col-lg-2 col-md-4 col-12 mt-1"> -->
 					<button type="submit" name="submit" class="btn btn-primary shadow">
 						Login
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6 m-3 p-2 small border border-secondary rounded">
+				<div class="col-10 col-sm-6 m-3 p-2 small border border-secondary rounded">
 					<i>Autofill login info:</i>
 					<div class="form-check">
 					  <input class="form-check-input border-primary" type="radio" name="fillin" id="fillinStaff">
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			<h3><b>Welcome to our library database project.</b><br>-= Status =-</h3>
 		</div>
 		<div class="row">
-			<div class="col">
+			<div class="col-12 col-md-6">
 			<p class="alert alert-success fw-bold">So far the following is working:</p>
 			<ul>
 				<li>login and log out
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				<li>public access console (search)
 			</ul>
 			</div>
-			<div class="col">
+			<div class="col-12 col-md-6">
 			<p class="alert alert-danger fw-bold">The following is NOT YET working:</p>
 			<ul>
 				<li>checkout/check in books
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-12 col-md-6">
 			<p class="alert alert-dark fw-bold">The following will NOT be implemented</p>
 			<ul>
 				<li>multiple library branches

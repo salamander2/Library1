@@ -112,14 +112,14 @@ function processBarcode(e) {
 <h3>Search for a Patron <span class="text-secondary smaller float-end">(<?=$result?> patrons registered)</span></h3>
 <div class="row mt-4">
 <div class="input-group">
-	<div class="col me-2">
+	<div class="col-12 col-md-7 me-2">
 	<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." autofocus >&nbsp;&nbsp;
 	</div>
-	<div class="col-3 me-2">
+	<div class="col-12 col-md-5 col-lg-3 me-2">
 	<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Type Barcode, press ENTER">
 	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 20748...</span> 
 	</div>
-	<div class="col-2">
+	<div class="col-4 col-lg-2">
     <a class="form-control btn btn-primary rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
 	</div>
 </div>
