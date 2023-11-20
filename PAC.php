@@ -225,6 +225,7 @@ function updateButton() {
 	<h3>Search Books <span class="text-secondary smaller float-end">(<?=$result?> books in collection)
 	<button class="collapseBtn btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1"> – </button>
 	</span></h3>
+	<br clear="both">
 	<hr>
 	<div class="card-body collapse show" id="collapse1">
 

@@ -70,7 +70,17 @@ if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
 	header("location:patronEdit.php?ID=$id");
 	exit;
 }
-//TODO validate phone
+
+//validate phone
+$newphone = preg_replace('/[0-9]+/', '', $words);
+$newphone = preg_replace("/[^0-9]/", "", $phone);
+if(strlen($newphone) != 10) {
+	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Phone number.");
+	header("location:patronEdit.php?ID=$id");
+	exit;
+}
+//$phone = "(".substr($newphone,0,3).") ".substr($newphone,3,3)."-".substr($newphone,6,5);
+$phone = substr($newphone,0,3)."-".substr($newphone,3,3)."-".substr($newphone,6,5);
 
 $sql = "UPDATE patron SET firstname=?, lastname=?, address=?, city=?, prov=?, postalCode=?, phone=?, email=?, birthdate=? WHERE id=?";
 if ($stmt = $db->prepare($sql)) {

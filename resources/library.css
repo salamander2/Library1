@@ -10,6 +10,7 @@
 .fg1 {color:#620;}	/* yellow */
 .bg1 {background-color:#FFA;}
 .fg2 {color:#518;} /* purple */
+.fgU {color:#0a3622;} /* success */
 .bg2 {background-color:#D9C0FF;}
 .bgP {background-color:#cfe2ff !important;} /* primary/info */
 .bgS {background-color:#C9D5D5;} /* secondary */

@@ -3,10 +3,10 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 ********************* IN PROCESS *******************
 
-- move all ajax to a folder
-- fix all TODO and FIXME
 
 ************************* DONE *************************
+
+* Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
 * PAC.php
 -- browse books
@@ -31,14 +31,12 @@ This is just listing what needs to be done in the next few days, not the whole p
 
 <<<<<<<<<<<<<<<<<<<<<<<<<< TO DO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-* Add/Edit Patron: JS check format. PHP validate (rather than sanitize?)
 
-** Users: add an admin user. 
-                then also add/edit site announcements
+** Admin User: add/edit site announcements
 
 * checkin / checkout
 
-* PAtron: PAC, login and display,
+* Patron: PAC, login and display,
 
 * DELETE patron: check for fines, books out.  What happen with LibraryCards?
 

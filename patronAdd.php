@@ -23,7 +23,7 @@ if(isset($_POST['submit'])) {
 
 	$firstname=$lastname=$address=$city=$prov=$postalCode=$phone=$email=$birthdate="";
 
-	//All validation still needs to be done here (and on patronAdd.php).
+/***** INPUT VALIDATION ******/
 	if (isset($_POST['firstname']))	$firstname = clean_input($_POST['firstname']);
 	if (isset($_POST['lastname'])) 	$lastname = clean_input($_POST['lastname']);
 	if (isset($_POST['address'])) 	$address = clean_input($_POST['address']);
@@ -39,6 +39,47 @@ if(isset($_POST['submit'])) {
 		header("location:patronAdd.php");
 		exit;
 	}
+
+	//validate Prov/State
+	$prov = strtoupper($prov);
+	if (strlen($prov) == 2 && ctype_alpha($prov)) { // OK
+	} else {
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Province/State.");
+		header("location:patronAdd.php");
+		exit;
+	}
+
+	//validate postal code
+	if (strlen($postalCode) == 5 && is_numeric($postalCode)) { 
+		// OK. USA.
+	} else {
+		if (strlen($postalCode) != 6 || is_numeric($postalCode)) {
+			$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Postal Code!");
+			header("location:patronAdd.php");
+			exit;
+		}	
+	}
+
+	//validate email
+	//Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
+	$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+	if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid email address");
+		header("location:patronAdd.php");
+		exit;
+	}
+
+	//validate phone
+	$newphone = preg_replace('/[0-9]+/', '', $words);
+	$newphone = preg_replace("/[^0-9]/", "", $phone);
+	if(strlen($newphone) != 10) {
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Phone number.");
+		header("location:patronAdd.php");
+		exit;
+	}
+	//$phone = "(".substr($newphone,0,3).") ".substr($newphone,3,3)."-".substr($newphone,6,5);
+	$phone = substr($newphone,0,3)."-".substr($newphone,3,3)."-".substr($newphone,6,5);
+
 	$password = $lastname.substr($firstname,0,1);
 	$password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -51,8 +92,8 @@ if(isset($_POST['submit'])) {
 	} else {
 		die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 	}
-	$_SESSION['notify'] = array("type"=>"success", "message"=>"Patron record has been updated.");
 
+	$_SESSION['notify'] = array("type"=>"success", "message"=>"Patron record has been updated.");
 	header("location:patronEdit.php?ID=$patronID");
 	exit;
 }
@@ -84,12 +125,7 @@ $patronData = "";
 <div class="container-md mt-2">
 
 <!-- page header -->
-<?php $backHref="patronList.php";
-$text = file_get_contents("pageHeader.html");
-$text = str_replace("BACK", $backHref,$text);
-$text = str_replace("INSTITUTION", $institution,$text);
-echo $text;
-?>
+<?php loadHeader("patronList.php"); ?>
 
 <div class="card border-primary mt-3">
 	<div class="card-head alert alert-primary mb-0"> <h2>Add New Patron </div>

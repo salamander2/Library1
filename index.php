@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				</div>
 				<div class="col-md-2 mt-1">
 				<!--<div class="col-lg-2 col-md-4 col-12 mt-1"> -->
-					<button type="submit" name="submit" class="btn btn-primary shadow">
+					<button type="submit" name="submit" class="btn btn-warning border-secondary shadow">
 						Login
 					</button>
 				</div>
@@ -182,8 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		</div>
 		<!-- right inner column for PAC logo, rowspan= all the rows, as many as needed -->
 		<div class="col"><a href="PAC.php">
-		<div class="btn btn-success shadow" style="width:100%;height:100%;">
-			&lt;PAC LOGO&gt;<br>Click here to launch<br>the public access console
+		<div class="btn fgU bgU border-success shadow" style="width:100%;height:100%;">
+			<b>&lt;PAC LOGO&gt;<br><br>Click here to launch<br>the Public Access Console</b>
 		</div>
 		</a></div>
 		</div>
