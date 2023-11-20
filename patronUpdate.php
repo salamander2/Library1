@@ -52,35 +52,40 @@ if (strlen($prov) == 2 && ctype_alpha($prov)) { // OK
 }
 
 //validate postal code
+$postalCode = preg_replace('/ /', '', $postalCode);
 if (strlen($postalCode) == 5 && is_numeric($postalCode)) { 
 	// OK. USA.
 } else {
 	if (strlen($postalCode) != 6 || is_numeric($postalCode)) {
-		$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Postal Code!");
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"$postalCode Invalid Postal Code!");
 		header("location:patronEdit.php?ID=$id");
 		exit;
 	}
 }
 
 //validate email
-//Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
-$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid email address");
-	header("location:patronEdit.php?ID=$id");
-	exit;
+if ($email != "") {
+	//Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
+	$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+	if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid email address");
+		header("location:patronEdit.php?ID=$id");
+		exit;
+	}
 }
 
 //validate phone
-$newphone = preg_replace('/[0-9]+/', '', $words);
-$newphone = preg_replace("/[^0-9]/", "", $phone);
-if(strlen($newphone) != 10) {
-	$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Phone number.");
-	header("location:patronEdit.php?ID=$id");
-	exit;
+if ($phone != "") {
+	//$newphone = preg_replace('/[0-9]+/', '', $phone);
+	$newphone = preg_replace("/[^0-9]/", "", $phone);
+	if(strlen($newphone) != 10) {
+		$_SESSION['notify'] = array("type"=>"error", "message"=>"Invalid Phone number.");
+		header("location:patronEdit.php?ID=$id");
+		exit;
+	}
+	//$phone = "(".substr($newphone,0,3).") ".substr($newphone,3,3)."-".substr($newphone,6,5);
+	$phone = substr($newphone,0,3)."-".substr($newphone,3,3)."-".substr($newphone,6,5);
 }
-//$phone = "(".substr($newphone,0,3).") ".substr($newphone,3,3)."-".substr($newphone,6,5);
-$phone = substr($newphone,0,3)."-".substr($newphone,3,3)."-".substr($newphone,6,5);
 
 $sql = "UPDATE patron SET firstname=?, lastname=?, address=?, city=?, prov=?, postalCode=?, phone=?, email=?, birthdate=? WHERE id=?";
 if ($stmt = $db->prepare($sql)) {

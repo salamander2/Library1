@@ -213,9 +213,9 @@ function updateButton() {
 				<div class="input-group rounded">
 				<button type="button" id="btnBrowse" class="btn btn-primary">Browse Books</button> &nbsp;
 				<div data-quantity class="border border-primary rounded py-1"></div>
-				<!-- <input type="text" xclass="form-control" name="title2" id="title2" size="1" value="M" style="text-align:center;"> -->
+				<!-- <input type="text" Xclass="form-control" name="title2" id="title2" size="1" value="M" style="text-align:center;"> -->
 				</div>
-				<label for="title2" class="px-3 smaller xform-label">Titles beginning with letter:</label>
+				<label for="title2" class="px-3 smaller Xform-label">Titles beginning with letter:</label>
 			</form>
 		</div>
 	</div>

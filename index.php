@@ -179,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					</div>
 				</div>
 			</div>
+		</form>
 		</div>
 		<!-- right inner column for PAC logo, rowspan= all the rows, as many as needed -->
 		<div class="col"><a href="PAC.php">
@@ -187,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		</div>
 		</a></div>
 		</div>
-		</form>
 		</div>
 	</div>
 	<div class="d-none d-md-block col-3 xoffset-1"><img width=200 height=170 src="images/logoBG.png">

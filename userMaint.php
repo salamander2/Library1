@@ -220,9 +220,9 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 		//row1 = "enum('ADMIN','STAFF','PATRON','PUBLIC')"
 		//substring produces this: ADMIN','STAFF','PATRON','PUBLIC
 		foreach(explode("','",substr($row2[1],6,-2)) as $option) {
-			$str = "<option value=\'$option\'>$option</option>";
+			$str = "<option value='$option'>$option</option>";
 			//add "selected" to the current value
-			if ($option == $row['authlevel']) $str = "<option selected value=\'$option\'>$option</option>";
+			if ($option == $row['authlevel']) $str = "<option selected value='$option'>$option</option>";
 			echo $str;
 		}
 	}
