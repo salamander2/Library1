@@ -81,7 +81,7 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Circulation</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Reports</button></a>
-		<span class="float-end"><a href="changePWD.php"><button type="button" class="btn btn-outline-secondary mt-1">Change Password</button></a>&nbsp;
+		<span class="float-end"><a href="userChangePWD.php"><button type="button" class="btn btn-outline-secondary mt-1">Change Password</button></a>&nbsp;
 		<a href="logout.php"><button type="button" class="btn btn-secondary mt-1">Logout</button></a></span>
 		</div>
 

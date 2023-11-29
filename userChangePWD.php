@@ -1,7 +1,7 @@
 <?php
 /*******************************************************************************
-* Name: changePWD.php
-* Called from: admin.php
+* Name: userChangePWD.php
+* Called from: main.php
 * Transfers control to: logout.php
 *
 * Purpose: change user password 

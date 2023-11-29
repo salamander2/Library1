@@ -242,7 +242,7 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	echo '<button type="submit" onclick="updateRow('.$num.',\''.$row['username'].'\')">Update</button>';
 	echo '<a href="deleteUser.php?ID='.$row['username'].'"><button type="submit" name="delete" style="color:red;" onclick="return confirm(\'Are you sure?\');" >Delete</button></a>';
 
-	echo '<a href="resetPWD.php?ID='.$row['username'].'"><button type="submit" name="changePWD" onclick="return confirm(\'Are you sure?\');" >Reset Password</button></a></td>';
+	echo '<a href="userResetPWD.php?ID='.$row['username'].'"><button type="submit" name="resetPWD" onclick="return confirm(\'Are you sure?\');" >Reset Password</button></a></td>';
 	echo "<td>";
 	if ($row['defaultPWD'] == 1) echo " <center><b>*</b></center> ";
 	else echo " <center><b>&check;</b></center> ";
