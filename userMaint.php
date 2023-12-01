@@ -190,7 +190,7 @@ INSERT INTO `users` (`login_name`, `full_name`, `alpha`, `password`, `salt`, `de
 <th class="">Login name</th>
 <th class="">Full Name</th>
 <th class="">Access Level</th>
-<th><i>These buttons don't work yet!</i>&nbsp;</th>
+<th><!-- <i>These buttons don't work yet!</i>&nbsp; --></th>
 <th class="">Default PWD changed?</th>
 </tr>
 </thead>
@@ -239,8 +239,8 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	   Each field must have a name, then the form can be done using POST method.
 	 */
 	echo '<td>';
-	echo '<button type="submit" onclick="updateRow('.$num.',\''.$row['username'].'\')">Update</button>';
-	echo '<a href="deleteUser.php?ID='.$row['username'].'"><button type="submit" name="delete" style="color:red;" onclick="return confirm(\'Are you sure?\');" >Delete</button></a>';
+	echo '<button type="submit" onclick="updateRow('.$num.',\''.$row['username'].'\')"><s>Update</s></button>&nbsp;';
+	echo '<a href="userDelete.php?ID='.$row['username'].'"><button type="submit" name="delete" style="color:red;" onclick="return confirm(\'Are you sure?\');" >Delete</button></a>&nbsp;';
 
 	echo '<a href="userResetPWD.php?ID='.$row['username'].'"><button type="submit" name="resetPWD" onclick="return confirm(\'Are you sure?\');" >Reset Password</button></a></td>';
 	echo "<td>";

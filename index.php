@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				<li>patrons: responsive search, add, edit, <s>delete</s>
 				<li>library cards: add, change status (via patron page)
 				<li>books: search (multiple fields), edit, <s>add new book</s>
-				<li>adding users, <s>deleting users</s>
+				<li>adding users, deleting users
 				<li>changing and resetting user passwords
 				<li>different access levels
 				<li>most pages work on mobile devices

@@ -1,6 +1,6 @@
 <?php
 /*******************************************************
-  NAME:  resetPWD.php
+  NAME:  userResetPWD.php
   CALLED FROM: userMaint.php
   TRANSFERS control to: userMaint.php
   PURPOSE: resets user password to default
