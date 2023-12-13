@@ -78,7 +78,7 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 		<div class="ml-3">
 		<a href="patronList.php"><button type="button" class="btn btn-success mt-1">Search Patrons</button></a>
 		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary mt-1">Books</button></a>
-		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Circulation</button></a>
+		<a href="checkin.php" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Circulation</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Reports</button></a>
 		<span class="float-end"><a href="userChangePWD.php"><button type="button" class="btn btn-outline-secondary mt-1">Change Password</button></a>&nbsp;
