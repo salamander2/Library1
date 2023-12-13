@@ -5,6 +5,7 @@
 **************************************/
 function displayNotification(type, message, duration = 3500) {
 	var commonStyle = "alert border alert-success border-success border-4 fw-bold w-50 mt-3";
+	if (duration == "") duration = 3500;
 	var text;
 	switch(type){
 	case "success":

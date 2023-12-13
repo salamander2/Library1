@@ -43,7 +43,7 @@ $libCode='0748';
 $defaultPWD="CairParavel";
 
 //Create the notification array and set it to an empty message. If there is a message from the previous page, set it now.
-$notify = array("type"=>"error", "message"=>"");
+$notify = array("type"=>"error", "message"=>"","duration"=>"");
 if(isset($_SESSION["notify"])) {
 	 $notify = $_SESSION["notify"];
 	 //and prevent the same message from displaying next time the page loads

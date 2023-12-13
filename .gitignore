@@ -4,3 +4,4 @@ config.php
 
 #stick files here temporarily when you don't want Git to catalog them
 temp/
+person/
