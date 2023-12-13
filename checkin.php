@@ -2,7 +2,7 @@
 /*******************************************************
 * checkin.php
 * Called from main.php
-* Calls 
+* Calls:
 * 
 * This checks in a book.
 * NOTE: this is the one PHP file that has a "duration" added to the error message.
@@ -67,8 +67,6 @@ if(isset($_POST['barcode'])) {
 <head>
 	<title><?=$institution?> Library Database</title>
 	<!-- Required meta tags -->
-	<title>Library Database — 2023</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="resources/bootstrap5.min.css" >
