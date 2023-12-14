@@ -21,10 +21,10 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 /********************************************************/
 
 //if(isset($_POST['submit'])) {  //Won't work since we are not submitting via a submit button
-if(isset($_POST['barcode'])) {
+if(isset($_GET['barcode'])) {
 	
-	$barcode = $_POST['barcode'];
-	unset($_POST['barcode']);
+	$barcode = clean_input($_GET['barcode']);
+	unset($_GET['barcode']);
 
 	if ($barcode=="") {
 		//This is checked in JS first.
@@ -139,13 +139,15 @@ function processBarcode(e) {
 <?php loadHeader("main.php"); ?>
 
 <h3>Check In Book</h3>
-<form id="form" action="<?php echo $_SERVER["PHP_SELF"];?>" method="POST">
+<!-- NOTE this uses GET instead of POST so that the dynData table can also use GET to check in a barcode -->
+<form id="form" action="<?php echo $_SERVER["PHP_SELF"];?>" method="GET">
 	<div class="row mt-4">
 		<div class="col-12 col-md-5 col-lg-3 me-2">
 		<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Scan/Type Barcode, press ENTER" autofocus>
 		<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 30748...</span> 
 		</div>
 	</div>
+</form>
 	<div class="row mt-4">
 		<div class="col-12 col-md-7 me-2">
 			<div class="input-group">
@@ -154,7 +156,6 @@ function processBarcode(e) {
 			</div>
 		</div>
 	</div>
-</form>
 
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>

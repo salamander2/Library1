@@ -73,17 +73,20 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	} else {
 		echo "<td colspan=4 style=\"background-color:#EEE\"></td>";
 	}
-	$onclick = <<<END
+	$onclick1 = <<<END
 		onclick="if(confirm('Book is not OUT. Are you sure? '))  
-		window.document.location='bibEdit.php?ID={$row['bibID']}';"
+		window.document.location='checkin.php?barcode={$row['barcode']}';"
+		END;
+	$onclick2 = <<<END
+		onclick="window.document.location='checkin.php?barcode={$row['barcode']}';"
 		END;
 	if ($row['status'] == "OUT") {
-		echo "<td class=\"bg-success\" $onclick ><b>".$row['barcode']. "</b></td>";
-		echo "<td class=\"bg-success\" $onclick >".$row['status']. "</td>";
+		echo "<td class=\"bg-success\" $onclick2 ><b>".$row['barcode']. "</b></td>";
+		echo "<td class=\"bg-success\" $onclick2 >".$row['status']. "</td>";
 	} else {
-		echo "<td $onclick ><b>".$row['barcode']. "</b></td>";
 		//echo "<td onclick=\"window.document.location='bibEdit.php?ID=". $row['bibID'] . "';\" ><b>".$row['barcode']. "</b></td>";
-		echo "<td $onclick >".$row['status']. "</td>";
+		echo "<td $onclick1 ><b>".$row['barcode']. "</b></td>";
+		echo "<td $onclick1 >".$row['status']. "</td>";
 	}
 	echo "</tr>";
 
