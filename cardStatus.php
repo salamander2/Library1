@@ -10,7 +10,7 @@
 session_start();
 require_once('common.php');
 
-$barcode=$stCode=$patronID="";
+$barcode=$stCode="";
 $barcode = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 
 //This should never happen, but we have to make sure that there is a valid barcode
@@ -20,7 +20,6 @@ if (strlen($barcode) != 10) {
 }
 
 if (isset($_GET['status'])) $stCode = $_GET['status'];
-if (isset($_GET['patron'])) $patronID = $_GET['patron'];
 
 $status = "";
 switch($stCode) {

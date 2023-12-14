@@ -50,7 +50,17 @@ if(isset($_POST['barcode'])) {
 		$status = $holdingsData['status'];
 		if ($status == "OUT") {
 
-
+			$sql = "UPDATE holdings SET status = 'IN' WHERE barcode = ?";
+			if ($stmt = $db->prepare($sql)) {
+				$stmt->bind_param("i",$barcode);
+				$stmt->execute(); 
+				$stmt->close();                 
+			} else {
+				die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
+			}
+			$_SESSION['notify'] = array("type"=>"success", "message"=>"\\\"".$holdingsData['title']."\\\" has been checked in.", "duration"=>"");	
+			header("Location:checkin.php");
+			exit;
 		} else {
 			//have to escape the "" for JS as well.
 			$_SESSION['notify'] = array("type"=>"error", "message"=>"This book (\\\"".$holdingsData['title']."\\\") has the status of $status!", "duration"=>"5000");	
@@ -93,10 +103,14 @@ function dynamicData(str) {
 
     document.getElementById("barcode").value = "";
 	let xhr = new XMLHttpRequest();
+	//FIXME: There is a strange situation where you have two browser tabs open to the same database and then log out of the other tab. 
+	//This tab will then return the login page instead of the table of matching records. 
+	//patronList calls patronFind (Ajax), which then calls common.php, which kills the program since the user is now logged out.
+	//Somehow the parent program needs to be alerted to this and then return to login screen as well. We would just need to validateSession() at the end of AJAX.
 	xhr.onload = () => {
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
-	xhr.open("GET", "patronFind.php?q=" + str, true);
+	xhr.open("GET", "bibFindCKI.php?q=" + str, true);
 	xhr.send();
 }
 
@@ -134,12 +148,13 @@ function processBarcode(e) {
 	</div>
 	<div class="row mt-4">
 		<div class="col-12 col-md-7 me-2">
-	<div class="input-group">
-		<span style="display: block; padding: .375rem .75rem;">OR </span> <input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Search by Title/Author" >&nbsp;&nbsp;
+			<div class="input-group">
+				<span style="display: block; padding: .375rem .75rem;">OR </span> 
+				<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Search by Title/Author" >&nbsp;&nbsp;
+			</div>
 		</div>
 	</div>
 </form>
-</div>
 
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>
