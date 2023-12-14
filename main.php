@@ -32,6 +32,7 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="resources/bootstrap5.min.css" >
+	<script src="resources/bootstrap.bundle.min.js"></script>
     <!-- our project just needs Font Awesome Solid + Brands -->
     <!-- <link href="resources/fontawesome-6.4.2/css/fontawesome.min.css" rel="stylesheet"> -->
     <link href="resources/fontawesome6.min.css" rel="stylesheet">
@@ -47,6 +48,22 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 	}); 
 	</script>
 
+	<style>
+button.dropdown-item {
+  display:block;
+  width:100%;
+  /*! padding:var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x); */
+  clear:both;
+  font-weight:400;
+  /*! color:var(--bs-dropdown-link-color); */
+  text-align:inherit;
+  text-decoration:none;
+  white-space:nowrap;
+  background-color:var(--bs-btn-bg);
+  border:1px solid gray;
+  border-radius:var(--bs-btn-border-radius);
+}
+	</style>
 </head>
 
 <body>
@@ -78,7 +95,15 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 		<div class="ml-3">
 		<a href="patronList.php"><button type="button" class="btn btn-success mt-1">Search Patrons</button></a>
 		<a href="bibSearch.php" class="px-2"><button type="button" class="btn btn-primary mt-1">Books</button></a>
-		<a href="checkin.php" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Circulation</button></a>
+
+		<div class="dropdown d-inline-block">
+		  <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Circulation </button>
+		  <ul class="dropdown-menu" style="background-color:var(--bs-warning-bg-subtle)">
+			<li><button type="button" class="dropdown-item btn btn-warning" onclick="window.document.location='checkin.php'">Checkin</button></li>
+			<li><button type="button" class="dropdown-item btn btn-warning" onclick="window.document.location='checkout.php'">Checkout</button></li>
+		  </ul>
+		</div>
+
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Fines</button></a>
 		<a href="" class="px-2"><button type="button" class="btn btn-outline-primary mt-1">Reports</button></a>
 		<span class="float-end"><a href="userChangePWD.php"><button type="button" class="btn btn-outline-secondary mt-1">Change Password</button></a>&nbsp;

@@ -219,12 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
 				<li>different access levels
 				<li>most pages work on mobile devices
 				<li>public access console (search)
+				<li>check in books
 			</ul>
 			</div>
 			<div class="col-12 col-md-6">
 			<p class="alert alert-danger fw-bold">The following is NOT YET working:</p>
 			<ul>
-				<li>checkout/check in books
+				<li>checkout books
 				<li>patrons searching and placing holds
 				<li>reseting patron passwords
 				<li>fines

@@ -142,7 +142,7 @@ function processBarcode(e) {
 <!-- NOTE this uses GET instead of POST so that the dynData table can also use GET to check in a barcode -->
 <form id="form" action="<?php echo $_SERVER["PHP_SELF"];?>" method="GET">
 	<div class="row mt-4">
-		<div class="col-12 col-md-5 col-lg-3 me-2">
+		<div class="col-12 col-sm-9 col-md-6 col-lg-3 me-2">
 		<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Scan/Type Barcode, press ENTER" autofocus>
 		<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 30748...</span> 
 		</div>
