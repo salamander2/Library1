@@ -145,7 +145,7 @@ if(isset($_POST['submit'])) {
 	<div class="card-head alert alert-primary mb-0"> <h2>Add New Patron</h2></div>
 
 <div class="card-body">
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" Xonsubmit="return validatePatronForm()" method="post">
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return validatePatronForm()" method="post">
 		
 		<div class="row">
 			<div class="col-sm-8 col-md-6 col-lg-4 mt-1">
