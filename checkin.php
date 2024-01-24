@@ -51,10 +51,11 @@ if(isset($_GET['barcode'])) {
 		$status = $holdingsData['status'];
 		//if the book is out, fine
 		if ($status == "OUT") {
-
-			$sql = "UPDATE holdings SET status = 'IN' WHERE barcode = ?";
+			$prevPat = $holdingsData['patronID'];
+			
+			$sql = "UPDATE holdings SET status = 'IN', patronID = NULL, prevPatron=? WHERE barcode = ?";
 			if ($stmt = $db->prepare($sql)) {
-				$stmt->bind_param("i",$barcode);
+				$stmt->bind_param("ii", $prevPat, $barcode );
 				$stmt->execute(); 
 				$stmt->close();                 
 			} else {
@@ -64,7 +65,7 @@ if(isset($_GET['barcode'])) {
 			header("Location:checkin.php");
 			exit;		
 		}
-		//book is NOT out. Do not check it in. This should be prevented in bibFindCKI.php 
+		//Book is NOT out. Do not check it in. bibFindCKI.php prevents this, unless the item barcode is entered directly.  
 		else {
 			//have to escape the "" for JS as well.
 			$_SESSION['notify'] = array("type"=>"error", "message"=>"This book (\\\"".$holdingsData['title']."\\\") has the status of $status!", "duration"=>"5000");	
