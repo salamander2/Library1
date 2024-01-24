@@ -73,9 +73,14 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 	} else {
 		echo "<td colspan=4 style=\"background-color:#EEE\"></td>";
 	}
+/*	//NOTE: checkin.php will NOT checkin a book with any status other than OUT
 	$onclick1 = <<<END
 		onclick="if(confirm('Book is not OUT. Are you sure? '))  
 		window.document.location='checkin.php?barcode={$row['barcode']}';"
+		END;
+*/
+	$onclick1 = <<<END
+		onclick="window.alert('Book is not OUT. It cannot be checked in.');"
 		END;
 	$onclick2 = <<<END
 		onclick="window.document.location='checkin.php?barcode={$row['barcode']}';"

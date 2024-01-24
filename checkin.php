@@ -47,7 +47,9 @@ if(isset($_GET['barcode'])) {
 			header("Location:checkin.php");
 			exit;
 		}
+
 		$status = $holdingsData['status'];
+		//if the book is out, fine
 		if ($status == "OUT") {
 
 			$sql = "UPDATE holdings SET status = 'IN' WHERE barcode = ?";
@@ -60,8 +62,10 @@ if(isset($_GET['barcode'])) {
 			}
 			$_SESSION['notify'] = array("type"=>"success", "message"=>"\\\"".$holdingsData['title']."\\\" has been checked in.", "duration"=>"");	
 			header("Location:checkin.php");
-			exit;
-		} else {
+			exit;		
+		}
+		//book is NOT out. Do not check it in. This should be prevented in bibFindCKI.php 
+		else {
 			//have to escape the "" for JS as well.
 			$_SESSION['notify'] = array("type"=>"error", "message"=>"This book (\\\"".$holdingsData['title']."\\\") has the status of $status!", "duration"=>"5000");	
 			header("Location:checkin.php");

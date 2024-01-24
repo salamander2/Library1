@@ -1,8 +1,8 @@
 <?php
 /*******************************************************
-* patronList.php
+* checkout.php
 * Called from main.php
-* Calls patronEdit.php, patronAdd.php, patronFind.php
+* Calls patronEdit.php, patronFind2.php
 * 
 * This lists all patrons, searched by name, phone ...
 * No error messages or other notifications happen on this page.
@@ -68,7 +68,7 @@ function dynamicData(str) {
 	xhr.onload = () => {
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
-	xhr.open("GET", "patronFind.php?q=" + str, true);
+	xhr.open("GET", "patronFind2.php?q=" + str, true);
 	xhr.send();
 }
 
@@ -118,9 +118,6 @@ function processBarcode(e) {
 	<div class="col-12 col-md-5 col-lg-3 me-2">
 	<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Type Barcode, press ENTER">
 	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 20748...</span> 
-	</div>
-	<div class="col-4 col-lg-2">
-    <a class="form-control btn btn-primary rounded" href="patronAdd.php"><i class="fa fa-plus-circle"></i>  Add Patron</a>
 	</div>
 </div>
 </div>
