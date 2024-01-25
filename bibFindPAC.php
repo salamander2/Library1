@@ -17,7 +17,10 @@
 		The calling program has to detect ERROR and LOCATION
  ******************************************************************************/
 session_start();
+
 require_once('common.php');
+
+/* NOTE: PAC does not ever need to be logged out. */
 
 //Cannot initialize all variables here as they are hidden from the functions
 $ISBN="";

@@ -10,6 +10,11 @@
 session_start();
 require_once('common.php');
 
+if ($_SESSION["authkey"] != AUTHKEY) {
+	echo "LOGOUT";
+	return;
+}
+
 $barcode=$stCode="";
 $barcode = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 

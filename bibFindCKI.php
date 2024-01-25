@@ -17,6 +17,10 @@
 session_start();
 require_once('common.php');
 
+if ($_SESSION["authkey"] != AUTHKEY) {
+	echo "LOGOUT";
+	return;
+}
 
 // Get the query parameter from the URL
 $q = clean_input($_REQUEST["q"]);

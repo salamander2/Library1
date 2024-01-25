@@ -12,6 +12,11 @@
 session_start();
 require_once('common.php');
 
+if ($_SESSION["authkey"] != AUTHKEY) {
+	echo "LOGOUT";
+	return;
+}
+
 if (isset($_GET['patron'])) $patronID = $_GET['patron'];
 else  return;
 

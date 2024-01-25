@@ -136,8 +136,13 @@ function getLibraryCards() {
 			displayNotification("error", errorMsg);
 			return;
 		}
+		if (xhr.responseText.startsWith("LOGOUT")) {
+			window.document.location="ndex.html?ERROR=Failed%20Auth%20Key"; 
+			return;
+		}
 		document.getElementById("libCards").innerHTML = xhr.responseText;
 	}
+
 	xhr.open("GET", "patronLibraryCard.php?&patron="+patronID);
 	xhr.send();
 }

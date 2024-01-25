@@ -19,6 +19,11 @@
 session_start();
 require_once('common.php');
 
+if ($_SESSION["authkey"] != AUTHKEY) {
+	echo "LOGOUT";
+	return;
+}
+
 /*
 > describe bib;
 +-------------+-----------------+------+-----+-------------------+-------------------+

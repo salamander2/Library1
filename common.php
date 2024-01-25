@@ -52,7 +52,16 @@ if(isset($_SESSION["notify"])) {
 
 
 /********** COMMON PHP HEADER CODE *******/
-/* EXCEPT for the login page "index.php" */
+/* EXCEPT for the login page (index.php) and any PAC related pages */
+$allowed = array("index.php","PAC.php","bibFindPAC.php");
+$page = basename($_SERVER['PHP_SELF']);
+if (false === array_search($page,$allowed)) { 
+	if ($_SESSION["authkey"] != AUTHKEY)  {
+		header("Location:$home?ERROR=Failed%20Auth%20Key"); 
+		exit;
+	}
+	$db = connectToDB();  //PAC has special startup
+}
 
 $page = basename($_SERVER['PHP_SELF']);
 if ($page !== "index.php" && $page !== "PAC.php") {

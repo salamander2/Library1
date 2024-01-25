@@ -13,7 +13,7 @@ $password is immediately cleared after the result of this test.
 7. **Ensuring that a user is logged in** before displaying something like /Library1/patronList.php This ensures that someone cannot just type in the URL of a page and see any information from that page.
    In **common.php** (the file that is included at the top of each page) we have
 
-```javascript
+```php
 if (basename($_SERVER['PHP_SELF']) !== "index.php") {
     # Check authorization (ie. that the user is logged in) or go back to login page
     if ($_SESSION["authkey"] != AUTHKEY)  header("Location:$home?ERROR=Failed%20Auth%20Key"); 
@@ -21,10 +21,14 @@ if (basename($_SERVER['PHP_SELF']) !== "index.php") {
 }   
 ```
 
+This check also needs to be done in any AJAX page that sends back data. 
+For example, if you leave the checkin page open all day, you become logged out, but you could still search for information via AJAX in the search boxes. 
+The files involved are `bibFind*.php` and `cardStatus.php`. They all call "common.php", but it doesn't work properly, as it becomes an inner subpage that is logged out. Looks messy.
+These are now returning a value "LOGOUT" which the calling programs must trap and process (ie. logout the user).
 
 8. There are 4 user levels (ADMIN, STAFF, PATRON, PUBLIC) which are used to determine and control which pages and data can be accessed and modified by which users. This happens _after_ the authentication above. Each page has this code at the top. It restricts access based on authentication levels. So for example, a staff member cannot create users, a patron cannot edit a Bib record. Most pages revert to main.php when an unauthorized access happens. Each page has a custom error message (see below).
 
-```javascript
+```php
 /********** Check permissions for page access ***********/
 $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) {

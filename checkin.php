@@ -53,6 +53,14 @@ if(isset($_GET['barcode'])) {
 		if ($status == "OUT") {
 			$prevPat = $holdingsData['patronID'];
 			
+			//just for fun, make an object for the checkin data:
+			$ckiobj=new stdClass;		
+			$ckiobj->patron=$prevPat;
+			$ckiobj->title=$holdingsData['title'];
+			$ckiobj->author=$holdingsData['author'];
+			$ckiobj->dueDate=$holdingsData['dueDate'];;
+			$ckiobj->overdue=false;
+
 			$sql = "UPDATE holdings SET status = 'IN', patronID = NULL, prevPatron=? WHERE barcode = ?";
 			if ($stmt = $db->prepare($sql)) {
 				$stmt->bind_param("ii", $prevPat, $barcode );
@@ -62,8 +70,9 @@ if(isset($_GET['barcode'])) {
 				die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
 			}
 			$_SESSION['notify'] = array("type"=>"success", "message"=>"\\\"".$holdingsData['title']."\\\" has been checked in.", "duration"=>"");	
-			header("Location:checkin.php");
-			exit;		
+// Continue and display checkin object
+//			header("Location:checkin.php");
+//			exit;		
 		}
 		//Book is NOT out. Do not check it in. bibFindCKI.php prevents this, unless the item barcode is entered directly.  
 		else {
@@ -113,6 +122,13 @@ function dynamicData(str) {
 	//patronList calls patronFind (Ajax), which then calls common.php, which kills the program since the user is now logged out.
 	//Somehow the parent program needs to be alerted to this and then return to login screen as well. We would just need to validateSession() at the end of AJAX.
 	xhr.onload = () => {
+		/* In all cases where we're getting data via AJAX, we need to check to see if the login has expired
+	   using the PHP tokens. So this has to be done in PHP, not JS */
+		if (xhr.responseText.startsWith("LOGOUT")) {
+			window.document.location="ndex.html?ERROR=Failed%20Auth%20Key"; 
+			return;
+		}
+
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
 	xhr.open("GET", "bibFindCKI.php?q=" + str, true);
@@ -169,6 +185,15 @@ function processBarcode(e) {
 
 <!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
 <div id="dynTable" class="mt-4"></div>
+
+
+<?php
+if (isset($ckiobjs)) {
+	echo $ckiobj.title;
+	echo $ckiobj.author;
+	echo $ckiobj.duedate;
+}
+?>
 
 </div>
 </body>
