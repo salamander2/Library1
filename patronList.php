@@ -66,6 +66,10 @@ function dynamicData(str) {
     document.getElementById("barcode").value = "";
 	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
+		if (xhr.responseText.startsWith("LOGOUT")) {
+			window.document.location="index.php?ERROR=Failed%20Auth%20Key"; 
+			return;
+		}
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
 	xhr.open("GET", "patronFind.php?q=" + str, true);
@@ -86,6 +90,10 @@ function processBarcode(e) {
 	}
 	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
+		if (xhr.responseText.startsWith("LOGOUT")) {
+			window.document.location="index.php?ERROR=Failed%20Auth%20Key"; 
+			return;
+		}
 		const data = JSON.parse(xhr.responseText);
 		if (data.patronID != null) {
 			window.location.href='patronEdit.php?ID='+data.patronID;

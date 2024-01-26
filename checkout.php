@@ -4,8 +4,9 @@
 * Called from main.php
 * Calls patronEdit.php, patronFind2.php
 * 
-* This lists all patrons, searched by name, phone ...
-* No error messages or other notifications happen on this page.
+* (1) Find patron info
+* (2) See if patron has a valid barcode
+* (3) Display patronInfo in a shortform at the top.
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -19,15 +20,6 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 }
 /********************************************************/
 
-$sql = "SELECT COUNT(*) FROM patron";
-if ($stmt = $db->prepare($sql)) {
-	$stmt->execute(); 
-	$stmt->bind_result($result);
-	$stmt->fetch();
-	$stmt->close();                 
-} else {
-	die("Invalid query: " . mysqli_error($db) . "\n<br>SQL: $sql");
-}
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +58,10 @@ function dynamicData(str) {
     document.getElementById("barcode").value = "";
 	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
+		if (xhr.responseText == "LOGOUT") {
+			window.document.location="index.php?ERROR=Failed%20Auth%20Key"; 
+			return;
+		}
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
 	xhr.open("GET", "patronFind2.php?q=" + str, true);
@@ -86,6 +82,10 @@ function processBarcode(e) {
 	}
 	let xhr = new XMLHttpRequest();
 	xhr.onload = () => {
+		if (xhr.responseText == "LOGOUT") {
+			window.document.location="index.php?ERROR=Failed%20Auth%20Key"; 
+			return;
+		}
 		const data = JSON.parse(xhr.responseText);
 		if (data.patronID != null) {
 			window.location.href='patronEdit.php?ID='+data.patronID;
@@ -96,7 +96,7 @@ function processBarcode(e) {
 	xhr.onerror = () => {
 		displayNotification("error", "Barcode not found");
 	}
-	xhr.open("GET", "patronFind.php?bar=" + str, true);
+	xhr.open("GET", "patronFind2.php?bar=" + str, true);
 	xhr.send();
 }
 </script>
@@ -109,7 +109,7 @@ function processBarcode(e) {
 <!-- page header -->
 <?php loadHeader("main.php"); ?>
 
-<h3>Search for a Patron <span class="text-secondary smaller float-end">(<?=$result?> patrons registered)</span></h3>
+<h2>CHECKOUT: <span class="small">Select Patron</span></h2>
 <div class="row mt-4">
 <div class="input-group">
 	<div class="col-12 col-md-7 me-2">

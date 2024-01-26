@@ -19,6 +19,7 @@
 session_start();
 
 require_once('common.php');
+$db = connectToDB();
 
 /* NOTE: PAC does not ever need to be logged out. */
 

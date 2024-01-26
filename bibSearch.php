@@ -84,7 +84,7 @@ function postForm(form) {
 			return;
 		}
 		if (xhr.responseText.startsWith("LOGOUT")) {
-			window.document.location="ndex.html?ERROR=Failed%20Auth%20Key"; 
+			window.document.location="index.php?ERROR=Failed%20Auth%20Key"; 
 			return;
 		}
 		//The responseText can begin with "LOCATION". This is from an exact barcode search.

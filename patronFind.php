@@ -13,6 +13,10 @@
 
 session_start();
 require_once('common.php');
+if ($_SESSION["authkey"] != AUTHKEY) {
+	echo "LOGOUT";
+	return;
+}
 
 /********** Check permissions for page access ***********/
 $allowed = array("ADMIN","STAFF");

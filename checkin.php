@@ -125,7 +125,7 @@ function dynamicData(str) {
 		/* In all cases where we're getting data via AJAX, we need to check to see if the login has expired
 	   using the PHP tokens. So this has to be done in PHP, not JS */
 		if (xhr.responseText.startsWith("LOGOUT")) {
-			window.document.location="ndex.html?ERROR=Failed%20Auth%20Key"; 
+			window.document.location="index.php?ERROR=Failed%20Auth%20Key"; 
 			return;
 		}
 
