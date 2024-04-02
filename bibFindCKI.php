@@ -17,7 +17,7 @@
 session_start();
 require_once('common.php');
 
-if ($_SESSION["authkey"] != AUTHKEY) {
+if (!isset($_SESSION["authkey"]) || $_SESSION["authkey"] != AUTHKEY) {
 	echo "LOGOUT";
 	return;
 }

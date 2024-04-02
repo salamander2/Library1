@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
-  Name: patronFind2.php
+  Name: patronFindCKO.php
 	This is 95% the same as patronFind.  Barcode is displayed. Some text changed.
 	It also checks to make sure that the patron has a valid barcode. 
 	If not (or if there's more than one, then it returns an error-> redirect to patronEdit.php
@@ -21,7 +21,7 @@ session_start();
 require_once('common.php');
 $db = connectToDB();
 
-if ($_SESSION["authkey"] != AUTHKEY) {
+if (!isset($_SESSION["authkey"]) || $_SESSION["authkey"] != AUTHKEY) {
 	echo "LOGOUT";
 	return;
 }
@@ -97,12 +97,12 @@ while ($row = mysqli_fetch_assoc($resultArray)){
 #           echo "<tr onclick=\"window.document.location='commentPage.php?ID=". $row['studentID'] . "';\" >";
 	if ($row['status'] != 'ACTIVE') echo '<tr class="table-danger">';
 	else echo "<tr>";
-	echo "<td onclick=\"window.document.location='patronView.php?ID=". $row['patronID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
-	echo "<td onclick=\"window.document.location='patronView.php?ID=". $row['patronID'] . "';\" >".$row['phone']. "</td>";
-	echo "<td onclick=\"window.document.location='patronView.php?ID=". $row['patronID'] . "';\" >".$row['birthdate']. "</td>";
-	echo "<td onclick=\"window.document.location='patronView.php?ID=". $row['patronID'] . "';\" >".$row['postalCode']. "</td>";
-	echo "<td onclick=\"window.document.location='patronView.php?ID=". $row['patronID'] . "';\" >".$row['barcode']. "</td>";
-	echo "<td onclick=\"window.document.location='patronView.php?ID=". $row['patronID'] . "';\" >".$row['status']. "</td>";
+	echo "<td onclick=\"window.document.location='patronViewCKO.php?ID=". $row['patronID'] . "';\" >".$row['lastname'], ", ", $row['firstname'] ."</td>";
+	echo "<td onclick=\"window.document.location='patronViewCKO.php?ID=". $row['patronID'] . "';\" >".$row['phone']. "</td>";
+	echo "<td onclick=\"window.document.location='patronViewCKO.php?ID=". $row['patronID'] . "';\" >".$row['birthdate']. "</td>";
+	echo "<td onclick=\"window.document.location='patronViewCKO.php?ID=". $row['patronID'] . "';\" >".$row['postalCode']. "</td>";
+	echo "<td onclick=\"window.document.location='patronViewCKO.php?ID=". $row['patronID'] . "';\" >".$row['barcode']. "</td>";
+	echo "<td onclick=\"window.document.location='patronViewCKO.php?ID=". $row['patronID'] . "';\" >".$row['status']. "</td>";
 #print_r($row);
 	echo "</tr>";
 

@@ -1,13 +1,13 @@
 <?php
 /*******************************************************
-* patronView.php
-* TODO:  This page needs to be actually written properly. It's just a copy of patronEdit so far.
-* It's not used yet. It will be used by a patron to view his/her own record
-* ############################################################
-* called from patronList (by clicking on a patron)
-* 		 and also from patronUpdate
-* calls patronUpdate
-* It also displays library cards, and books out.
+* patronViewCKO.php
+* 
+* This is a modification of patronView. It is specifically for checkout, presenting a summary of the patron information
+* and then proceeding to checkout or to modify the patron record.
+*
+* TODO:  This page needs to be actually written properly. It's just a copy of patronEdit so far.  It's not used yet. It will be used by a patron to view his/her own record
+* 
+* called from patronFindCKO (by clicking on a patron) 
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -22,7 +22,7 @@ if (false === array_search($userdata['authlevel'],$allowed)) {
 /********************************************************/
 
 # Check authorization (ie. that the user is logged in) or go back to login page
-if (!isset($_SESSION["authkey"]) || $_SESSION["authkey"] != AUTHKEY) { 
+if (!isset($_SESSION["authkey"]) || $_SESSION["authkey"] != AUTHKEY)  {
     header("Location:index.php?ERROR=Failed%20Auth%20Key"); 
 	exit;
 }
@@ -55,6 +55,10 @@ if (strlen($postal) ==6 ) {
   $postal = substr($postal,0,3)." ".substr($postal,4);
 }
 
+//Assemble patron data
+$patName = $patronData['lastname'].", ".$patronData['firstname'];
+$patAddress = $patronData['address'].", ".$patronData['city'].", ".$patronData['prov'].".  ".$postal;
+
 $sql = "SELECT * FROM libraryCard WHERE patronID = ? ORDER BY expiryDate DESC";
  
 if ($stmt = $db->prepare($sql)) {
@@ -85,7 +89,7 @@ if ($stmt = $db->prepare($sql)) {
 
 <style>
 	/* for Patron View page only */
-	#pageheader {background-color:#DBF;}
+	#pageheader {background-color:#DDF;}
 </style>
 
 </head>
@@ -94,77 +98,46 @@ if ($stmt = $db->prepare($sql)) {
 <div class="container-md mt-2">
 
 <!-- Page header -->
-<div id="pageheader" class="alert alert-info text-center rounded py-3">
-	<a class="btn btn-outline-dark float-start" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
+<div id="pageheader" class="alert alert-primary text-center rounded py-3">
+	<a class="float-start btn btn-outline-dark rounded" onclick="history.back()"><i class="fa fa-arrow-left"></i>  Back</a>
+	<a class="btn btn-outline-dark float-end" href="logout.php"><i class="fa fa-sign-out"></i>   Logout</a>
 	<h2 class="fw-bold">The <?=$institution?> Public Libary</h2>
-	<!-- <a class="float-start btn btn-warning rounded" onclick="history.back()"><i class="fa fa-arrow-left"></i>  Back</a> -->
 	<br clear="both">
     <hr class="py-0 mb-0">
 </div>
 <!-- end page header -->
 
-
 <div class="card border-primary mt-3">
-	<div class="card-head alert alert-primary mb-0"> <h2>View Patron Information</div>
 
-<div class="card-body">
-		<div class="row text-secondary">
-		<div class="col-sm-2"></div><div class="col-sm-6"></div><div class="col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
-		</div>
+	<div class="card-body">
 		
+	<div class="card-head alert alert-primary pb-0"> <h2>Patron Information</div>
+		<div class="border rounded"><!-- border around patron info -->
 		<div class="row">
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
-				<label for="lastname" class="input-group-prepend btn btn-info">Last name</label>
-				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patronData['lastname']?>"><span class="text-danger"></span>
+				<label for="lastname" class="input-group-prepend btn btn-primary">Name</label>
+				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patName?>">
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
-				<label for="firstname" class="input-group-prepend btn btn-info">First name</label>
-				<input class="form-control bgP rounded-end" type="text" id="firstname" name="firstname" readonly value="<?=$patronData['firstname']?>"><span class="text-danger"></span>
+				<label for="birthdate" class="input-group-prepend btn btn-primary">Birth date</label>
+				<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
 				</div>
 			</div>
+		<div class="text-secondary col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
 		</div>
-		<div class="row mt-2">
-		<div class="col-sm-8 col-md-6 col-lg-4">
-			<div class="input-group rounded">
-			<label for="birthdate" class="input-group-prepend btn btn-info">Birth date</label>
-			<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
-		</div></div></div>
 
-		<h5 class="mt-3"><u>Address:</u></h5>
 		<div class="row my-2">
 			<div class="col-md-6">
 				<div class="input-group rounded">
-				<label for="address" class="input-group-prepend btn btn-secondary">Street</label>
-				<input class="form-control bgS rounded-end" type="text" id="address" name="address" readonly value="<?=$patronData['address']?>"><span class="text-danger"></span>
+				<label for="address" class="input-group-prepend btn btn-secondary">Address</label>
+				<input class="form-control bgS rounded-end" type="text" id="address" name="address" readonly value="<?=$patAddress?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		</div>
 
-		<div class="row my-2">
-			<div class="col-sm-6 col-md-4">
-				<div class="input-group rounded">
-				<label for="city" class="input-group-prepend btn btn-secondary">City</label>
-				<input class="form-control bgS rounded-end" type="text" id="city" name="city" readonly value="<?=$patronData['city']?>"><span class="text-danger"></span>
-				</div>
-			</div>
-			<div class="col-sm-4 col-lg-3 col-xxl-2">
-				<div class="input-group rounded">
-				<label for="prov" class="input-group-prepend btn btn-secondary">Prov./State</label>
-				<input class="form-control bgS rounded-end" type="text" id="prov" name="prov" readonly value="<?=$patronData['prov']?>"><span class="text-danger"></span>
-				</div>
-			</div>
-			<div class="col-sm-6 col-lg-4 col-xl-3">
-				<div class="input-group rounded">
-				<label for="postalCode" class="input-group-prepend btn btn-secondary">Postal Code</label>
-				<input class="form-control bgS rounded-end" type="text" id="postalCode" name="postalCode" readonly value="<?=$postal?>"><span class="text-danger"></span>
-				</div>
-			</div>
-		</div>
-
-		<h5 class="mt-4 fg1"><u>Contact:</u></h5>
 		<div class="row">
 			<div class="col-sm-8 col-md-4">
 				<div class="input-group rounded">
@@ -179,18 +152,15 @@ if ($stmt = $db->prepare($sql)) {
 				</div>
 			</div>
 		</div>
-
-</div></div> <!-- end of card-body and card -->
-
-<div class="card border-success mt-3">
-<div class="card-body">
-	<div class="card-head alert alert-success"> <h2>Library Cards </div>
+		</div>
+&nbsp;
+	<div class="card-head alert alert-success mb-0 pb-0"> <h2>Library Cards </div>
 <?php
 
 $num_rows = mysqli_num_rows($libCards);
 if($num_rows > 0) {
 	//general HTML now being written
-	echo '<table class="table table-secondary table-striped table-hover table-bordered">';
+	echo '<table class="table table-secondary table-striped table-hover table-bordered mb-0">';
 	echo '<thead>';
 	echo '<tr>';
 	echo '<th>Barcode</th>';
@@ -218,6 +188,11 @@ if($num_rows > 0) {
 ?>
 
 </div></div> <!-- end of card-body and card -->
+&nbsp;
+<p>
+<a href="checkout2.php"><button class="btn btn-success">Proceed to checkout</button></a> &nbsp;
+<a href="patronEdit.php?ID=<?=$patronID?>"><button class="btn btn-primary">Edit Patron Record</button></a>
+</p>
 </div>
 
 <br><br><br>

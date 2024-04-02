@@ -2,7 +2,7 @@
 /*******************************************************
 * checkout.php
 * Called from main.php
-* Calls patronEdit.php, patronFind2.php
+* Calls patronEdit.php, patronFindCKO.php
 * 
 * (1) Find patron info
 * (2) See if patron has a valid barcode
@@ -64,7 +64,7 @@ function dynamicData(str) {
 		}
 		document.getElementById("dynTable").innerHTML = xhr.responseText;
 	}
-	xhr.open("GET", "patronFind2.php?q=" + str, true);
+	xhr.open("GET", "patronFindCKO.php?q=" + str, true);
 	xhr.send();
 }
 
@@ -96,7 +96,7 @@ function processBarcode(e) {
 	xhr.onerror = () => {
 		displayNotification("error", "Barcode not found");
 	}
-	xhr.open("GET", "patronFind2.php?bar=" + str, true);
+	xhr.open("GET", "patronFindCKO.php?bar=" + str, true);
 	xhr.send();
 }
 </script>
