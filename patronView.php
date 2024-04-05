@@ -105,7 +105,7 @@ if ($stmt = $db->prepare($sql)) {
 
 
 <div class="card border-primary mt-3">
-	<div class="card-head alert alert-primary mb-0"> <h2>View Patron Information</div>
+	<div class="card-head alert alert-primary mb-0"> <h2>View Patron Information</h2></div>
 
 <div class="card-body">
 		<div class="row text-secondary">
@@ -184,7 +184,7 @@ if ($stmt = $db->prepare($sql)) {
 
 <div class="card border-success mt-3">
 <div class="card-body">
-	<div class="card-head alert alert-success"> <h2>Library Cards </div>
+	<div class="card-head alert alert-success"> <h2>Library Cards</h2></div>
 <?php
 
 $num_rows = mysqli_num_rows($libCards);

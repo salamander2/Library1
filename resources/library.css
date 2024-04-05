@@ -56,3 +56,19 @@ li {margin-bottom:5px;}
 [data-quantity] button:hover{background-color: #FD3;}
 /* [data-quantity] button.sub{left:.6rem}
    [data-quantity] button.add{right:0rem;}*/
+
+
+/* Negative margins -- not enabled in Bootstrap, SASS must be recomiled to do so */
+.mt-n1 {
+  margin-top: -0.25rem !important;
+}
+.mt-n2 {
+  margin-top: -0.5rem !important;
+}
+.mb-n1 {
+  margin-bottom: -0.25rem !important;
+}
+.mb-n2 {
+  margin-bottom: -0.5rem !important;
+}
+

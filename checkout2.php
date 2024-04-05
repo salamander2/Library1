@@ -1,12 +1,15 @@
 <?php
 /*******************************************************
-* checkout.php
-* Called from main.php
-* Calls patronEdit.php, patronFindCKO.php
+* checkout2.php
+* Called from patronFindCKO.php
 * 
 * (1) Find patron info
 * (2) See if patron has a valid barcode
 * (3) Display patronInfo in a shortform at the top.
+
+* FIXME: this is using the JS from "checkout.php -- which searches for patrons. 
+* switch to using checkin.php JS
+* Also: patronViewCKO needs to pass the patron ID to this file.
 ********************************************************/
 session_start();
 require_once('common.php');
@@ -14,7 +17,7 @@ require_once('common.php');
 /********** Check permissions for page access ***********/
 $allowed = array("ADMIN","STAFF");
 if (false === array_search($userdata['authlevel'],$allowed)) { 
-	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Listing Patrons");
+	$_SESSION['notify'] = array("type"=>"info", "message"=>"You do not have permission to access this information - Checkout 2");
 	header("location:main.php");
 	exit;
 }
@@ -108,19 +111,25 @@ function processBarcode(e) {
 
 <!-- page header -->
 <?php loadHeader("main.php"); ?>
+<h3>Patron: <span class="text-secondary">Smith, John <span class="small">(111 King St, London)</span></span></h3>
+<h2>CHECKOUT: <span class="small text-secondary">Enter barcode</span></h2>
 
-<h2>CHECKOUT: <span class="small text-secondary">Select Patron</span></h2>
-<div class="row mt-4">
-<div class="input-group">
-	<div class="col-12 col-md-7 me-2">
-	<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Enter First Name, Last Name, or Patron phone number ..." >&nbsp;&nbsp;
+<form id="form" action="<?php echo $_SERVER["PHP_SELF"];?>" method="GET">
+	<div class="row mt-4">
+		<div class="col-12 col-sm-9 col-md-6 col-lg-3 me-2">
+		<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Scan/Type Barcode, press ENTER" autofocus>
+		<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 30748...</span> 
+		</div>
 	</div>
-	<div class="col-12 col-md-5 col-lg-3 me-2">
-	<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Type Barcode, press ENTER">
-	<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 20748...</span> 
+</form>
+	<div class="row mt-4">
+		<div class="col-12 col-md-7 me-2">
+			<div class="input-group">
+				<span style="display: block; padding: .375rem .75rem;">OR </span> 
+				<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Search by Title/Author" >&nbsp;&nbsp;
+			</div>
+		</div>
 	</div>
-</div>
-</div>
 
 <!-- ******** Anchor for Javascript and PHP notification popups ********** -->
 	<div id="notif_container"></div>

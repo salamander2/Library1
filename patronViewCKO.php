@@ -86,6 +86,7 @@ if ($stmt = $db->prepare($sql)) {
     <link href="resources/fontawesome-6.4.2/css/brands.min.css" rel="stylesheet">
     <link href="resources/fontawesome-6.4.2/css/solid.min.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/library.css" >
+	<script src="resources/library.js"></script>
 
 <style>
 	/* for Patron View page only */
@@ -108,22 +109,25 @@ if ($stmt = $db->prepare($sql)) {
 <!-- end page header -->
 
 <div class="card border-primary mt-3">
-
 	<div class="card-body">
 		
-	<div class="card-head alert alert-primary pb-0"> <h2>Patron Information</div>
+	<div class="card-head alert alert-primary pb-0">
+		<div class="float-end mt-n2">
+			<a href="patronEdit.php?ID=<?=$patronID?>"><button class="btn btn-outline-primary">Edit Patron Record</button></a></div>
+			<h4>Patron Information</h4>
+		</div>
 		<div class="border rounded"><!-- border around patron info -->
 		<div class="row">
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
-				<label for="lastname" class="input-group-prepend btn btn-primary">Name</label>
-				<input class="form-control bgP rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patName?>">
+				<label for="lastname" class="input-group-prepend btn btn-secondary">Name</label>
+				<input class="form-control bgS rounded-end" type="text" id="lastname" name="lastname" readonly value="<?=$patName?>">
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="input-group rounded">
-				<label for="birthdate" class="input-group-prepend btn btn-primary">Birth date</label>
-				<input class="form-control bgP rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
+				<label for="birthdate" class="input-group-prepend btn btn-secondary">Birth date</label>
+				<input class="form-control bgS rounded-end" type="date" id="birthdate" name="birthdate" readonly value="<?=$patronData['birthdate'] ?>"><span class="text-danger"></span>
 				</div>
 			</div>
 		<div class="text-secondary col-sm-4 text-end"> Date added: <?php echo strtok($patronData['createDate'], " ")?></div>
@@ -141,20 +145,20 @@ if ($stmt = $db->prepare($sql)) {
 		<div class="row">
 			<div class="col-sm-8 col-md-4">
 				<div class="input-group rounded">
-				<label for="phone" class="input-group-prepend btn btn-outline-warning fg1"><b>Phone</b></label>
-				<input class="form-control bg1" type="text" id="phone" name="phone" readonly value="<?=$patronData['phone']?>">
+				<label for="phone" class="input-group-prepend btn btn-secondary"><b>Phone</b></label>
+				<input class="form-control bgS" type="text" id="phone" name="phone" readonly value="<?=$patronData['phone']?>">
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-6 col-lg-5">
 				<div class="input-group rounded">
-				<label for="email" class="input-group-prepend btn btn-outline-warning fg1"><b>Email</b></label>
-				<input class="form-control bg1" type="text" id="email" name="email" readonly value="<?=$patronData['email']?>">
+				<label for="email" class="input-group-prepend btn btn-secondary"><b>Email</b></label>
+				<input class="form-control bgS" type="text" id="email" name="email" readonly value="<?=$patronData['email']?>">
 				</div>
 			</div>
 		</div>
 		</div>
 &nbsp;
-	<div class="card-head alert alert-success mb-0 pb-0"> <h2>Library Cards </div>
+	<div class="card-head alert alert-primary mb-0 pb-0"> <h4>Library Cards</h4> </div>
 <?php
 
 $num_rows = mysqli_num_rows($libCards);
@@ -189,10 +193,41 @@ if($num_rows > 0) {
 
 </div></div> <!-- end of card-body and card -->
 &nbsp;
+
+<div class="card border-secondary mt-3">
+	<div class="card-body">
+	<div class="card-head alert alert-success mb-0 pb-0"> <h4>Checkout Book</h4> </div>
+
+<form id="form" action="<?php echo $_SERVER["PHP_SELF"];?>" method="GET">
+	<div class="row mt-4">
+		<div class="col-12 col-sm-9 col-md-6 col-lg-3 me-2">
+		<input class="form-control rounded" style="border-color:#CCC;" type="text" name="barcode" id="barcode" placeholder="Scan/Type Barcode, press ENTER" autofocus>
+		<span class="smaller text-secondary">&nbsp;&nbsp;&nbsp;Starts with 30748...</span> 
+		</div>
+	</div>
+</form>
+	<div class="row mt-4">
+		<div class="col-12 col-md-7 me-2">
+			<div class="input-group">
+				<span style="display: block; padding: .375rem .75rem;">OR </span> 
+				<input class="form-control rounded" style="border-color:#CCC;" autofocus="" type="text" onkeyup="dynamicData(this.value)" placeholder="Search by Title/Author" >&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+
 <p>
-<a href="checkout2.php"><button class="btn btn-success">Proceed to checkout</button></a> &nbsp;
-<a href="patronEdit.php?ID=<?=$patronID?>"><button class="btn btn-primary">Edit Patron Record</button></a>
+<a href="checkout2.php"><button class="btn btn-success">Checkout book</button></a> &nbsp;
 </p>
+
+</div></div> <!-- end of card-body and card -->
+<!-- ******** Anchor for Javascript and PHP notification popups ********** -->
+	<div id="notif_container"></div>
+	<?php if ($notify["message"] != "") echo "<script> displayNotification(\"{$notify['type']}\", \"{$notify['message']}\")</script>"; ?>
+<!-- ********************************************************************* -->
+
+<!-- IMPORTANT - Do not remove next line. It's where the table appears (also for error from barcode input)-->
+<div id="dynTable" class="mt-4"></div>
+
 </div>
 
 <br><br><br>
