@@ -27,7 +27,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 9876
           script: uname -a
-      - name: Run deployment scripts
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "df -h"
 
