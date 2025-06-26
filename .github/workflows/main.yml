@@ -1,0 +1,20 @@
+name: TEST 
+on:
+  
+  pull_request:
+    branches:
+      - master
+      - main
+      
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run deployment scripts
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "uname -a"
