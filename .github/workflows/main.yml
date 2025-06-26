@@ -25,6 +25,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 9876
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: 22
           script: uname -a
 
